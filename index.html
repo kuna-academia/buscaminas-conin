@@ -35,64 +35,64 @@
         }
 
         /* ============================================
-           ENCABEZADO CON LOGO A ANCHO COMPLETO
+           ENCABEZADO CON LOGO PROPORCIONADO
            ============================================ */
         header {
             background-color: var(--azul-marino);
-            padding: 0;
+            padding: 10px 20px;
             text-align: center;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             width: 100%;
-            overflow: hidden;
         }
 
         header img {
-            width: 100%;
+            max-width: 100%;
             height: auto;
+            max-height: 60px;          /* Altura máxima para que no se vea enorme */
             display: block;
-            margin: 0;
-            object-fit: cover;
+            margin: 0 auto;
+            object-fit: contain;
         }
 
         .logo-respaldo {
             color: var(--blanco);
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 700;
             letter-spacing: 2px;
             display: none;
-            padding: 20px;
+            padding: 10px;
         }
 
         /* ============================================
            CONTENEDOR PRINCIPAL
            ============================================ */
         .container {
-            max-width: 900px;
+            max-width: 700px;          /* Contenedor más compacto para que no se vea desproporcionado */
             margin: 0 auto;
             padding: 20px;
         }
 
         .titulo {
             text-align: center;
-            margin: 20px 0;
+            margin: 15px 0;
         }
 
         .titulo h1 {
             color: var(--azul-marino);
-            font-size: 2rem;
-            margin-bottom: 5px;
+            font-size: 1.6rem;
+            margin-bottom: 3px;
         }
 
         .titulo p {
             color: var(--azul-medio);
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .titulo .linea {
-            width: 80px;
-            height: 4px;
+            width: 60px;
+            height: 3px;
             background: var(--naranja);
-            margin: 15px auto;
+            margin: 10px auto;
             border-radius: 2px;
         }
 
@@ -102,41 +102,41 @@
         #info {
             background: var(--blanco);
             border-radius: 12px;
-            padding: 20px;
+            padding: 18px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
             border-left: 5px solid var(--naranja);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         #info .instrucciones {
             color: var(--azul-marino);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
 
         #info .instrucciones p {
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         #pregunta {
-            font-size: 1.15rem;
+            font-size: 1rem;
             color: var(--naranja);
-            margin: 15px 0;
+            margin: 12px 0;
             font-weight: 600;
             text-align: center;
-            min-height: 30px;
+            min-height: 26px;
         }
 
         #opciones {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
-            margin: 15px 0;
+            gap: 8px;
+            margin: 12px 0;
         }
 
         .opcion {
-            font-size: 0.95rem;
-            padding: 12px 20px;
+            font-size: 0.9rem;
+            padding: 10px 16px;
             cursor: pointer;
             background: var(--azul-medio);
             color: var(--blanco);
@@ -152,18 +152,18 @@
         }
 
         #mensaje {
-            font-size: 1rem;
-            margin-top: 10px;
+            font-size: 0.95rem;
+            margin-top: 8px;
             font-weight: 600;
             text-align: center;
-            min-height: 24px;
+            min-height: 22px;
         }
 
         .progreso {
             text-align: center;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--azul-marino);
-            margin-top: 10px;
+            margin-top: 8px;
             font-weight: 500;
         }
 
@@ -172,7 +172,7 @@
            ============================================ */
         table {
             border-collapse: collapse;
-            margin: 20px auto;
+            margin: 15px auto;
             box-shadow: 0 4px 15px rgba(0,0,0,0.15);
             border-radius: 8px;
             overflow: hidden;
@@ -187,7 +187,7 @@
             border: 2px solid var(--blanco);
             background: var(--azul-medio);
             cursor: pointer;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
             user-select: none;
             color: var(--blanco);
@@ -224,13 +224,13 @@
         }
 
         .mina-simbolo {
-            font-size: 26px;
+            font-size: 24px;
             color: var(--rojo);
             font-weight: 900;
         }
 
         .bandera-simbolo {
-            font-size: 24px;
+            font-size: 22px;
             color: var(--azul-marino);
         }
 
@@ -239,9 +239,9 @@
            ============================================ */
         .reiniciar {
             display: block;
-            margin: 20px auto;
-            padding: 14px 30px;
-            font-size: 1rem;
+            margin: 15px auto;
+            padding: 12px 28px;
+            font-size: 0.95rem;
             background: var(--naranja);
             color: var(--blanco);
             border: none;
@@ -259,15 +259,69 @@
         }
 
         /* ============================================
+           RETROALIMENTACIÓN
+           ============================================ */
+        #retroalimentacion {
+            display: none;
+            background: var(--blanco);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-top: 5px solid var(--naranja);
+            margin-top: 20px;
+        }
+
+        #retroalimentacion h2 {
+            color: var(--azul-marino);
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        #retroalimentacion .resumen {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            color: var(--azul-medio);
+        }
+
+        #retroalimentacion .temas {
+            list-style: none;
+            padding: 0;
+        }
+
+        #retroalimentacion .temas li {
+            background: var(--azul-claro);
+            border-left: 4px solid var(--naranja);
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            color: var(--azul-marino);
+        }
+
+        #retroalimentacion .temas li strong {
+            color: var(--naranja);
+        }
+
+        #retroalimentacion .mensaje-final {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.95rem;
+            color: var(--azul-medio);
+            font-style: italic;
+        }
+
+        /* ============================================
            PIE DE PÁGINA
            ============================================ */
         footer {
             background: var(--azul-marino);
             color: var(--blanco);
             text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-            font-size: 0.85rem;
+            padding: 15px;
+            margin-top: 30px;
+            font-size: 0.8rem;
             opacity: 0.9;
         }
 
@@ -275,23 +329,26 @@
            RESPONSIVE
            ============================================ */
         @media (max-width: 600px) {
+            header img {
+                max-height: 45px;
+            }
             td {
-                width: 38px;
-                height: 38px;
-                font-size: 16px;
+                width: 36px;
+                height: 36px;
+                font-size: 15px;
                 border: 1.5px solid var(--blanco);
             }
-            .mina-simbolo { font-size: 22px; }
-            .bandera-simbolo { font-size: 20px; }
+            .mina-simbolo { font-size: 20px; }
+            .bandera-simbolo { font-size: 18px; }
             .titulo h1 {
-                font-size: 1.4rem;
+                font-size: 1.3rem;
             }
             #pregunta {
-                font-size: 1rem;
+                font-size: 0.9rem;
             }
             .opcion {
-                font-size: 0.85rem;
-                padding: 10px 15px;
+                font-size: 0.8rem;
+                padding: 8px 12px;
             }
         }
     </style>
@@ -299,7 +356,7 @@
 <body>
 
 <!-- ============================================
-     ENCABEZADO CON LOGO A ANCHO COMPLETO
+     ENCABEZADO CON LOGO PROPORCIONADO
      ============================================ -->
 <header>
     <img src="Membrete1.png" alt="Colegio Conin" onerror="this.style.display='none'; document.getElementById('logo-respaldo').style.display='block';">
@@ -338,6 +395,16 @@
     <table id="tablero"></table>
     <button class="reiniciar" onclick="inicializarTablero()">🔄 Nuevo Juego</button>
 
+    <!-- ============================================
+         RETROALIMENTACIÓN
+         ============================================ -->
+    <div id="retroalimentacion">
+        <h2>📚 Retroalimentación</h2>
+        <div class="resumen" id="resumen"></div>
+        <ul class="temas" id="temas"></ul>
+        <div class="mensaje-final" id="mensaje-final"></div>
+    </div>
+
 </div>
 
 <!-- ============================================
@@ -360,133 +427,186 @@
     let minaPendiente = null;
     let ejerciciosResueltos = 0;
     let ejerciciosFallados = 0;
+    let temasFallados = {};  // { tema: cantidad de errores }
 
     // ===== BANCO DE EJERCICIOS DE LA GUÍA DEL EXAMEN =====
+    // Cada ejercicio tiene un campo "tema" para la retroalimentación
     const ejerciciosGuia = [
-        { pregunta: "¿Cuál de las siguientes oraciones es una proposición lógica?",
+        // === LÓGICA MATEMÁTICA ===
+        { tema: "Proposiciones lógicas",
+          pregunta: "¿Cuál de las siguientes oraciones es una proposición lógica?",
           opciones: ["¿Cómo estás?", "Cierra la puerta.", "7 es un número primo.", "¡Qué bonito día!"],
           correcta: 2 },
-        { pregunta: "¿Cuál de las siguientes oraciones NO es una proposición lógica?",
+        { tema: "Proposiciones lógicas",
+          pregunta: "¿Cuál de las siguientes oraciones NO es una proposición lógica?",
           opciones: ["5 es un número primo.", "¿A qué hora es la clase?", "La tierra gira alrededor del sol.", "El agua hierve a 100°C."],
           correcta: 1 },
-        { pregunta: "¿Cuál es el resultado de p ∧ q cuando p es verdadero y q es falso?",
+        { tema: "Operadores lógicos",
+          pregunta: "¿Cuál es el resultado de p ∧ q cuando p es verdadero y q es falso?",
           opciones: ["Verdadero", "Falso", "No se puede determinar", "Depende del contexto"],
           correcta: 1 },
-        { pregunta: "¿Cuál es el resultado de p ∨ q cuando ambas proposiciones son falsas?",
+        { tema: "Operadores lógicos",
+          pregunta: "¿Cuál es el resultado de p ∨ q cuando ambas proposiciones son falsas?",
           opciones: ["Verdadero", "Falso", "No se puede determinar", "Depende del contexto"],
           correcta: 1 },
-        { pregunta: "¿Cuál es el resultado de p → q cuando p es verdadero y q es falso?",
+        { tema: "Condicional",
+          pregunta: "¿Cuál es el resultado de p → q cuando p es verdadero y q es falso?",
           opciones: ["Verdadero", "Falso", "No se puede determinar", "Depende del contexto"],
           correcta: 1 },
-        { pregunta: "Si p es falso y q es falso, ¿cuál es el resultado de p → q?",
+        { tema: "Condicional",
+          pregunta: "Si p es falso y q es falso, ¿cuál es el resultado de p → q?",
           opciones: ["Verdadero", "Falso", "No se puede determinar", "Depende del contexto"],
           correcta: 0 },
-        { pregunta: "Si p es verdadero y q es verdadero, ¿cuál es el resultado de p ↔ q?",
+        { tema: "Bicondicional",
+          pregunta: "Si p es verdadero y q es verdadero, ¿cuál es el resultado de p ↔ q?",
           opciones: ["Verdadero", "Falso", "No se puede determinar", "Depende del contexto"],
           correcta: 0 },
-        { pregunta: "Si p es verdadero y q es falso, ¿cuál es el resultado de p ↔ q?",
+        { tema: "Bicondicional",
+          pregunta: "Si p es verdadero y q es falso, ¿cuál es el resultado de p ↔ q?",
           opciones: ["Verdadero", "Falso", "No se puede determinar", "Depende del contexto"],
           correcta: 1 },
-        { pregunta: "¿Cuál es el símbolo de la conjunción?",
+        { tema: "Símbolos lógicos",
+          pregunta: "¿Cuál es el símbolo de la conjunción?",
           opciones: ["∨", "∧", "→", "↔"],
           correcta: 1 },
-        { pregunta: "¿Cuál es el símbolo de la disyunción?",
+        { tema: "Símbolos lógicos",
+          pregunta: "¿Cuál es el símbolo de la disyunción?",
           opciones: ["∨", "∧", "→", "↔"],
           correcta: 0 },
-        { pregunta: "¿Cuál es el símbolo del condicional?",
+        { tema: "Símbolos lógicos",
+          pregunta: "¿Cuál es el símbolo del condicional?",
           opciones: ["∨", "∧", "→", "↔"],
           correcta: 2 },
-        { pregunta: "¿Cuál es el símbolo del bicondicional?",
+        { tema: "Símbolos lógicos",
+          pregunta: "¿Cuál es el símbolo del bicondicional?",
           opciones: ["∨", "∧", "→", "↔"],
           correcta: 3 },
-        { pregunta: "¿Qué se lee el símbolo ∧?",
+        { tema: "Símbolos lógicos",
+          pregunta: "¿Qué se lee el símbolo ∧?",
           opciones: ["o", "y", "si... entonces...", "si y solo si"],
           correcta: 1 },
-        { pregunta: "¿Qué se lee el símbolo ∨?",
+        { tema: "Símbolos lógicos",
+          pregunta: "¿Qué se lee el símbolo ∨?",
           opciones: ["o", "y", "si... entonces...", "si y solo si"],
           correcta: 0 },
-        { pregunta: "¿Qué sistema de conteo usaban los babilonios (Mesopotamia)?",
+        
+        // === HISTORIA Y CONCEPTO DE NÚMERO ===
+        { tema: "Sistemas de conteo antiguos",
+          pregunta: "¿Qué sistema de conteo usaban los babilonios (Mesopotamia)?",
           opciones: ["Sistema decimal (base 10)", "Sistema sexagesimal (base 60)", "Sistema vigesimal (base 20)", "Sistema binario (base 2)"],
           correcta: 1 },
-        { pregunta: "¿Qué sistema de conteo usaban los egipcios?",
+        { tema: "Sistemas de conteo antiguos",
+          pregunta: "¿Qué sistema de conteo usaban los egipcios?",
           opciones: ["Sistema decimal (base 10)", "Sistema sexagesimal (base 60)", "Sistema vigesimal (base 20)", "Sistema binario (base 2)"],
           correcta: 0 },
-        { pregunta: "¿Qué civilización fue una de las primeras en América en usar el cero?",
+        { tema: "El cero en América",
+          pregunta: "¿Qué civilización fue una de las primeras en América en usar el cero?",
           opciones: ["Los aztecas", "Los incas", "Los olmecas y mayas", "Los egipcios"],
           correcta: 2 },
-        { pregunta: "¿Cómo representaban los mayas el número cero?",
+        { tema: "El cero en América",
+          pregunta: "¿Cómo representaban los mayas el número cero?",
           opciones: ["Con un punto", "Con una barra", "Con una concha o caracol", "Con una estrella"],
           correcta: 2 },
-        { pregunta: "¿Quién introdujo el sistema de numeración indoarábigo en Europa?",
+        { tema: "Fibonacci y el sistema indoarábigo",
+          pregunta: "¿Quién introdujo el sistema de numeración indoarábigo en Europa?",
           opciones: ["Pitágoras", "Leonardo de Pisa (Fibonacci)", "Arquímedes", "Euclides"],
           correcta: 1 },
-        { pregunta: "¿Cuál es el nombre del libro escrito por Fibonacci donde explicó el sistema indoarábigo?",
+        { tema: "Fibonacci y el sistema indoarábigo",
+          pregunta: "¿Cuál es el nombre del libro escrito por Fibonacci donde explicó el sistema indoarábigo?",
           opciones: ["Los Elementos", "Liber Abaci", "Álgebra", "Aritmética"],
           correcta: 1 },
-        { pregunta: "¿Qué es el ábaco?",
+        { tema: "El ábaco",
+          pregunta: "¿Qué es el ábaco?",
           opciones: ["Un instrumento de cálculo usado desde la antigüedad", "Un tipo de número", "Una operación matemática", "Un sistema de conteo"],
           correcta: 0 },
-        { pregunta: "¿Cuál de los siguientes es un número natural?",
+        { tema: "Números naturales",
+          pregunta: "¿Cuál de los siguientes es un número natural?",
           opciones: ["-3", "0.5", "7", "√2"],
           correcta: 2 },
-        { pregunta: "¿Cuál de los siguientes NO es un número natural?",
+        { tema: "Números naturales",
+          pregunta: "¿Cuál de los siguientes NO es un número natural?",
           opciones: ["1", "15", "-4", "100"],
           correcta: 2 },
-        { pregunta: "¿Cuál de los siguientes conjuntos representa a los números naturales?",
+        { tema: "Números naturales",
+          pregunta: "¿Cuál de los siguientes conjuntos representa a los números naturales?",
           opciones: ["{..., -2, -1, 0, 1, 2, ...}", "{1, 2, 3, 4, 5, ...}", "{0.5, 1.5, 2.5, ...}", "{1/2, 1/3, 1/4, ...}"],
           correcta: 1 },
-        { pregunta: "¿Qué tipo de número es -3?",
+        
+        // === CLASIFICACIÓN DE NÚMEROS ===
+        { tema: "Clasificación de números",
+          pregunta: "¿Qué tipo de número es -3?",
           opciones: ["Natural", "Entero", "Irracional", "Ninguno"],
           correcta: 1 },
-        { pregunta: "¿Qué tipo de número es 0.5?",
+        { tema: "Clasificación de números",
+          pregunta: "¿Qué tipo de número es 0.5?",
           opciones: ["Natural", "Entero", "Racional", "Irracional"],
           correcta: 2 },
-        { pregunta: "¿Qué tipo de número es √2?",
+        { tema: "Clasificación de números",
+          pregunta: "¿Qué tipo de número es √2?",
           opciones: ["Natural", "Entero", "Racional", "Irracional"],
           correcta: 3 },
-        { pregunta: "¿Qué tipo de número es π?",
+        { tema: "Clasificación de números",
+          pregunta: "¿Qué tipo de número es π?",
           opciones: ["Natural", "Entero", "Racional", "Irracional"],
           correcta: 3 },
-        { pregunta: "¿Cuál es la diferencia entre un número racional y uno irracional?",
+        { tema: "Clasificación de números",
+          pregunta: "¿Cuál es la diferencia entre un número racional y uno irracional?",
           opciones: ["El racional se puede expresar como fracción, el irracional no", "El irracional se puede expresar como fracción, el racional no", "Ambos se pueden expresar como fracción", "Ninguno se puede expresar como fracción"],
           correcta: 0 },
-        { pregunta: "Resuelve: 8 + (-3) - 5 =",
+        
+        // === OPERACIONES CON ENTEROS ===
+        { tema: "Operaciones con enteros",
+          pregunta: "Resuelve: 8 + (-3) - 5 =",
           opciones: ["0", "6", "-6", "10"],
           correcta: 0 },
-        { pregunta: "Resuelve: (-7) × 4 + (-2) =",
+        { tema: "Operaciones con enteros",
+          pregunta: "Resuelve: (-7) × 4 + (-2) =",
           opciones: ["-30", "30", "-26", "26"],
           correcta: 0 },
-        { pregunta: "Resuelve: (-5) × (-3) - 6 =",
+        { tema: "Operaciones con enteros",
+          pregunta: "Resuelve: (-5) × (-3) - 6 =",
           opciones: ["9", "-9", "21", "-21"],
           correcta: 0 },
-        { pregunta: "Resuelve: (-20) ÷ (-4) - 3 × 2 =",
+        { tema: "Operaciones con enteros",
+          pregunta: "Resuelve: (-20) ÷ (-4) - 3 × 2 =",
           opciones: ["-1", "1", "11", "-11"],
           correcta: 0 },
-        { pregunta: "Resuelve: 12 + 5 × (8 - 3) =",
+        { tema: "Jerarquía de operaciones",
+          pregunta: "Resuelve: 12 + 5 × (8 - 3) =",
           opciones: ["37", "85", "25", "60"],
           correcta: 0 },
-        { pregunta: "Resuelve: (15 - 6) × 2 + 8 ÷ 4 =",
+        { tema: "Jerarquía de operaciones",
+          pregunta: "Resuelve: (15 - 6) × 2 + 8 ÷ 4 =",
           opciones: ["20", "22", "18", "24"],
           correcta: 0 },
-        { pregunta: "Resuelve: 18 ÷ 3 + 2 × 6 - 5 =",
+        { tema: "Jerarquía de operaciones",
+          pregunta: "Resuelve: 18 ÷ 3 + 2 × 6 - 5 =",
           opciones: ["13", "15", "11", "17"],
           correcta: 0 },
-        { pregunta: "Resuelve: 9 - 2 × (4 - 2) + 12 ÷ 3 =",
+        { tema: "Jerarquía de operaciones",
+          pregunta: "Resuelve: 9 - 2 × (4 - 2) + 12 ÷ 3 =",
           opciones: ["9", "7", "11", "13"],
           correcta: 0 },
-        { pregunta: "Luis gana $15,000 al mes. Gasta $4,000 en renta, $3,000 en comida, $2,000 en servicios y el resto lo ahorra. ¿Cuánto ahorra?",
+        
+        // === PROBLEMAS ===
+        { tema: "Problemas de aplicación",
+          pregunta: "Luis gana $15,000 al mes. Gasta $4,000 en renta, $3,000 en comida, $2,000 en servicios y el resto lo ahorra. ¿Cuánto ahorra?",
           opciones: ["$6,000", "$5,000", "$7,000", "$8,000"],
           correcta: 0 },
-        { pregunta: "Si 3 camisas cuestan $540, ¿cuánto costarán 5 camisas?",
+        { tema: "Problemas de aplicación",
+          pregunta: "Si 3 camisas cuestan $540, ¿cuánto costarán 5 camisas?",
           opciones: ["$900", "$800", "$1,000", "$720"],
           correcta: 0 },
-        { pregunta: "Un televisor cuesta $15,000 y tiene un descuento del 25%. ¿Cuál es el precio final?",
+        { tema: "Porcentajes",
+          pregunta: "Un televisor cuesta $15,000 y tiene un descuento del 25%. ¿Cuál es el precio final?",
           opciones: ["$11,250", "$12,000", "$10,500", "$13,000"],
           correcta: 0 },
-        { pregunta: "En un grupo de 40 alumnos, 12 son mujeres. ¿Qué porcentaje del grupo son mujeres?",
+        { tema: "Porcentajes",
+          pregunta: "En un grupo de 40 alumnos, 12 son mujeres. ¿Qué porcentaje del grupo son mujeres?",
           opciones: ["30%", "25%", "35%", "40%"],
           correcta: 0 },
-        { pregunta: "Si un número más su triple es igual a 48, ¿cuál es el número?",
+        { tema: "Problemas de aplicación",
+          pregunta: "Si un número más su triple es igual a 48, ¿cuál es el número?",
           opciones: ["12", "10", "14", "16"],
           correcta: 0 }
     ];
@@ -547,11 +667,13 @@
         minaPendiente = null;
         ejerciciosResueltos = 0;
         ejerciciosFallados = 0;
+        temasFallados = {};
         seleccionarEjercicios();
         document.getElementById('mensaje').textContent = '';
         document.getElementById('pregunta').textContent = '🎯 Haz clic en una casilla para comenzar';
         document.getElementById('opciones').innerHTML = '';
         document.getElementById('progreso').textContent = '';
+        document.getElementById('retroalimentacion').style.display = 'none';
         renderizar();
     }
 
@@ -614,7 +736,7 @@
 
         if (celda.mina) {
             let ej = obtenerSiguienteEjercicio();
-            minaPendiente = { f, c, respuestaCorrecta: ej.correcta };
+            minaPendiente = { f, c, respuestaCorrecta: ej.correcta, tema: ej.tema };
             document.getElementById('pregunta').textContent = '💥 ¡MINA! ' + ej.pregunta;
             
             let opcionesHTML = '';
@@ -643,6 +765,7 @@
             document.getElementById('mensaje').textContent = '🎉 ¡FELICIDADES! Revelaste todas las casillas seguras.';
             document.getElementById('mensaje').style.color = '#2c5aa0';
             juegoActivo = false;
+            mostrarRetroalimentacion();
         }
     }
 
@@ -658,7 +781,7 @@
     function verificarRespuesta(indiceSeleccionado) {
         if (minaPendiente === null) return;
 
-        let { f, c, respuestaCorrecta } = minaPendiente;
+        let { f, c, respuestaCorrecta, tema } = minaPendiente;
 
         if (indiceSeleccionado === respuestaCorrecta) {
             tablero[f][c].revelada = true;
@@ -671,12 +794,75 @@
             juegoActivo = true;
             minaPendiente = null;
             renderizar();
+
+            // Verificar si todas las minas están reveladas
+            let todasMinasReveladas = true;
+            for (let i = 0; i < FILAS; i++) {
+                for (let j = 0; j < COLUMNAS; j++) {
+                    if (tablero[i][j].mina && !tablero[i][j].revelada) {
+                        todasMinasReveladas = false;
+                    }
+                }
+            }
+            if (todasMinasReveladas) {
+                document.getElementById('mensaje').textContent = '🎉 ¡FELICIDADES! Revelaste todas las minas.';
+                document.getElementById('mensaje').style.color = '#2c5aa0';
+                juegoActivo = false;
+                mostrarRetroalimentacion();
+            }
         } else {
             ejerciciosFallados++;
+            // Registrar el tema fallado
+            temasFallados[tema] = (temasFallados[tema] || 0) + 1;
             document.getElementById('mensaje').textContent = '❌ Incorrecto. Intenta de nuevo.';
             document.getElementById('mensaje').style.color = '#c0392b';
             document.getElementById('progreso').textContent = `✅ Ejercicios resueltos: ${ejerciciosResueltos} | ❌ Fallados: ${ejerciciosFallados}`;
         }
+    }
+
+    // ===== MOSTRAR RETROALIMENTACIÓN =====
+    function mostrarRetroalimentacion() {
+        const retro = document.getElementById('retroalimentacion');
+        const resumen = document.getElementById('resumen');
+        const temasLista = document.getElementById('temas');
+        const mensajeFinal = document.getElementById('mensaje-final');
+
+        // Mostrar resumen
+        resumen.innerHTML = `
+            <strong>Ejercicios resueltos:</strong> ${ejerciciosResueltos}<br>
+            <strong>Ejercicios fallados:</strong> ${ejerciciosFallados}
+        `;
+
+        // Mostrar temas a repasar
+        temasLista.innerHTML = '';
+        const temas = Object.keys(temasFallados).sort((a, b) => temasFallados[b] - temasFallados[a]);
+
+        if (temas.length === 0) {
+            temasLista.innerHTML = `
+                <li style="border-left-color: #2c5aa0; background: #e8f5e9;">
+                    <strong>¡Excelente!</strong> No tuviste errores. Sigue practicando para mantener tu nivel.
+                </li>
+            `;
+        } else {
+            temas.forEach(tema => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${tema}</strong> — Fallaste ${temasFallados[tema]} ejercicio(s). Repasa este tema antes del examen.`;
+                temasLista.appendChild(li);
+            });
+        }
+
+        // Mensaje final
+        if (temas.length === 0) {
+            mensajeFinal.textContent = '¡Sigue así! Estás listo para el examen.';
+        } else if (temas.length <= 2) {
+            mensajeFinal.textContent = 'Repasa los temas marcados y estarás listo para el examen.';
+        } else {
+            mensajeFinal.textContent = 'Te recomendamos repasar la guía completa antes del examen.';
+        }
+
+        // Mostrar la sección
+        retro.style.display = 'block';
+        retro.scrollIntoView({ behavior: 'smooth' });
     }
 
     inicializarTablero();
