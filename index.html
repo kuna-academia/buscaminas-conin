@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscaminas Matemático | Colegio Conin</title>
+    <title>Pensamiento Matemático I | Colegio Conin</title>
     <style>
-        /* ============================================
-           COLORES DEL COLEGIO CONIN
-           ============================================ */
         :root {
             --azul-marino: #182a47;
             --azul-medio: #2c5aa0;
@@ -38,21 +35,23 @@
         }
 
         /* ============================================
-           ENCABEZADO CON LOGO
+           ENCABEZADO CON LOGO A ANCHO COMPLETO
            ============================================ */
         header {
             background-color: var(--azul-marino);
-            padding: 15px 20px;
+            padding: 0;
             text-align: center;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            width: 100%;
+            overflow: hidden;
         }
 
         header img {
-            max-width: 100%;
+            width: 100%;
             height: auto;
-            max-height: 90px;
             display: block;
-            margin: 0 auto;
+            margin: 0;
+            object-fit: cover;
         }
 
         .logo-respaldo {
@@ -61,6 +60,7 @@
             font-weight: 700;
             letter-spacing: 2px;
             display: none;
+            padding: 20px;
         }
 
         /* ============================================
@@ -223,7 +223,6 @@
             background: #e0b30f;
         }
 
-        /* Símbolos de mina y bandera (más compatibles) */
         .mina-simbolo {
             font-size: 26px;
             color: var(--rojo);
@@ -300,7 +299,7 @@
 <body>
 
 <!-- ============================================
-     ENCABEZADO CON LOGO
+     ENCABEZADO CON LOGO A ANCHO COMPLETO
      ============================================ -->
 <header>
     <img src="Membrete1.png" alt="Colegio Conin" onerror="this.style.display='none'; document.getElementById('logo-respaldo').style.display='block';">
@@ -313,8 +312,8 @@
          TÍTULO
          ============================================ -->
     <div class="titulo">
-        <h1>💣 Buscaminas Matemático</h1>
-        <p>Guía del Primer Examen Parcial</p>
+        <h1>Pensamiento Matemático I</h1>
+        <p>Profesora Claudia Martínez Vilchis</p>
         <div class="linea"></div>
     </div>
 
@@ -345,8 +344,8 @@
      PIE DE PÁGINA
      ============================================ -->
 <footer>
-    <p>&copy; 2026 Colegio Conin | Buscaminas Matemático</p>
-    <p>Pensamiento Matemático I - Profesora Claudia Martínez Vilchis</p>
+    <p>&copy; 2026 Colegio Conin | Pensamiento Matemático I</p>
+    <p>Profesora Claudia Martínez Vilchis</p>
 </footer>
 
 <script>
@@ -364,7 +363,6 @@
 
     // ===== BANCO DE EJERCICIOS DE LA GUÍA DEL EXAMEN =====
     const ejerciciosGuia = [
-        // === LÓGICA MATEMÁTICA ===
         { pregunta: "¿Cuál de las siguientes oraciones es una proposición lógica?",
           opciones: ["¿Cómo estás?", "Cierra la puerta.", "7 es un número primo.", "¡Qué bonito día!"],
           correcta: 2 },
@@ -407,8 +405,6 @@
         { pregunta: "¿Qué se lee el símbolo ∨?",
           opciones: ["o", "y", "si... entonces...", "si y solo si"],
           correcta: 0 },
-        
-        // === HISTORIA Y CONCEPTO DE NÚMERO ===
         { pregunta: "¿Qué sistema de conteo usaban los babilonios (Mesopotamia)?",
           opciones: ["Sistema decimal (base 10)", "Sistema sexagesimal (base 60)", "Sistema vigesimal (base 20)", "Sistema binario (base 2)"],
           correcta: 1 },
@@ -439,8 +435,6 @@
         { pregunta: "¿Cuál de los siguientes conjuntos representa a los números naturales?",
           opciones: ["{..., -2, -1, 0, 1, 2, ...}", "{1, 2, 3, 4, 5, ...}", "{0.5, 1.5, 2.5, ...}", "{1/2, 1/3, 1/4, ...}"],
           correcta: 1 },
-        
-        // === CLASIFICACIÓN DE NÚMEROS ===
         { pregunta: "¿Qué tipo de número es -3?",
           opciones: ["Natural", "Entero", "Irracional", "Ninguno"],
           correcta: 1 },
@@ -456,8 +450,6 @@
         { pregunta: "¿Cuál es la diferencia entre un número racional y uno irracional?",
           opciones: ["El racional se puede expresar como fracción, el irracional no", "El irracional se puede expresar como fracción, el racional no", "Ambos se pueden expresar como fracción", "Ninguno se puede expresar como fracción"],
           correcta: 0 },
-        
-        // === OPERACIONES CON ENTEROS ===
         { pregunta: "Resuelve: 8 + (-3) - 5 =",
           opciones: ["0", "6", "-6", "10"],
           correcta: 0 },
@@ -482,8 +474,6 @@
         { pregunta: "Resuelve: 9 - 2 × (4 - 2) + 12 ÷ 3 =",
           opciones: ["9", "7", "11", "13"],
           correcta: 0 },
-        
-        // === PROBLEMAS ===
         { pregunta: "Luis gana $15,000 al mes. Gasta $4,000 en renta, $3,000 en comida, $2,000 en servicios y el resto lo ahorra. ¿Cuánto ahorra?",
           opciones: ["$6,000", "$5,000", "$7,000", "$8,000"],
           correcta: 0 },
@@ -521,7 +511,6 @@
         return minas;
     }
 
-    // ===== CONTAR MINAS ALREDEDOR =====
     function contarMinasAlrededor(f, c, minas) {
         let count = 0;
         for (let i = -1; i <= 1; i++) {
@@ -535,7 +524,6 @@
         return count;
     }
 
-    // ===== SELECCIONAR EJERCICIOS AL AZAR =====
     function seleccionarEjercicios() {
         let bancoMezclado = [...ejerciciosGuia];
         for (let i = bancoMezclado.length - 1; i > 0; i--) {
@@ -545,7 +533,6 @@
         ejerciciosDisponibles = bancoMezclado.slice(0, EJERCICIOS_POR_PARTIDA);
     }
 
-    // ===== INICIALIZAR TABLERO =====
     function inicializarTablero() {
         let minas = generarMinas();
         tablero = Array.from({ length: FILAS }, (_, f) =>
@@ -568,7 +555,6 @@
         renderizar();
     }
 
-    // ===== RENDERIZAR TABLERO =====
     function renderizar() {
         let html = '';
         for (let f = 0; f < FILAS; f++) {
@@ -599,7 +585,6 @@
         document.getElementById('tablero').innerHTML = html;
     }
 
-    // ===== OBTENER SIGUIENTE EJERCICIO =====
     function obtenerSiguienteEjercicio() {
         if (ejerciciosDisponibles.length === 0) {
             seleccionarEjercicios();
@@ -607,7 +592,6 @@
         return ejerciciosDisponibles.pop();
     }
 
-    // ===== REVELAR CASILLAS VACÍAS =====
     function revelarCasilla(f, c) {
         if (f < 0 || f >= FILAS || c < 0 || c >= COLUMNAS) return;
         let celda = tablero[f][c];
@@ -622,12 +606,11 @@
         }
     }
 
-    // ===== HACER CLIC EN UNA CASILLA =====
     function hacerClic(f, c) {
         if (!juegoActivo) return;
         let celda = tablero[f][c];
         if (celda.revelada) return;
-        if (celda.bandera) return; // No se puede revelar si tiene bandera
+        if (celda.bandera) return;
 
         if (celda.mina) {
             let ej = obtenerSiguienteEjercicio();
@@ -663,19 +646,15 @@
         }
     }
 
-    // ===== PONER BANDERA (clic derecho o doble clic) =====
     function ponerBandera(event, f, c) {
         event.preventDefault();
         if (!juegoActivo) return;
         let celda = tablero[f][c];
         if (celda.revelada) return;
-        
-        // Alternar bandera
         celda.bandera = !celda.bandera;
         renderizar();
     }
 
-    // ===== VERIFICAR RESPUESTA =====
     function verificarRespuesta(indiceSeleccionado) {
         if (minaPendiente === null) return;
 
@@ -700,7 +679,6 @@
         }
     }
 
-    // ===== INICIAR JUEGO =====
     inicializarTablero();
 </script>
 </body>
