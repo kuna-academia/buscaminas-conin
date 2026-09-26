@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscaminas Matemático | Colegio Conin</title>
+    <style>
+        /* ============================================
+           COLORES DEL COLEGIO CONIN
+           ============================================ */
+        :root {
+            --azul-marino: #182a47;
+            --azul-medio: #2c5aa0;
+            --azul-claro: #e8eef7;
+            --azul-hover: #1e3c72;
+            --azul-borde: #6b9bd1;
+            --naranja: #e25e00;
+            --naranja-hover: #b84a00;
+            --blanco: #ffffff;
+            --gris-claro: #f4f6f9;
+            --gris-texto: #333333;
+            --rojo: #c0392b;
+            --amarillo: #f1c40f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Montserrat', Arial, sans-serif;
+            background: var(--gris-claro);
+            color: var(--gris-texto);
+            line-height: 1.6;
+            padding: 0;
+        }
+
+        /* ============================================
+           ENCABEZADO CON LOGO
+           ============================================ */
+        header {
+            background-color: var(--azul-marino);
+            padding: 15px 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        header img {
+            max-width: 100%;
+            height: auto;
+            max-height: 90px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .logo-respaldo {
+            color: var(--blanco);
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            display: none;
+        }
+
+        /* ============================================
+           CONTENEDOR PRINCIPAL
+           ============================================ */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .titulo {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .titulo h1 {
+            color: var(--azul-marino);
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .titulo p {
+            color: var(--azul-medio);
+            font-size: 1.1rem;
+        }
+
+        .titulo .linea {
+            width: 80px;
+            height: 4px;
+            background: var(--naranja);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        /* ============================================
+           PANEL DE INFORMACIÓN
+           ============================================ */
+        #info {
+            background: var(--blanco);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid var(--naranja);
+            margin-bottom: 20px;
+        }
+
+        #info .instrucciones {
+            color: var(--azul-marino);
+            font-size: 0.95rem;
+        }
+
+        #info .instrucciones p {
+            margin-bottom: 5px;
+        }
+
+        #pregunta {
+            font-size: 1.15rem;
+            color: var(--naranja);
+            margin: 15px 0;
+            font-weight: 600;
+            text-align: center;
+            min-height: 30px;
+        }
+
+        #opciones {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .opcion {
+            font-size: 0.95rem;
+            padding: 12px 20px;
+            cursor: pointer;
+            background: var(--azul-medio);
+            color: var(--blanco);
+            border: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .opcion:hover {
+            background: var(--azul-hover);
+            transform: translateY(-2px);
+        }
+
+        #mensaje {
+            font-size: 1rem;
+            margin-top: 10px;
+            font-weight: 600;
+            text-align: center;
+            min-height: 24px;
+        }
+
+        .progreso {
+            text-align: center;
+            font-size: 0.95rem;
+            color: var(--azul-marino);
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        /* ============================================
+           TABLERO
+           ============================================ */
+        table {
+            border-collapse: collapse;
+            margin: 20px auto;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 3px solid var(--azul-marino);
+        }
+
+        td {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            vertical-align: middle;
+            border: 2px solid var(--blanco);
+            background: var(--azul-medio);
+            cursor: pointer;
+            font-size: 22px;
+            font-weight: bold;
+            user-select: none;
+            color: var(--blanco);
+            transition: background 0.2s;
+            line-height: 1;
+        }
+
+        td:hover {
+            background: var(--azul-hover);
+        }
+
+        td.revelada {
+            background: var(--blanco);
+            color: var(--azul-marino);
+            border: 2px solid var(--azul-borde);
+            cursor: default;
+        }
+
+        td.mina-revelada {
+            background: #ffcccc;
+            color: var(--rojo);
+            border: 2px solid var(--rojo);
+            cursor: default;
+        }
+
+        td.bandera {
+            background: var(--amarillo);
+            color: var(--azul-marino);
+            border: 2px solid var(--naranja);
+        }
+
+        td.bandera:hover {
+            background: #e0b30f;
+        }
+
+        /* Símbolos de mina y bandera (más compatibles) */
+        .mina-simbolo {
+            font-size: 26px;
+            color: var(--rojo);
+            font-weight: 900;
+        }
+
+        .bandera-simbolo {
+            font-size: 24px;
+            color: var(--azul-marino);
+        }
+
+        /* ============================================
+           BOTÓN REINICIAR
+           ============================================ */
+        .reiniciar {
+            display: block;
+            margin: 20px auto;
+            padding: 14px 30px;
+            font-size: 1rem;
+            background: var(--naranja);
+            color: var(--blanco);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(226, 94, 0, 0.3);
+        }
+
+        .reiniciar:hover {
+            background: var(--naranja-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(226, 94, 0, 0.4);
+        }
+
+        /* ============================================
+           PIE DE PÁGINA
+           ============================================ */
+        footer {
+            background: var(--azul-marino);
+            color: var(--blanco);
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 600px) {
+            td {
+                width: 38px;
+                height: 38px;
+                font-size: 16px;
+                border: 1.5px solid var(--blanco);
+            }
+            .mina-simbolo { font-size: 22px; }
+            .bandera-simbolo { font-size: 20px; }
+            .titulo h1 {
+                font-size: 1.4rem;
+            }
+            #pregunta {
+                font-size: 1rem;
+            }
+            .opcion {
+                font-size: 0.85rem;
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ============================================
+     ENCABEZADO CON LOGO
+     ============================================ -->
+<header>
+    <img src="Membrete1.png" alt="Colegio Conin" onerror="this.style.display='none'; document.getElementById('logo-respaldo').style.display='block';">
+    <div id="logo-respaldo" class="logo-respaldo">COLEGIO CONIN</div>
+</header>
+
+<div class="container">
+
+    <!-- ============================================
+         TÍTULO
+         ============================================ -->
+    <div class="titulo">
+        <h1>💣 Buscaminas Matemático</h1>
+        <p>Guía del Primer Examen Parcial</p>
+        <div class="linea"></div>
+    </div>
+
+    <!-- ============================================
+         PANEL DE INFORMACIÓN
+         ============================================ -->
+    <div id="info">
+        <div class="instrucciones">
+            <p>💡 Los números te dicen cuántas minas hay alrededor.</p>
+            <p>⚡ Si tocas una mina, <strong>resuelve el ejercicio de la guía</strong> para revelarla.</p>
+            <p>🚩 <strong>Clic derecho</strong> (o doble clic en celular) para poner una bandera.</p>
+        </div>
+        <div id="pregunta">🎯 Haz clic en una casilla para comenzar</div>
+        <div id="opciones"></div>
+        <div id="mensaje"></div>
+        <div class="progreso" id="progreso"></div>
+    </div>
+
+    <!-- ============================================
+         TABLERO
+         ============================================ -->
+    <table id="tablero"></table>
+    <button class="reiniciar" onclick="inicializarTablero()">🔄 Nuevo Juego</button>
+
+</div>
+
+<!-- ============================================
+     PIE DE PÁGINA
+     ============================================ -->
+<footer>
+    <p>&copy; 2026 Colegio Conin | Buscaminas Matemático</p>
+    <p>Pensamiento Matemático I - Profesora Claudia Martínez Vilchis</p>
+</footer>
+
+<script>
+    // ===== CONFIGURACIÓN =====
+    const FILAS = 8;
+    const COLUMNAS = 8;
+    const NUM_MINAS = 10;
+    const EJERCICIOS_POR_PARTIDA = 15;
+
+    let tablero = [];
+    let juegoActivo = true;
+    let minaPendiente = null;
+    let ejerciciosResueltos = 0;
+    let ejerciciosFallados = 0;
+
+    // ===== BANCO DE EJERCICIOS DE LA GUÍA DEL EXAMEN =====
+    const ejerciciosGuia = [
+        // === LÓGICA MATEMÁTICA ===
+        { pregunta: "¿Cuál de las siguientes oraciones es una proposición lógica?",
+          opciones: ["¿Cómo estás?", "Cierra la puerta.", "7 es un número primo.", "¡Qué bonito día!"],
+          correcta: 2 },
+        { pregunta: "¿Cuál de las siguientes oraciones NO es una proposición lógica?",
+          opciones: ["5 es un número primo.", "¿A qué hora es la clase?", "La tierra gira alrededor del sol.", "El agua hierve a 100°C."],
+          correcta: 1 },
+        { pregunta: "¿Cuál es el resultado de p ∧ q cuando p es verdadero y q es falso?",
+          opciones: ["Verdadero", "Falso", "No se puede determinar", "Depende del contexto"],
+          correcta: 1 },
+        { pregunta: "¿Cuál es el resultado de p ∨ q cuando ambas proposiciones son falsas?",
+          opciones: ["Verdadero", "Falso", "No se puede determinar", "Depende del contexto"],
+          correcta: 1 },
+        { pregunta: "¿Cuál es el resultado de p → q cuando p es verdadero y q es falso?",
+          opciones: ["Verdadero", "Falso", "No se puede determinar", "Depende del contexto"],
+          correcta: 1 },
+        { pregunta: "Si p es falso y q es falso, ¿cuál es el resultado de p → q?",
+          opciones: ["Verdadero", "Falso", "No se puede determinar", "Depende del contexto"],
+          correcta: 0 },
+        { pregunta: "Si p es verdadero y q es verdadero, ¿cuál es el resultado de p ↔ q?",
+          opciones: ["Verdadero", "Falso", "No se puede determinar", "Depende del contexto"],
+          correcta: 0 },
+        { pregunta: "Si p es verdadero y q es falso, ¿cuál es el resultado de p ↔ q?",
+          opciones: ["Verdadero", "Falso", "No se puede determinar", "Depende del contexto"],
+          correcta: 1 },
+        { pregunta: "¿Cuál es el símbolo de la conjunción?",
+          opciones: ["∨", "∧", "→", "↔"],
+          correcta: 1 },
+        { pregunta: "¿Cuál es el símbolo de la disyunción?",
+          opciones: ["∨", "∧", "→", "↔"],
+          correcta: 0 },
+        { pregunta: "¿Cuál es el símbolo del condicional?",
+          opciones: ["∨", "∧", "→", "↔"],
+          correcta: 2 },
+        { pregunta: "¿Cuál es el símbolo del bicondicional?",
+          opciones: ["∨", "∧", "→", "↔"],
+          correcta: 3 },
+        { pregunta: "¿Qué se lee el símbolo ∧?",
+          opciones: ["o", "y", "si... entonces...", "si y solo si"],
+          correcta: 1 },
+        { pregunta: "¿Qué se lee el símbolo ∨?",
+          opciones: ["o", "y", "si... entonces...", "si y solo si"],
+          correcta: 0 },
+        
+        // === HISTORIA Y CONCEPTO DE NÚMERO ===
+        { pregunta: "¿Qué sistema de conteo usaban los babilonios (Mesopotamia)?",
+          opciones: ["Sistema decimal (base 10)", "Sistema sexagesimal (base 60)", "Sistema vigesimal (base 20)", "Sistema binario (base 2)"],
+          correcta: 1 },
+        { pregunta: "¿Qué sistema de conteo usaban los egipcios?",
+          opciones: ["Sistema decimal (base 10)", "Sistema sexagesimal (base 60)", "Sistema vigesimal (base 20)", "Sistema binario (base 2)"],
+          correcta: 0 },
+        { pregunta: "¿Qué civilización fue una de las primeras en América en usar el cero?",
+          opciones: ["Los aztecas", "Los incas", "Los olmecas y mayas", "Los egipcios"],
+          correcta: 2 },
+        { pregunta: "¿Cómo representaban los mayas el número cero?",
+          opciones: ["Con un punto", "Con una barra", "Con una concha o caracol", "Con una estrella"],
+          correcta: 2 },
+        { pregunta: "¿Quién introdujo el sistema de numeración indoarábigo en Europa?",
+          opciones: ["Pitágoras", "Leonardo de Pisa (Fibonacci)", "Arquímedes", "Euclides"],
+          correcta: 1 },
+        { pregunta: "¿Cuál es el nombre del libro escrito por Fibonacci donde explicó el sistema indoarábigo?",
+          opciones: ["Los Elementos", "Liber Abaci", "Álgebra", "Aritmética"],
+          correcta: 1 },
+        { pregunta: "¿Qué es el ábaco?",
+          opciones: ["Un instrumento de cálculo usado desde la antigüedad", "Un tipo de número", "Una operación matemática", "Un sistema de conteo"],
+          correcta: 0 },
+        { pregunta: "¿Cuál de los siguientes es un número natural?",
+          opciones: ["-3", "0.5", "7", "√2"],
+          correcta: 2 },
+        { pregunta: "¿Cuál de los siguientes NO es un número natural?",
+          opciones: ["1", "15", "-4", "100"],
+          correcta: 2 },
+        { pregunta: "¿Cuál de los siguientes conjuntos representa a los números naturales?",
+          opciones: ["{..., -2, -1, 0, 1, 2, ...}", "{1, 2, 3, 4, 5, ...}", "{0.5, 1.5, 2.5, ...}", "{1/2, 1/3, 1/4, ...}"],
+          correcta: 1 },
+        
+        // === CLASIFICACIÓN DE NÚMEROS ===
+        { pregunta: "¿Qué tipo de número es -3?",
+          opciones: ["Natural", "Entero", "Irracional", "Ninguno"],
+          correcta: 1 },
+        { pregunta: "¿Qué tipo de número es 0.5?",
+          opciones: ["Natural", "Entero", "Racional", "Irracional"],
+          correcta: 2 },
+        { pregunta: "¿Qué tipo de número es √2?",
+          opciones: ["Natural", "Entero", "Racional", "Irracional"],
+          correcta: 3 },
+        { pregunta: "¿Qué tipo de número es π?",
+          opciones: ["Natural", "Entero", "Racional", "Irracional"],
+          correcta: 3 },
+        { pregunta: "¿Cuál es la diferencia entre un número racional y uno irracional?",
+          opciones: ["El racional se puede expresar como fracción, el irracional no", "El irracional se puede expresar como fracción, el racional no", "Ambos se pueden expresar como fracción", "Ninguno se puede expresar como fracción"],
+          correcta: 0 },
+        
+        // === OPERACIONES CON ENTEROS ===
+        { pregunta: "Resuelve: 8 + (-3) - 5 =",
+          opciones: ["0", "6", "-6", "10"],
+          correcta: 0 },
+        { pregunta: "Resuelve: (-7) × 4 + (-2) =",
+          opciones: ["-30", "30", "-26", "26"],
+          correcta: 0 },
+        { pregunta: "Resuelve: (-5) × (-3) - 6 =",
+          opciones: ["9", "-9", "21", "-21"],
+          correcta: 0 },
+        { pregunta: "Resuelve: (-20) ÷ (-4) - 3 × 2 =",
+          opciones: ["-1", "1", "11", "-11"],
+          correcta: 0 },
+        { pregunta: "Resuelve: 12 + 5 × (8 - 3) =",
+          opciones: ["37", "85", "25", "60"],
+          correcta: 0 },
+        { pregunta: "Resuelve: (15 - 6) × 2 + 8 ÷ 4 =",
+          opciones: ["20", "22", "18", "24"],
+          correcta: 0 },
+        { pregunta: "Resuelve: 18 ÷ 3 + 2 × 6 - 5 =",
+          opciones: ["13", "15", "11", "17"],
+          correcta: 0 },
+        { pregunta: "Resuelve: 9 - 2 × (4 - 2) + 12 ÷ 3 =",
+          opciones: ["9", "7", "11", "13"],
+          correcta: 0 },
+        
+        // === PROBLEMAS ===
+        { pregunta: "Luis gana $15,000 al mes. Gasta $4,000 en renta, $3,000 en comida, $2,000 en servicios y el resto lo ahorra. ¿Cuánto ahorra?",
+          opciones: ["$6,000", "$5,000", "$7,000", "$8,000"],
+          correcta: 0 },
+        { pregunta: "Si 3 camisas cuestan $540, ¿cuánto costarán 5 camisas?",
+          opciones: ["$900", "$800", "$1,000", "$720"],
+          correcta: 0 },
+        { pregunta: "Un televisor cuesta $15,000 y tiene un descuento del 25%. ¿Cuál es el precio final?",
+          opciones: ["$11,250", "$12,000", "$10,500", "$13,000"],
+          correcta: 0 },
+        { pregunta: "En un grupo de 40 alumnos, 12 son mujeres. ¿Qué porcentaje del grupo son mujeres?",
+          opciones: ["30%", "25%", "35%", "40%"],
+          correcta: 0 },
+        { pregunta: "Si un número más su triple es igual a 48, ¿cuál es el número?",
+          opciones: ["12", "10", "14", "16"],
+          correcta: 0 }
+    ];
+
+    let ejerciciosDisponibles = [];
+
+    // ===== GENERAR MINAS =====
+    function generarMinas() {
+        let total = FILAS * COLUMNAS;
+        let indices = Array.from({ length: total }, (_, i) => i);
+        for (let i = indices.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [indices[i], indices[j]] = [indices[j], indices[i]];
+        }
+        let seleccionados = indices.slice(0, NUM_MINAS);
+        let minas = Array.from({ length: FILAS }, () => Array(COLUMNAS).fill(false));
+        for (let idx of seleccionados) {
+            let f = Math.floor(idx / COLUMNAS);
+            let c = idx % COLUMNAS;
+            minas[f][c] = true;
+        }
+        return minas;
+    }
+
+    // ===== CONTAR MINAS ALREDEDOR =====
+    function contarMinasAlrededor(f, c, minas) {
+        let count = 0;
+        for (let i = -1; i <= 1; i++) {
+            for (let j = -1; j <= 1; j++) {
+                let nf = f + i, nc = c + j;
+                if (nf >= 0 && nf < FILAS && nc >= 0 && nc < COLUMNAS && minas[nf][nc]) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    // ===== SELECCIONAR EJERCICIOS AL AZAR =====
+    function seleccionarEjercicios() {
+        let bancoMezclado = [...ejerciciosGuia];
+        for (let i = bancoMezclado.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [bancoMezclado[i], bancoMezclado[j]] = [bancoMezclado[j], bancoMezclado[i]];
+        }
+        ejerciciosDisponibles = bancoMezclado.slice(0, EJERCICIOS_POR_PARTIDA);
+    }
+
+    // ===== INICIALIZAR TABLERO =====
+    function inicializarTablero() {
+        let minas = generarMinas();
+        tablero = Array.from({ length: FILAS }, (_, f) =>
+            Array.from({ length: COLUMNAS }, (_, c) => ({
+                mina: minas[f][c],
+                revelada: false,
+                bandera: false,
+                vecinas: contarMinasAlrededor(f, c, minas)
+            }))
+        );
+        juegoActivo = true;
+        minaPendiente = null;
+        ejerciciosResueltos = 0;
+        ejerciciosFallados = 0;
+        seleccionarEjercicios();
+        document.getElementById('mensaje').textContent = '';
+        document.getElementById('pregunta').textContent = '🎯 Haz clic en una casilla para comenzar';
+        document.getElementById('opciones').innerHTML = '';
+        document.getElementById('progreso').textContent = '';
+        renderizar();
+    }
+
+    // ===== RENDERIZAR TABLERO =====
+    function renderizar() {
+        let html = '';
+        for (let f = 0; f < FILAS; f++) {
+            html += '<tr>';
+            for (let c = 0; c < COLUMNAS; c++) {
+                let celda = tablero[f][c];
+                let contenido = '';
+                let clase = '';
+                if (celda.revelada) {
+                    clase = 'revelada';
+                    if (celda.mina) {
+                        contenido = '<span class="mina-simbolo">✹</span>';
+                        clase += ' mina-revelada';
+                    } else if (celda.vecinas > 0) {
+                        contenido = celda.vecinas;
+                    }
+                } else if (celda.bandera) {
+                    clase = 'bandera';
+                    contenido = '<span class="bandera-simbolo">⚑</span>';
+                }
+                html += `<td class="${clase}" 
+                            onclick="hacerClic(${f},${c})" 
+                            oncontextmenu="ponerBandera(event, ${f},${c})"
+                            ondblclick="ponerBandera(event, ${f},${c})">${contenido}</td>`;
+            }
+            html += '</tr>';
+        }
+        document.getElementById('tablero').innerHTML = html;
+    }
+
+    // ===== OBTENER SIGUIENTE EJERCICIO =====
+    function obtenerSiguienteEjercicio() {
+        if (ejerciciosDisponibles.length === 0) {
+            seleccionarEjercicios();
+        }
+        return ejerciciosDisponibles.pop();
+    }
+
+    // ===== REVELAR CASILLAS VACÍAS =====
+    function revelarCasilla(f, c) {
+        if (f < 0 || f >= FILAS || c < 0 || c >= COLUMNAS) return;
+        let celda = tablero[f][c];
+        if (celda.revelada || celda.mina || celda.bandera) return;
+        celda.revelada = true;
+        if (celda.vecinas === 0) {
+            for (let i = -1; i <= 1; i++) {
+                for (let j = -1; j <= 1; j++) {
+                    revelarCasilla(f + i, c + j);
+                }
+            }
+        }
+    }
+
+    // ===== HACER CLIC EN UNA CASILLA =====
+    function hacerClic(f, c) {
+        if (!juegoActivo) return;
+        let celda = tablero[f][c];
+        if (celda.revelada) return;
+        if (celda.bandera) return; // No se puede revelar si tiene bandera
+
+        if (celda.mina) {
+            let ej = obtenerSiguienteEjercicio();
+            minaPendiente = { f, c, respuestaCorrecta: ej.correcta };
+            document.getElementById('pregunta').textContent = '💥 ¡MINA! ' + ej.pregunta;
+            
+            let opcionesHTML = '';
+            ej.opciones.forEach((op, i) => {
+                opcionesHTML += `<button class="opcion" onclick="verificarRespuesta(${i})">${op}</button>`;
+            });
+            document.getElementById('opciones').innerHTML = opcionesHTML;
+            document.getElementById('mensaje').textContent = '✍️ Selecciona la respuesta correcta';
+            document.getElementById('mensaje').style.color = '#e25e00';
+            juegoActivo = false;
+            return;
+        }
+
+        revelarCasilla(f, c);
+        renderizar();
+
+        let todasReveladas = true;
+        for (let i = 0; i < FILAS; i++) {
+            for (let j = 0; j < COLUMNAS; j++) {
+                if (!tablero[i][j].revelada && !tablero[i][j].mina) {
+                    todasReveladas = false;
+                }
+            }
+        }
+        if (todasReveladas) {
+            document.getElementById('mensaje').textContent = '🎉 ¡FELICIDADES! Revelaste todas las casillas seguras.';
+            document.getElementById('mensaje').style.color = '#2c5aa0';
+            juegoActivo = false;
+        }
+    }
+
+    // ===== PONER BANDERA (clic derecho o doble clic) =====
+    function ponerBandera(event, f, c) {
+        event.preventDefault();
+        if (!juegoActivo) return;
+        let celda = tablero[f][c];
+        if (celda.revelada) return;
+        
+        // Alternar bandera
+        celda.bandera = !celda.bandera;
+        renderizar();
+    }
+
+    // ===== VERIFICAR RESPUESTA =====
+    function verificarRespuesta(indiceSeleccionado) {
+        if (minaPendiente === null) return;
+
+        let { f, c, respuestaCorrecta } = minaPendiente;
+
+        if (indiceSeleccionado === respuestaCorrecta) {
+            tablero[f][c].revelada = true;
+            ejerciciosResueltos++;
+            document.getElementById('mensaje').textContent = '✅ ¡Correcto! La mina quedó visible. ¡Sigue jugando!';
+            document.getElementById('mensaje').style.color = '#2c5aa0';
+            document.getElementById('pregunta').textContent = '🎯 Haz clic en otra casilla';
+            document.getElementById('opciones').innerHTML = '';
+            document.getElementById('progreso').textContent = `✅ Ejercicios resueltos: ${ejerciciosResueltos} | ❌ Fallados: ${ejerciciosFallados}`;
+            juegoActivo = true;
+            minaPendiente = null;
+            renderizar();
+        } else {
+            ejerciciosFallados++;
+            document.getElementById('mensaje').textContent = '❌ Incorrecto. Intenta de nuevo.';
+            document.getElementById('mensaje').style.color = '#c0392b';
+            document.getElementById('progreso').textContent = `✅ Ejercicios resueltos: ${ejerciciosResueltos} | ❌ Fallados: ${ejerciciosFallados}`;
+        }
+    }
+
+    // ===== INICIAR JUEGO =====
+    inicializarTablero();
+</script>
+</body>
+</html>
