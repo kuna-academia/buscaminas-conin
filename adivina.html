@@ -64,7 +64,7 @@
            CONTENEDOR PRINCIPAL
            ============================================ */
         .container {
-            max-width: 750px;
+            max-width: 850px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -99,10 +99,10 @@
         .tarjeta-secreta {
             background: linear-gradient(135deg, var(--azul-marino), var(--azul-medio));
             border-radius: 16px;
-            padding: 30px;
+            padding: 25px;
             text-align: center;
-            margin: 20px auto;
-            max-width: 320px;
+            margin: 15px auto;
+            max-width: 300px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
             color: var(--blanco);
             position: relative;
@@ -112,7 +112,7 @@
         .tarjeta-secreta::before {
             content: "?";
             position: absolute;
-            font-size: 200px;
+            font-size: 180px;
             opacity: 0.08;
             top: 50%;
             left: 50%;
@@ -121,14 +121,14 @@
         }
 
         .tarjeta-secreta p {
-            font-size: 1rem;
-            margin-bottom: 10px;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
             opacity: 0.9;
             position: relative;
         }
 
         .tarjeta-secreta .numero {
-            font-size: 4rem;
+            font-size: 3.5rem;
             font-weight: 900;
             color: var(--naranja);
             position: relative;
@@ -174,58 +174,63 @@
             min-height: 26px;
         }
 
-        #opciones {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 8px;
-            margin: 12px 0;
+        /* ============================================
+           NÚMEROS EN PANTALLA
+           ============================================ */
+        .numeros-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin: 20px 0;
         }
 
-        .opcion {
-            font-size: 0.9rem;
-            padding: 10px 16px;
-            cursor: pointer;
-            background: var(--azul-medio);
-            color: var(--blanco);
-            border: none;
-            border-radius: 8px;
-            transition: all 0.3s;
-            font-weight: 500;
-        }
-
-        .opcion:hover:not(:disabled) {
-            background: var(--azul-hover);
-            transform: translateY(-2px);
-        }
-
-        .opcion:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .opcion.correcta {
-            background: var(--verde);
-        }
-
-        .opcion.incorrecta {
-            background: var(--rojo);
-        }
-
-        #mensaje {
-            font-size: 0.95rem;
-            margin-top: 8px;
-            font-weight: 600;
+        .numero-card {
+            background: var(--blanco);
+            border: 3px solid var(--azul-medio);
+            border-radius: 12px;
+            padding: 15px 5px;
             text-align: center;
-            min-height: 22px;
-        }
-
-        .progreso {
-            text-align: center;
-            font-size: 0.9rem;
+            font-size: 1.5rem;
+            font-weight: 900;
             color: var(--azul-marino);
-            margin-top: 8px;
-            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+            position: relative;
+        }
+
+        .numero-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--naranja);
+            box-shadow: 0 5px 15px rgba(226, 94, 0, 0.3);
+        }
+
+        .numero-card.descartado {
+            background: #f0f0f0;
+            color: #ccc;
+            border-color: #ddd;
+            text-decoration: line-through;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .numero-card.descartado::after {
+            content: "✕";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: var(--rojo);
+            opacity: 0.4;
+            text-decoration: none;
+        }
+
+        .numero-card.correcto {
+            background: var(--verde);
+            color: var(--blanco);
+            border-color: var(--verde);
+            animation: pop 0.5s ease;
         }
 
         /* ============================================
@@ -290,7 +295,7 @@
            ============================================ */
         .btn {
             display: block;
-            margin: 15px auto;
+            margin: 10px auto;
             padding: 12px 28px;
             font-size: 0.95rem;
             background: var(--naranja);
@@ -316,58 +321,104 @@
             box-shadow: none;
         }
 
+        .btn-verde {
+            background: var(--verde);
+        }
+
+        .btn-verde:hover {
+            background: #1e8449;
+        }
+
         /* ============================================
-           RETROALIMENTACIÓN
+           MODALES
            ============================================ */
-        #retroalimentacion {
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.activo {
+            display: flex;
+        }
+
+        .modal-contenido {
+            background: var(--blanco);
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .modal-contenido h2 {
+            color: var(--azul-marino);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .modal-contenido p {
+            color: var(--gris-texto);
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .modal-contenido input {
+            width: 100%;
+            padding: 14px;
+            font-size: 1.3rem;
+            text-align: center;
+            border: 3px solid var(--azul-medio);
+            border-radius: 12px;
+            font-weight: 700;
+            color: var(--azul-marino);
+            margin-bottom: 15px;
+        }
+
+        .modal-contenido input:focus {
+            outline: none;
+            border-color: var(--naranja);
+        }
+
+        /* ============================================
+           RESULTADO
+           ============================================ */
+        #resultado {
             display: none;
             background: var(--blanco);
             border-radius: 12px;
-            padding: 20px;
+            padding: 25px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
             border-top: 5px solid var(--naranja);
             margin-top: 20px;
+            text-align: center;
         }
 
-        #retroalimentacion h2 {
+        #resultado h2 {
             color: var(--azul-marino);
-            font-size: 1.3rem;
-            margin-bottom: 12px;
-            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
         }
 
-        #retroalimentacion .resumen {
-            text-align: center;
-            margin-bottom: 15px;
+        #resultado .numero-revelado {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--naranja);
+            margin: 15px 0;
+        }
+
+        #resultado .mensaje {
             font-size: 1rem;
             color: var(--azul-medio);
-        }
-
-        #retroalimentacion .temas {
-            list-style: none;
-            padding: 0;
-        }
-
-        #retroalimentacion .temas li {
-            background: var(--azul-claro);
-            border-left: 4px solid var(--naranja);
-            padding: 10px 15px;
-            margin-bottom: 8px;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            color: var(--azul-marino);
-        }
-
-        #retroalimentacion .temas li strong {
-            color: var(--naranja);
-        }
-
-        #retroalimentacion .mensaje-final {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 0.95rem;
-            color: var(--azul-medio);
-            font-style: italic;
+            margin-bottom: 15px;
         }
 
         /* ============================================
@@ -390,7 +441,9 @@
             header img { height: 40px; }
             .header-texto { font-size: 1rem; }
             .titulo h1 { font-size: 1.3rem; }
-            .tarjeta-secreta .numero { font-size: 3rem; }
+            .tarjeta-secreta .numero { font-size: 2.5rem; }
+            .numeros-grid { grid-template-columns: repeat(4, 1fr); }
+            .numero-card { font-size: 1.2rem; padding: 10px 3px; }
         }
     </style>
 </head>
@@ -424,44 +477,69 @@
     </div>
 
     <!-- ============================================
+         BOTÓN PARA INICIAR
+         ============================================ -->
+    <button class="btn" id="btn-iniciar" onclick="abrirModal()">🎲 Elegir número secreto</button>
+
+    <!-- ============================================
          PANEL DE INFORMACIÓN
          ============================================ -->
-    <div id="info">
+    <div id="info" style="display:none;">
         <div class="instrucciones">
             <p>🎯 Los alumnos eligen preguntas para descubrir el número secreto.</p>
-            <p>✅ Cada pregunta correcta queda marcada con ✓.</p>
-            <p>❌ Cada pregunta incorrecta resta una oportunidad.</p>
-            <p>🏆 Cuando se acaben las preguntas, deben adivinar el número.</p>
+            <p>✅ El alumno que eligió el número responde Verdadero o Falso.</p>
+            <p>❌ Con base en la respuesta, descarten uno de los 10 números.</p>
+            <p>🏆 Ganan cuando quede solo el número correcto.</p>
         </div>
         <div id="pregunta">Selecciona una pregunta del listado de abajo</div>
-        <div id="opciones"></div>
-        <div id="mensaje"></div>
-        <div class="progreso" id="progreso"></div>
     </div>
+
+    <!-- ============================================
+         NÚMEROS EN PANTALLA
+         ============================================ -->
+    <div class="numeros-grid" id="numeros-grid" style="display:none;"></div>
 
     <!-- ============================================
          LISTA DE PREGUNTAS
          ============================================ -->
-    <div class="preguntas-lista" id="preguntas-lista">
+    <div class="preguntas-lista" id="preguntas-lista" style="display:none;">
         <h3>📋 Preguntas disponibles</h3>
         <div id="lista-preguntas"></div>
     </div>
 
     <!-- ============================================
-         BOTÓN PARA ADIVINAR
+         RESULTADO
          ============================================ -->
-    <button class="btn" id="btn-adivinar" onclick="mostrarAdivinanza()" disabled>🔮 Adivinar el número</button>
-
-    <!-- ============================================
-         RETROALIMENTACIÓN
-         ============================================ -->
-    <div id="retroalimentacion">
-        <h2>📚 Retroalimentación</h2>
-        <div class="resumen" id="resumen"></div>
-        <ul class="temas" id="temas"></ul>
-        <div class="mensaje-final" id="mensaje-final"></div>
+    <div id="resultado">
+        <h2>🎉 ¡Lo lograron!</h2>
+        <div class="numero-revelado" id="numero-revelado"></div>
+        <div class="mensaje" id="mensaje-final"></div>
     </div>
 
+</div>
+
+<!-- ============================================
+     MODAL PARA INGRESAR NÚMERO SECRETO
+     ============================================ -->
+<div class="modal-overlay" id="modal">
+    <div class="modal-contenido">
+        <h2>🎲 Número secreto</h2>
+        <p>Alumno seleccionado: elige un número del 2 al 100 y escríbelo. Nadie más debe verlo.</p>
+        <input type="number" id="input-secreto" min="2" max="100" placeholder="Escribe el número...">
+        <button class="btn btn-verde" onclick="guardarSecreto()">✅ Guardar número secreto</button>
+    </div>
+</div>
+
+<!-- ============================================
+     MODAL PARA RESPONDER PREGUNTA
+     ============================================ -->
+<div class="modal-overlay" id="modal-respuesta">
+    <div class="modal-contenido">
+        <h2 id="titulo-pregunta"></h2>
+        <p>El alumno que eligió el número debe responder:</p>
+        <button class="btn btn-verde" onclick="responderVerdadero()">✅ Verdadero</button>
+        <button class="btn" style="background: var(--rojo);" onclick="responderFalso()">❌ Falso</button>
+    </div>
 </div>
 
 <!-- ============================================
@@ -474,111 +552,103 @@
 
 <script>
     // ===== CONFIGURACIÓN =====
-    const NUM_MIN = 1;
-    const NUM_MAX = 50;
+    const NUM_MIN = 2;
+    const NUM_MAX = 100;
     const MAX_PREGUNTAS = 8;
+    const CANTIDAD_NUMEROS = 10;
 
     let numeroSecreto = 0;
+    let numerosEnPantalla = [];
     let preguntasUsadas = [];
     let preguntasDisponibles = [];
-    let aciertos = 0;
-    let errores = 0;
-    let temasFallados = {};
+    let preguntaActual = null;
     let juegoTerminado = false;
+    let juegoIniciado = false;
 
     // ===== BANCO DE PREGUNTAS =====
     const bancoPreguntas = [
-        { texto: "¿El número secreto es par?", tema: "Números pares e impares",
-          opciones: ["Sí", "No"], correcta: null },
-        { texto: "¿El número secreto es múltiplo de 3?", tema: "Múltiplos de 3",
-          opciones: ["Sí", "No"], correcta: null },
-        { texto: "¿El número secreto es múltiplo de 5?", tema: "Múltiplos de 5",
-          opciones: ["Sí", "No"], correcta: null },
-        { texto: "¿El número secreto es mayor que 25?", tema: "Comparación de números",
-          opciones: ["Sí", "No"], correcta: null },
-        { texto: "¿El número secreto es divisor de 24?", tema: "Divisores",
-          opciones: ["Sí", "No"], correcta: null },
-        { texto: "¿El número secreto es divisor de 36?", tema: "Divisores",
-          opciones: ["Sí", "No"], correcta: null },
-        { texto: "¿El número secreto es un número primo?", tema: "Números primos",
-          opciones: ["Sí", "No"], correcta: null },
-        { texto: "¿El número secreto es un cuadrado perfecto?", tema: "Cuadrados perfectos",
-          opciones: ["Sí", "No"], correcta: null },
-        { texto: "¿El MCD entre el número secreto y 12 es 4?", tema: "MCD",
-          opciones: ["Sí", "No"], correcta: null },
-        { texto: "¿El MCM entre el número secreto y 5 es 30?", tema: "MCM",
-          opciones: ["Sí", "No"], correcta: null },
-        { texto: "¿El número secreto es múltiplo de 4?", tema: "Múltiplos de 4",
-          opciones: ["Sí", "No"], correcta: null },
-        { texto: "¿El número secreto es mayor que 40?", tema: "Comparación de números",
-          opciones: ["Sí", "No"], correcta: null }
+        { texto: "¿El número es par?", tema: "Números pares e impares" },
+        { texto: "¿El número es múltiplo de 3?", tema: "Múltiplos de 3" },
+        { texto: "¿El número es múltiplo de 5?", tema: "Múltiplos de 5" },
+        { texto: "¿El número es mayor que 50?", tema: "Comparación de números" },
+        { texto: "¿El número es divisor de 60?", tema: "Divisores" },
+        { texto: "¿El número es un número primo?", tema: "Números primos" },
+        { texto: "¿El número es un cuadrado perfecto?", tema: "Cuadrados perfectos" },
+        { texto: "¿El número es múltiplo de 4?", tema: "Múltiplos de 4" },
+        { texto: "¿El número es múltiplo de 10?", tema: "Múltiplos de 10" },
+        { texto: "¿El número es mayor que 75?", tema: "Comparación de números" },
+        { texto: "¿El número es divisor de 100?", tema: "Divisores" },
+        { texto: "¿El número es múltiplo de 7?", tema: "Múltiplos de 7" },
+        { texto: "¿El número es menor que 30?", tema: "Comparación de números" },
+        { texto: "¿El número es múltiplo de 9?", tema: "Múltiplos de 9" },
+        { texto: "¿El número es divisor de 48?", tema: "Divisores" }
     ];
 
-    // ===== GENERAR NÚMERO SECRETO =====
-    function generarNumeroSecreto() {
-        return Math.floor(Math.random() * (NUM_MAX - NUM_MIN + 1)) + NUM_MIN;
+    // ===== ABRIR MODAL =====
+    function abrirModal() {
+        document.getElementById('modal').classList.add('activo');
+        document.getElementById('input-secreto').value = '';
+        document.getElementById('input-secreto').focus();
     }
 
-    // ===== CALCULAR RESPUESTA CORRECTA =====
-    function calcularRespuesta(pregunta, num) {
-        switch (pregunta) {
-            case "¿El número secreto es par?":
-                return num % 2 === 0 ? "Sí" : "No";
-            case "¿El número secreto es múltiplo de 3?":
-                return num % 3 === 0 ? "Sí" : "No";
-            case "¿El número secreto es múltiplo de 5?":
-                return num % 5 === 0 ? "Sí" : "No";
-            case "¿El número secreto es mayor que 25?":
-                return num > 25 ? "Sí" : "No";
-            case "¿El número secreto es divisor de 24?":
-                return (24 % num === 0) ? "Sí" : "No";
-            case "¿El número secreto es divisor de 36?":
-                return (36 % num === 0) ? "Sí" : "No";
-            case "¿El número secreto es un número primo?":
-                return esPrimo(num) ? "Sí" : "No";
-            case "¿El número secreto es un cuadrado perfecto?":
-                return esCuadradoPerfecto(num) ? "Sí" : "No";
-            case "¿El MCD entre el número secreto y 12 es 4?":
-                return mcd(num, 12) === 4 ? "Sí" : "No";
-            case "¿El MCM entre el número secreto y 5 es 30?":
-                return mcm(num, 5) === 30 ? "Sí" : "No";
-            case "¿El número secreto es múltiplo de 4?":
-                return num % 4 === 0 ? "Sí" : "No";
-            case "¿El número secreto es mayor que 40?":
-                return num > 40 ? "Sí" : "No";
-            default:
-                return "No";
+    // ===== GUARDAR NÚMERO SECRETO =====
+    function guardarSecreto() {
+        const valor = parseInt(document.getElementById('input-secreto').value);
+        
+        if (isNaN(valor) || valor < NUM_MIN || valor > NUM_MAX) {
+            alert(`Por favor, escribe un número válido entre ${NUM_MIN} y ${NUM_MAX}.`);
+            return;
+        }
+
+        numeroSecreto = valor;
+        document.getElementById('modal').classList.remove('activo');
+        document.getElementById('btn-iniciar').style.display = 'none';
+        document.getElementById('info').style.display = 'block';
+        document.getElementById('numeros-grid').style.display = 'grid';
+        document.getElementById('preguntas-lista').style.display = 'block';
+
+        iniciarJuego();
+    }
+
+    // ===== INICIAR JUEGO =====
+    function iniciarJuego() {
+        juegoIniciado = true;
+        juegoTerminado = false;
+        preguntasUsadas = [];
+        preguntaActual = null;
+
+        // Generar 10 números en pantalla (incluyendo el secreto)
+        generarNumerosEnPantalla();
+
+        // Seleccionar preguntas al azar
+        seleccionarPreguntas();
+
+        document.getElementById('pregunta').textContent = 'Selecciona una pregunta del listado de abajo';
+        document.getElementById('resultado').style.display = 'none';
+
+        renderizarNumeros();
+        renderizarPreguntas();
+    }
+
+    // ===== GENERAR NÚMEROS EN PANTALLA =====
+    function generarNumerosEnPantalla() {
+        numerosEnPantalla = [numeroSecreto];
+        
+        while (numerosEnPantalla.length < CANTIDAD_NUMEROS) {
+            const num = Math.floor(Math.random() * (NUM_MAX - NUM_MIN + 1)) + NUM_MIN;
+            if (!numerosEnPantalla.includes(num)) {
+                numerosEnPantalla.push(num);
+            }
+        }
+
+        // Mezclar
+        for (let i = numerosEnPantalla.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [numerosEnPantalla[i], numerosEnPantalla[j]] = [numerosEnPantalla[j], numerosEnPantalla[i]];
         }
     }
 
-    // ===== FUNCIONES AUXILIARES =====
-    function esPrimo(n) {
-        if (n < 2) return false;
-        for (let i = 2; i <= Math.sqrt(n); i++) {
-            if (n % i === 0) return false;
-        }
-        return true;
-    }
-
-    function esCuadradoPerfecto(n) {
-        let raiz = Math.sqrt(n);
-        return raiz === Math.floor(raiz);
-    }
-
-    function mcd(a, b) {
-        while (b !== 0) {
-            let temp = b;
-            b = a % b;
-            a = temp;
-        }
-        return a;
-    }
-
-    function mcm(a, b) {
-        return (a * b) / mcd(a, b);
-    }
-
-    // ===== SELECCIONAR PREGUNTAS AL AZAR =====
+    // ===== SELECCIONAR PREGUNTAS =====
     function seleccionarPreguntas() {
         let mezcladas = [...bancoPreguntas];
         for (let i = mezcladas.length - 1; i > 0; i--) {
@@ -588,29 +658,29 @@
         preguntasDisponibles = mezcladas.slice(0, MAX_PREGUNTAS);
     }
 
-    // ===== INICIALIZAR JUEGO =====
-    function inicializarJuego() {
-        numeroSecreto = generarNumeroSecreto();
-        preguntasUsadas = [];
-        aciertos = 0;
-        errores = 0;
-        temasFallados = {};
-        juegoTerminado = false;
-        seleccionarPreguntas();
-
-        document.getElementById('numero-secreto').textContent = '?';
-        document.getElementById('tarjeta').classList.remove('revelada');
-        document.getElementById('pregunta').textContent = 'Selecciona una pregunta del listado de abajo';
-        document.getElementById('opciones').innerHTML = '';
-        document.getElementById('mensaje').textContent = '';
-        document.getElementById('progreso').textContent = '';
-        document.getElementById('retroalimentacion').style.display = 'none';
-        document.getElementById('btn-adivinar').disabled = true;
-
-        renderizarPreguntas();
+    // ===== RENDERIZAR NÚMEROS =====
+    function renderizarNumeros() {
+        let html = '';
+        numerosEnPantalla.forEach((num) => {
+            html += `<div class="numero-card" id="num-${num}" onclick="descartarNumero(${num})">${num}</div>`;
+        });
+        document.getElementById('numeros-grid').innerHTML = html;
     }
 
-    // ===== RENDERIZAR LISTA DE PREGUNTAS =====
+    // ===== DESCARTAR NÚMERO =====
+    function descartarNumero(num) {
+        if (juegoTerminado) return;
+        if (num === numeroSecreto) {
+            // No se puede descartar el número correcto (a menos que sea el final)
+            return;
+        }
+        const card = document.getElementById(`num-${num}`);
+        if (card) {
+            card.classList.toggle('descartado');
+        }
+    }
+
+    // ===== RENDERIZAR PREGUNTAS =====
     function renderizarPreguntas() {
         let html = '';
         preguntasDisponibles.forEach((p, i) => {
@@ -624,139 +694,98 @@
         document.getElementById('lista-preguntas').innerHTML = html;
     }
 
-    // ===== SELECCIONAR UNA PREGUNTA =====
+    // ===== SELECCIONAR PREGUNTA =====
     function seleccionarPregunta(indice) {
         if (juegoTerminado) return;
         if (preguntasUsadas.includes(indice)) return;
 
-        const pregunta = preguntasDisponibles[indice];
-        const respuestaCorrecta = calcularRespuesta(pregunta.texto, numeroSecreto);
+        preguntaActual = { indice, ...preguntasDisponibles[indice] };
 
-        // Mostrar pregunta y opciones
-        document.getElementById('pregunta').textContent = pregunta.texto;
-        document.getElementById('opciones').innerHTML = `
-            <button class="opcion" onclick="responderPregunta(${indice}, 'Sí')">Sí</button>
-            <button class="opcion" onclick="responderPregunta(${indice}, 'No')">No</button>
-        `;
-        document.getElementById('mensaje').textContent = '✍️ Selecciona la respuesta correcta';
-        document.getElementById('mensaje').style.color = '#e25e00';
+        // Abrir modal para que el alumno que eligió el número responda
+        document.getElementById('titulo-pregunta').textContent = preguntaActual.texto;
+        document.getElementById('modal-respuesta').classList.add('activo');
     }
 
-    // ===== RESPONDER PREGUNTA =====
-    function responderPregunta(indice, respuesta) {
-        if (juegoTerminado) return;
-        if (preguntasUsadas.includes(indice)) return;
+    // ===== RESPONDER VERDADERO =====
+    function responderVerdadero() {
+        procesarRespuesta(true);
+    }
 
-        const pregunta = preguntasDisponibles[indice];
-        const respuestaCorrecta = calcularRespuesta(pregunta.texto, numeroSecreto);
+    // ===== RESPONDER FALSO =====
+    function responderFalso() {
+        procesarRespuesta(false);
+    }
 
-        if (respuesta === respuestaCorrecta) {
-            // Correcta
-            aciertos++;
-            preguntasUsadas.push(indice);
-            document.getElementById('mensaje').textContent = `✅ ¡Correcto! La respuesta es: ${respuestaCorrecta}`;
-            document.getElementById('mensaje').style.color = '#27ae60';
-            document.getElementById('opciones').innerHTML = '';
-            document.getElementById('progreso').textContent = `✅ Aciertos: ${aciertos} | ❌ Errores: ${errores} | 📋 Preguntas restantes: ${MAX_PREGUNTAS - preguntasUsadas.length}`;
-            renderizarPreguntas();
+    // ===== PROCESAR RESPUESTA =====
+    function procesarRespuesta(respuesta) {
+        if (!preguntaActual) return;
 
-            // Verificar si ya se usaron todas las preguntas
-            if (preguntasUsadas.length === MAX_PREGUNTAS) {
-                document.getElementById('btn-adivinar').disabled = false;
-                document.getElementById('pregunta').textContent = '🎯 ¡Es hora de adivinar! Usa el botón de abajo.';
+        const indice = preguntaActual.indice;
+        preguntasUsadas.push(indice);
+        document.getElementById('modal-respuesta').classList.remove('activo');
+
+        // Mostrar la respuesta
+        const textoRespuesta = respuesta ? "Verdadero" : "Falso";
+        document.getElementById('pregunta').textContent = `${preguntaActual.texto} → ${textoRespuesta}`;
+        document.getElementById('pregunta').style.color = respuesta ? '#27ae60' : '#c0392b';
+
+        // Marcar la pregunta como usada
+        renderizarPreguntas();
+
+        // Verificar si quedan preguntas
+        if (preguntasUsadas.length === MAX_PREGUNTAS) {
+            document.getElementById('pregunta').textContent += ' — ¡Ya no quedan preguntas! Adivinen el número.';
+        }
+
+        // Verificar si solo queda un número sin descartar
+        verificarGanador();
+
+        preguntaActual = null;
+    }
+
+    // ===== VERIFICAR GANADOR =====
+    function verificarGanador() {
+        const numerosActivos = numerosEnPantalla.filter(num => {
+            const card = document.getElementById(`num-${num}`);
+            return card && !card.classList.contains('descartado');
+        });
+
+        if (numerosActivos.length === 1) {
+            // ¡Ganaron!
+            juegoTerminado = true;
+            const ganador = numerosActivos[0];
+            document.getElementById(`num-${ganador}`).classList.add('correcto');
+            
+            document.getElementById('resultado').style.display = 'block';
+            document.getElementById('numero-revelado').textContent = ganador;
+            
+            if (ganador === numeroSecreto) {
+                document.getElementById('mensaje-final').textContent = '🎉 ¡Excelente! Descartaron correctamente y encontraron el número secreto.';
+                document.getElementById('mensaje-final').style.color = '#27ae60';
+            } else {
+                document.getElementById('mensaje-final').textContent = `❌ El número secreto era ${numeroSecreto}. Pero quedó ${ganador} como único número. ¡Sigan practicando!`;
+                document.getElementById('mensaje-final').style.color = '#c0392b';
             }
-        } else {
-            // Incorrecta
-            errores++;
-            temasFallados[pregunta.tema] = (temasFallados[pregunta.tema] || 0) + 1;
-            document.getElementById('mensaje').textContent = `❌ Incorrecto. La respuesta correcta era: ${respuestaCorrecta}`;
-            document.getElementById('mensaje').style.color = '#c0392b';
-            preguntasUsadas.push(indice);
-            document.getElementById('opciones').innerHTML = '';
-            document.getElementById('progreso').textContent = `✅ Aciertos: ${aciertos} | ❌ Errores: ${errores} | 📋 Preguntas restantes: ${MAX_PREGUNTAS - preguntasUsadas.length}`;
-            renderizarPreguntas();
 
-            if (preguntasUsadas.length === MAX_PREGUNTAS) {
-                document.getElementById('btn-adivinar').disabled = false;
-                document.getElementById('pregunta').textContent = '🎯 ¡Es hora de adivinar! Usa el botón de abajo.';
-            }
+            document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
         }
     }
 
-    // ===== MOSTRAR ADIVINANZA =====
-    function mostrarAdivinanza() {
-        const respuesta = prompt("¿Cuál es el número secreto? (Escribe un número del 1 al 50)");
-        if (respuesta === null) return;
-
-        const numUsuario = parseInt(respuesta);
-        if (isNaN(numUsuario) || numUsuario < 1 || numUsuario > 50) {
-            alert("Por favor, escribe un número válido del 1 al 50.");
-            return;
-        }
-
-        // Revelar número secreto
-        document.getElementById('numero-secreto').textContent = numeroSecreto;
-        document.getElementById('tarjeta').classList.add('revelada');
-        juegoTerminado = true;
-
-        if (numUsuario === numeroSecreto) {
-            document.getElementById('pregunta').textContent = '🎉 ¡FELICIDADES! Adivinaste el número secreto.';
-            document.getElementById('mensaje').textContent = '🎉 ¡Excelente trabajo!';
-            document.getElementById('mensaje').style.color = '#27ae60';
-        } else {
-            document.getElementById('pregunta').textContent = `❌ El número secreto era: ${numeroSecreto}`;
-            document.getElementById('mensaje').textContent = `Tú dijiste: ${numUsuario}`;
-            document.getElementById('mensaje').style.color = '#c0392b';
-        }
-
-        document.getElementById('btn-adivinar').disabled = true;
-        mostrarRetroalimentacion();
+    // ===== REINICIAR JUEGO =====
+    function reiniciarJuego() {
+        document.getElementById('btn-iniciar').style.display = 'block';
+        document.getElementById('info').style.display = 'none';
+        document.getElementById('numeros-grid').style.display = 'none';
+        document.getElementById('preguntas-lista').style.display = 'none';
+        document.getElementById('resultado').style.display = 'none';
+        document.getElementById('numero-secreto').textContent = '?';
+        document.getElementById('tarjeta').classList.remove('revelada');
+        juegoTerminado = false;
+        juegoIniciado = false;
     }
 
-    // ===== MOSTRAR RETROALIMENTACIÓN =====
-    function mostrarRetroalimentacion() {
-        const retro = document.getElementById('retroalimentacion');
-        const resumen = document.getElementById('resumen');
-        const temasLista = document.getElementById('temas');
-        const mensajeFinal = document.getElementById('mensaje-final');
-
-        resumen.innerHTML = `
-            <strong>Aciertos:</strong> ${aciertos}<br>
-            <strong>Errores:</strong> ${errores}<br>
-            <strong>Número secreto:</strong> ${numeroSecreto}
-        `;
-
-        temasLista.innerHTML = '';
-        const temas = Object.keys(temasFallados).sort((a, b) => temasFallados[b] - temasFallados[a]);
-
-        if (temas.length === 0) {
-            temasLista.innerHTML = `
-                <li style="border-left-color: #27ae60; background: #e8f5e9;">
-                    <strong>¡Excelente!</strong> No tuviste errores. Sigue practicando para mantener tu nivel.
-                </li>
-            `;
-        } else {
-            temas.forEach(tema => {
-                const li = document.createElement('li');
-                li.innerHTML = `<strong>${tema}</strong> — Fallaste ${temasFallados[tema]} pregunta(s). Repasa este tema antes del examen.`;
-                temasLista.appendChild(li);
-            });
-        }
-
-        if (temas.length === 0) {
-            mensajeFinal.textContent = '¡Sigue así! Estás listo para el examen.';
-        } else if (temas.length <= 2) {
-            mensajeFinal.textContent = 'Repasa los temas marcados y estarás listo para el examen.';
-        } else {
-            mensajeFinal.textContent = 'Te recomendamos repasar el MCD y el MCM antes del examen.';
-        }
-
-        retro.style.display = 'block';
-        retro.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    // ===== INICIAR JUEGO =====
-    inicializarJuego();
+    // ===== INICIAR =====
+    // Esperar a que el usuario haga clic en el botón de iniciar
 </script>
 </body>
 </html>
