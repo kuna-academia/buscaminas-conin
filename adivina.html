@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pensamiento Matemático I | Colegio Conin</title>
+    <style>
+        :root {
+            --azul-marino: #182a47;
+            --azul-medio: #2c5aa0;
+            --azul-claro: #e8eef7;
+            --azul-hover: #1e3c72;
+            --azul-borde: #6b9bd1;
+            --naranja: #e25e00;
+            --naranja-hover: #b84a00;
+            --blanco: #ffffff;
+            --gris-claro: #f4f6f9;
+            --gris-texto: #333333;
+            --rojo: #c0392b;
+            --verde: #27ae60;
+            --amarillo: #f1c40f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Montserrat', Arial, sans-serif;
+            background: var(--gris-claro);
+            color: var(--gris-texto);
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           ENCABEZADO CON LOGO
+           ============================================ */
+        header {
+            background-color: var(--azul-marino);
+            padding: 12px 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        header img {
+            height: 50px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        .header-texto {
+            color: var(--blanco);
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        /* ============================================
+           CONTENEDOR PRINCIPAL
+           ============================================ */
+        .container {
+            max-width: 750px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .titulo {
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .titulo h1 {
+            color: var(--azul-marino);
+            font-size: 1.6rem;
+            margin-bottom: 3px;
+        }
+
+        .titulo p {
+            color: var(--azul-medio);
+            font-size: 1rem;
+        }
+
+        .titulo .linea {
+            width: 60px;
+            height: 3px;
+            background: var(--naranja);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        /* ============================================
+           TARJETA DEL NÚMERO SECRETO
+           ============================================ */
+        .tarjeta-secreta {
+            background: linear-gradient(135deg, var(--azul-marino), var(--azul-medio));
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px auto;
+            max-width: 320px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            color: var(--blanco);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tarjeta-secreta::before {
+            content: "?";
+            position: absolute;
+            font-size: 200px;
+            opacity: 0.08;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: 900;
+        }
+
+        .tarjeta-secreta p {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            opacity: 0.9;
+            position: relative;
+        }
+
+        .tarjeta-secreta .numero {
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--naranja);
+            position: relative;
+        }
+
+        .tarjeta-secreta.revelada .numero {
+            color: var(--amarillo);
+            animation: pop 0.5s ease;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* ============================================
+           PANEL DE INFORMACIÓN
+           ============================================ */
+        #info {
+            background: var(--blanco);
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid var(--naranja);
+            margin-bottom: 15px;
+        }
+
+        #info .instrucciones {
+            color: var(--azul-marino);
+            font-size: 0.9rem;
+        }
+
+        #info .instrucciones p {
+            margin-bottom: 4px;
+        }
+
+        #pregunta {
+            font-size: 1rem;
+            color: var(--naranja);
+            margin: 12px 0;
+            font-weight: 600;
+            text-align: center;
+            min-height: 26px;
+        }
+
+        #opciones {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin: 12px 0;
+        }
+
+        .opcion {
+            font-size: 0.9rem;
+            padding: 10px 16px;
+            cursor: pointer;
+            background: var(--azul-medio);
+            color: var(--blanco);
+            border: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .opcion:hover:not(:disabled) {
+            background: var(--azul-hover);
+            transform: translateY(-2px);
+        }
+
+        .opcion:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .opcion.correcta {
+            background: var(--verde);
+        }
+
+        .opcion.incorrecta {
+            background: var(--rojo);
+        }
+
+        #mensaje {
+            font-size: 0.95rem;
+            margin-top: 8px;
+            font-weight: 600;
+            text-align: center;
+            min-height: 22px;
+        }
+
+        .progreso {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--azul-marino);
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        /* ============================================
+           LISTA DE PREGUNTAS
+           ============================================ */
+        .preguntas-lista {
+            background: var(--blanco);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .preguntas-lista h3 {
+            color: var(--azul-marino);
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .pregunta-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            background: var(--azul-claro);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .pregunta-item:hover:not(.usada) {
+            background: #d6e4f5;
+            border-left-color: var(--naranja);
+        }
+
+        .pregunta-item.usada {
+            opacity: 0.6;
+            cursor: not-allowed;
+            border-left-color: var(--verde);
+            background: #e8f5e9;
+        }
+
+        .pregunta-item.usada::after {
+            content: "✓";
+            color: var(--verde);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .pregunta-item .texto {
+            color: var(--azul-marino);
+            flex: 1;
+        }
+
+        /* ============================================
+           BOTONES
+           ============================================ */
+        .btn {
+            display: block;
+            margin: 15px auto;
+            padding: 12px 28px;
+            font-size: 0.95rem;
+            background: var(--naranja);
+            color: var(--blanco);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(226, 94, 0, 0.3);
+        }
+
+        .btn:hover {
+            background: var(--naranja-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(226, 94, 0, 0.4);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* ============================================
+           RETROALIMENTACIÓN
+           ============================================ */
+        #retroalimentacion {
+            display: none;
+            background: var(--blanco);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-top: 5px solid var(--naranja);
+            margin-top: 20px;
+        }
+
+        #retroalimentacion h2 {
+            color: var(--azul-marino);
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        #retroalimentacion .resumen {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            color: var(--azul-medio);
+        }
+
+        #retroalimentacion .temas {
+            list-style: none;
+            padding: 0;
+        }
+
+        #retroalimentacion .temas li {
+            background: var(--azul-claro);
+            border-left: 4px solid var(--naranja);
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            color: var(--azul-marino);
+        }
+
+        #retroalimentacion .temas li strong {
+            color: var(--naranja);
+        }
+
+        #retroalimentacion .mensaje-final {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.95rem;
+            color: var(--azul-medio);
+            font-style: italic;
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        footer {
+            background: var(--azul-marino);
+            color: var(--blanco);
+            text-align: center;
+            padding: 15px;
+            margin-top: 30px;
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 600px) {
+            header img { height: 40px; }
+            .header-texto { font-size: 1rem; }
+            .titulo h1 { font-size: 1.3rem; }
+            .tarjeta-secreta .numero { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ============================================
+     ENCABEZADO
+     ============================================ -->
+<header>
+    <img src="logo.png" alt="Colegio Conin" onerror="this.style.display='none';">
+    <div class="header-texto">COLEGIO CONIN</div>
+</header>
+
+<div class="container">
+
+    <!-- ============================================
+         TÍTULO
+         ============================================ -->
+    <div class="titulo">
+        <h1>Pensamiento Matemático I</h1>
+        <p>Profesora Claudia Martínez Vilchis</p>
+        <div class="linea"></div>
+    </div>
+
+    <!-- ============================================
+         TARJETA DEL NÚMERO SECRETO
+         ============================================ -->
+    <div class="tarjeta-secreta" id="tarjeta">
+        <p>Número secreto</p>
+        <div class="numero" id="numero-secreto">?</div>
+    </div>
+
+    <!-- ============================================
+         PANEL DE INFORMACIÓN
+         ============================================ -->
+    <div id="info">
+        <div class="instrucciones">
+            <p>🎯 Los alumnos eligen preguntas para descubrir el número secreto.</p>
+            <p>✅ Cada pregunta correcta queda marcada con ✓.</p>
+            <p>❌ Cada pregunta incorrecta resta una oportunidad.</p>
+            <p>🏆 Cuando se acaben las preguntas, deben adivinar el número.</p>
+        </div>
+        <div id="pregunta">Selecciona una pregunta del listado de abajo</div>
+        <div id="opciones"></div>
+        <div id="mensaje"></div>
+        <div class="progreso" id="progreso"></div>
+    </div>
+
+    <!-- ============================================
+         LISTA DE PREGUNTAS
+         ============================================ -->
+    <div class="preguntas-lista" id="preguntas-lista">
+        <h3>📋 Preguntas disponibles</h3>
+        <div id="lista-preguntas"></div>
+    </div>
+
+    <!-- ============================================
+         BOTÓN PARA ADIVINAR
+         ============================================ -->
+    <button class="btn" id="btn-adivinar" onclick="mostrarAdivinanza()" disabled>🔮 Adivinar el número</button>
+
+    <!-- ============================================
+         RETROALIMENTACIÓN
+         ============================================ -->
+    <div id="retroalimentacion">
+        <h2>📚 Retroalimentación</h2>
+        <div class="resumen" id="resumen"></div>
+        <ul class="temas" id="temas"></ul>
+        <div class="mensaje-final" id="mensaje-final"></div>
+    </div>
+
+</div>
+
+<!-- ============================================
+     FOOTER
+     ============================================ -->
+<footer>
+    <p>&copy; 2026 Colegio Conin | Pensamiento Matemático I</p>
+    <p>Profesora Claudia Martínez Vilchis</p>
+</footer>
+
+<script>
+    // ===== CONFIGURACIÓN =====
+    const NUM_MIN = 1;
+    const NUM_MAX = 50;
+    const MAX_PREGUNTAS = 8;
+
+    let numeroSecreto = 0;
+    let preguntasUsadas = [];
+    let preguntasDisponibles = [];
+    let aciertos = 0;
+    let errores = 0;
+    let temasFallados = {};
+    let juegoTerminado = false;
+
+    // ===== BANCO DE PREGUNTAS =====
+    const bancoPreguntas = [
+        { texto: "¿El número secreto es par?", tema: "Números pares e impares",
+          opciones: ["Sí", "No"], correcta: null },
+        { texto: "¿El número secreto es múltiplo de 3?", tema: "Múltiplos de 3",
+          opciones: ["Sí", "No"], correcta: null },
+        { texto: "¿El número secreto es múltiplo de 5?", tema: "Múltiplos de 5",
+          opciones: ["Sí", "No"], correcta: null },
+        { texto: "¿El número secreto es mayor que 25?", tema: "Comparación de números",
+          opciones: ["Sí", "No"], correcta: null },
+        { texto: "¿El número secreto es divisor de 24?", tema: "Divisores",
+          opciones: ["Sí", "No"], correcta: null },
+        { texto: "¿El número secreto es divisor de 36?", tema: "Divisores",
+          opciones: ["Sí", "No"], correcta: null },
+        { texto: "¿El número secreto es un número primo?", tema: "Números primos",
+          opciones: ["Sí", "No"], correcta: null },
+        { texto: "¿El número secreto es un cuadrado perfecto?", tema: "Cuadrados perfectos",
+          opciones: ["Sí", "No"], correcta: null },
+        { texto: "¿El MCD entre el número secreto y 12 es 4?", tema: "MCD",
+          opciones: ["Sí", "No"], correcta: null },
+        { texto: "¿El MCM entre el número secreto y 5 es 30?", tema: "MCM",
+          opciones: ["Sí", "No"], correcta: null },
+        { texto: "¿El número secreto es múltiplo de 4?", tema: "Múltiplos de 4",
+          opciones: ["Sí", "No"], correcta: null },
+        { texto: "¿El número secreto es mayor que 40?", tema: "Comparación de números",
+          opciones: ["Sí", "No"], correcta: null }
+    ];
+
+    // ===== GENERAR NÚMERO SECRETO =====
+    function generarNumeroSecreto() {
+        return Math.floor(Math.random() * (NUM_MAX - NUM_MIN + 1)) + NUM_MIN;
+    }
+
+    // ===== CALCULAR RESPUESTA CORRECTA =====
+    function calcularRespuesta(pregunta, num) {
+        switch (pregunta) {
+            case "¿El número secreto es par?":
+                return num % 2 === 0 ? "Sí" : "No";
+            case "¿El número secreto es múltiplo de 3?":
+                return num % 3 === 0 ? "Sí" : "No";
+            case "¿El número secreto es múltiplo de 5?":
+                return num % 5 === 0 ? "Sí" : "No";
+            case "¿El número secreto es mayor que 25?":
+                return num > 25 ? "Sí" : "No";
+            case "¿El número secreto es divisor de 24?":
+                return (24 % num === 0) ? "Sí" : "No";
+            case "¿El número secreto es divisor de 36?":
+                return (36 % num === 0) ? "Sí" : "No";
+            case "¿El número secreto es un número primo?":
+                return esPrimo(num) ? "Sí" : "No";
+            case "¿El número secreto es un cuadrado perfecto?":
+                return esCuadradoPerfecto(num) ? "Sí" : "No";
+            case "¿El MCD entre el número secreto y 12 es 4?":
+                return mcd(num, 12) === 4 ? "Sí" : "No";
+            case "¿El MCM entre el número secreto y 5 es 30?":
+                return mcm(num, 5) === 30 ? "Sí" : "No";
+            case "¿El número secreto es múltiplo de 4?":
+                return num % 4 === 0 ? "Sí" : "No";
+            case "¿El número secreto es mayor que 40?":
+                return num > 40 ? "Sí" : "No";
+            default:
+                return "No";
+        }
+    }
+
+    // ===== FUNCIONES AUXILIARES =====
+    function esPrimo(n) {
+        if (n < 2) return false;
+        for (let i = 2; i <= Math.sqrt(n); i++) {
+            if (n % i === 0) return false;
+        }
+        return true;
+    }
+
+    function esCuadradoPerfecto(n) {
+        let raiz = Math.sqrt(n);
+        return raiz === Math.floor(raiz);
+    }
+
+    function mcd(a, b) {
+        while (b !== 0) {
+            let temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
+
+    function mcm(a, b) {
+        return (a * b) / mcd(a, b);
+    }
+
+    // ===== SELECCIONAR PREGUNTAS AL AZAR =====
+    function seleccionarPreguntas() {
+        let mezcladas = [...bancoPreguntas];
+        for (let i = mezcladas.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [mezcladas[i], mezcladas[j]] = [mezcladas[j], mezcladas[i]];
+        }
+        preguntasDisponibles = mezcladas.slice(0, MAX_PREGUNTAS);
+    }
+
+    // ===== INICIALIZAR JUEGO =====
+    function inicializarJuego() {
+        numeroSecreto = generarNumeroSecreto();
+        preguntasUsadas = [];
+        aciertos = 0;
+        errores = 0;
+        temasFallados = {};
+        juegoTerminado = false;
+        seleccionarPreguntas();
+
+        document.getElementById('numero-secreto').textContent = '?';
+        document.getElementById('tarjeta').classList.remove('revelada');
+        document.getElementById('pregunta').textContent = 'Selecciona una pregunta del listado de abajo';
+        document.getElementById('opciones').innerHTML = '';
+        document.getElementById('mensaje').textContent = '';
+        document.getElementById('progreso').textContent = '';
+        document.getElementById('retroalimentacion').style.display = 'none';
+        document.getElementById('btn-adivinar').disabled = true;
+
+        renderizarPreguntas();
+    }
+
+    // ===== RENDERIZAR LISTA DE PREGUNTAS =====
+    function renderizarPreguntas() {
+        let html = '';
+        preguntasDisponibles.forEach((p, i) => {
+            const usada = preguntasUsadas.includes(i);
+            html += `
+                <div class="pregunta-item ${usada ? 'usada' : ''}" onclick="seleccionarPregunta(${i})">
+                    <span class="texto">${i + 1}. ${p.texto}</span>
+                </div>
+            `;
+        });
+        document.getElementById('lista-preguntas').innerHTML = html;
+    }
+
+    // ===== SELECCIONAR UNA PREGUNTA =====
+    function seleccionarPregunta(indice) {
+        if (juegoTerminado) return;
+        if (preguntasUsadas.includes(indice)) return;
+
+        const pregunta = preguntasDisponibles[indice];
+        const respuestaCorrecta = calcularRespuesta(pregunta.texto, numeroSecreto);
+
+        // Mostrar pregunta y opciones
+        document.getElementById('pregunta').textContent = pregunta.texto;
+        document.getElementById('opciones').innerHTML = `
+            <button class="opcion" onclick="responderPregunta(${indice}, 'Sí')">Sí</button>
+            <button class="opcion" onclick="responderPregunta(${indice}, 'No')">No</button>
+        `;
+        document.getElementById('mensaje').textContent = '✍️ Selecciona la respuesta correcta';
+        document.getElementById('mensaje').style.color = '#e25e00';
+    }
+
+    // ===== RESPONDER PREGUNTA =====
+    function responderPregunta(indice, respuesta) {
+        if (juegoTerminado) return;
+        if (preguntasUsadas.includes(indice)) return;
+
+        const pregunta = preguntasDisponibles[indice];
+        const respuestaCorrecta = calcularRespuesta(pregunta.texto, numeroSecreto);
+
+        if (respuesta === respuestaCorrecta) {
+            // Correcta
+            aciertos++;
+            preguntasUsadas.push(indice);
+            document.getElementById('mensaje').textContent = `✅ ¡Correcto! La respuesta es: ${respuestaCorrecta}`;
+            document.getElementById('mensaje').style.color = '#27ae60';
+            document.getElementById('opciones').innerHTML = '';
+            document.getElementById('progreso').textContent = `✅ Aciertos: ${aciertos} | ❌ Errores: ${errores} | 📋 Preguntas restantes: ${MAX_PREGUNTAS - preguntasUsadas.length}`;
+            renderizarPreguntas();
+
+            // Verificar si ya se usaron todas las preguntas
+            if (preguntasUsadas.length === MAX_PREGUNTAS) {
+                document.getElementById('btn-adivinar').disabled = false;
+                document.getElementById('pregunta').textContent = '🎯 ¡Es hora de adivinar! Usa el botón de abajo.';
+            }
+        } else {
+            // Incorrecta
+            errores++;
+            temasFallados[pregunta.tema] = (temasFallados[pregunta.tema] || 0) + 1;
+            document.getElementById('mensaje').textContent = `❌ Incorrecto. La respuesta correcta era: ${respuestaCorrecta}`;
+            document.getElementById('mensaje').style.color = '#c0392b';
+            preguntasUsadas.push(indice);
+            document.getElementById('opciones').innerHTML = '';
+            document.getElementById('progreso').textContent = `✅ Aciertos: ${aciertos} | ❌ Errores: ${errores} | 📋 Preguntas restantes: ${MAX_PREGUNTAS - preguntasUsadas.length}`;
+            renderizarPreguntas();
+
+            if (preguntasUsadas.length === MAX_PREGUNTAS) {
+                document.getElementById('btn-adivinar').disabled = false;
+                document.getElementById('pregunta').textContent = '🎯 ¡Es hora de adivinar! Usa el botón de abajo.';
+            }
+        }
+    }
+
+    // ===== MOSTRAR ADIVINANZA =====
+    function mostrarAdivinanza() {
+        const respuesta = prompt("¿Cuál es el número secreto? (Escribe un número del 1 al 50)");
+        if (respuesta === null) return;
+
+        const numUsuario = parseInt(respuesta);
+        if (isNaN(numUsuario) || numUsuario < 1 || numUsuario > 50) {
+            alert("Por favor, escribe un número válido del 1 al 50.");
+            return;
+        }
+
+        // Revelar número secreto
+        document.getElementById('numero-secreto').textContent = numeroSecreto;
+        document.getElementById('tarjeta').classList.add('revelada');
+        juegoTerminado = true;
+
+        if (numUsuario === numeroSecreto) {
+            document.getElementById('pregunta').textContent = '🎉 ¡FELICIDADES! Adivinaste el número secreto.';
+            document.getElementById('mensaje').textContent = '🎉 ¡Excelente trabajo!';
+            document.getElementById('mensaje').style.color = '#27ae60';
+        } else {
+            document.getElementById('pregunta').textContent = `❌ El número secreto era: ${numeroSecreto}`;
+            document.getElementById('mensaje').textContent = `Tú dijiste: ${numUsuario}`;
+            document.getElementById('mensaje').style.color = '#c0392b';
+        }
+
+        document.getElementById('btn-adivinar').disabled = true;
+        mostrarRetroalimentacion();
+    }
+
+    // ===== MOSTRAR RETROALIMENTACIÓN =====
+    function mostrarRetroalimentacion() {
+        const retro = document.getElementById('retroalimentacion');
+        const resumen = document.getElementById('resumen');
+        const temasLista = document.getElementById('temas');
+        const mensajeFinal = document.getElementById('mensaje-final');
+
+        resumen.innerHTML = `
+            <strong>Aciertos:</strong> ${aciertos}<br>
+            <strong>Errores:</strong> ${errores}<br>
+            <strong>Número secreto:</strong> ${numeroSecreto}
+        `;
+
+        temasLista.innerHTML = '';
+        const temas = Object.keys(temasFallados).sort((a, b) => temasFallados[b] - temasFallados[a]);
+
+        if (temas.length === 0) {
+            temasLista.innerHTML = `
+                <li style="border-left-color: #27ae60; background: #e8f5e9;">
+                    <strong>¡Excelente!</strong> No tuviste errores. Sigue practicando para mantener tu nivel.
+                </li>
+            `;
+        } else {
+            temas.forEach(tema => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${tema}</strong> — Fallaste ${temasFallados[tema]} pregunta(s). Repasa este tema antes del examen.`;
+                temasLista.appendChild(li);
+            });
+        }
+
+        if (temas.length === 0) {
+            mensajeFinal.textContent = '¡Sigue así! Estás listo para el examen.';
+        } else if (temas.length <= 2) {
+            mensajeFinal.textContent = 'Repasa los temas marcados y estarás listo para el examen.';
+        } else {
+            mensajeFinal.textContent = 'Te recomendamos repasar el MCD y el MCM antes del examen.';
+        }
+
+        retro.style.display = 'block';
+        retro.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // ===== INICIAR JUEGO =====
+    inicializarJuego();
+</script>
+</body>
+</html>
