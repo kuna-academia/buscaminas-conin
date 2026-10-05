@@ -34,9 +34,6 @@
             line-height: 1.6;
         }
 
-        /* ============================================
-           ENCABEZADO CON LOGO
-           ============================================ */
         header {
             background-color: var(--azul-marino);
             padding: 12px 25px;
@@ -60,9 +57,6 @@
             letter-spacing: 2px;
         }
 
-        /* ============================================
-           CONTENEDOR PRINCIPAL
-           ============================================ */
         .container {
             max-width: 850px;
             margin: 0 auto;
@@ -93,9 +87,6 @@
             border-radius: 2px;
         }
 
-        /* ============================================
-           TARJETA DEL NÚMERO SECRETO
-           ============================================ */
         .tarjeta-secreta {
             background: linear-gradient(135deg, var(--azul-marino), var(--azul-medio));
             border-radius: 16px;
@@ -144,9 +135,6 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
-        /* ============================================
-           PANEL DE INFORMACIÓN
-           ============================================ */
         #info {
             background: var(--blanco);
             border-radius: 12px;
@@ -174,9 +162,6 @@
             min-height: 26px;
         }
 
-        /* ============================================
-           NÚMEROS EN PANTALLA
-           ============================================ */
         .numeros-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -233,9 +218,18 @@
             animation: pop 0.5s ease;
         }
 
-        /* ============================================
-           LISTA DE PREGUNTAS
-           ============================================ */
+        .numero-card.error {
+            background: #ffcccc;
+            border-color: var(--rojo);
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
         .preguntas-lista {
             background: var(--blanco);
             border-radius: 12px;
@@ -290,9 +284,6 @@
             flex: 1;
         }
 
-        /* ============================================
-           BOTONES
-           ============================================ */
         .btn {
             display: block;
             margin: 10px auto;
@@ -329,9 +320,6 @@
             background: #1e8449;
         }
 
-        /* ============================================
-           MODALES
-           ============================================ */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -388,9 +376,6 @@
             border-color: var(--naranja);
         }
 
-        /* ============================================
-           RESULTADO
-           ============================================ */
         #resultado {
             display: none;
             background: var(--blanco);
@@ -421,9 +406,6 @@
             margin-bottom: 15px;
         }
 
-        /* ============================================
-           FOOTER
-           ============================================ */
         footer {
             background: var(--azul-marino);
             color: var(--blanco);
@@ -434,9 +416,6 @@
             opacity: 0.9;
         }
 
-        /* ============================================
-           RESPONSIVE
-           ============================================ */
         @media (max-width: 600px) {
             header img { height: 40px; }
             .header-texto { font-size: 1rem; }
@@ -449,9 +428,6 @@
 </head>
 <body>
 
-<!-- ============================================
-     ENCABEZADO
-     ============================================ -->
 <header>
     <img src="logo.png" alt="Colegio Conin" onerror="this.style.display='none';">
     <div class="header-texto">COLEGIO CONIN</div>
@@ -459,68 +435,45 @@
 
 <div class="container">
 
-    <!-- ============================================
-         TÍTULO
-         ============================================ -->
     <div class="titulo">
         <h1>Pensamiento Matemático I</h1>
         <p>Profesora Claudia Martínez Vilchis</p>
         <div class="linea"></div>
     </div>
 
-    <!-- ============================================
-         TARJETA DEL NÚMERO SECRETO
-         ============================================ -->
     <div class="tarjeta-secreta" id="tarjeta">
         <p>Número secreto</p>
         <div class="numero" id="numero-secreto">?</div>
     </div>
 
-    <!-- ============================================
-         BOTÓN PARA INICIAR
-         ============================================ -->
     <button class="btn" id="btn-iniciar" onclick="abrirModal()">🎲 Elegir número secreto</button>
 
-    <!-- ============================================
-         PANEL DE INFORMACIÓN
-         ============================================ -->
     <div id="info" style="display:none;">
         <div class="instrucciones">
             <p>🎯 Los alumnos eligen preguntas para descubrir el número secreto.</p>
             <p>✅ El alumno que eligió el número responde Verdadero o Falso.</p>
-            <p>❌ Con base en la respuesta, descarten uno de los 10 números.</p>
+            <p>❌ Si la respuesta es correcta, se descartan los números que no cumplen.</p>
             <p>🏆 Ganan cuando quede solo el número correcto.</p>
         </div>
         <div id="pregunta">Selecciona una pregunta del listado de abajo</div>
     </div>
 
-    <!-- ============================================
-         NÚMEROS EN PANTALLA
-         ============================================ -->
     <div class="numeros-grid" id="numeros-grid" style="display:none;"></div>
 
-    <!-- ============================================
-         LISTA DE PREGUNTAS
-         ============================================ -->
     <div class="preguntas-lista" id="preguntas-lista" style="display:none;">
         <h3>📋 Preguntas disponibles</h3>
         <div id="lista-preguntas"></div>
     </div>
 
-    <!-- ============================================
-         RESULTADO
-         ============================================ -->
     <div id="resultado">
         <h2>🎉 ¡Lo lograron!</h2>
         <div class="numero-revelado" id="numero-revelado"></div>
         <div class="mensaje" id="mensaje-final"></div>
+        <button class="btn" onclick="reiniciarJuego()">🔄 Jugar de nuevo</button>
     </div>
 
 </div>
 
-<!-- ============================================
-     MODAL PARA INGRESAR NÚMERO SECRETO
-     ============================================ -->
 <div class="modal-overlay" id="modal">
     <div class="modal-contenido">
         <h2>🎲 Número secreto</h2>
@@ -530,9 +483,6 @@
     </div>
 </div>
 
-<!-- ============================================
-     MODAL PARA RESPONDER PREGUNTA
-     ============================================ -->
 <div class="modal-overlay" id="modal-respuesta">
     <div class="modal-contenido">
         <h2 id="titulo-pregunta"></h2>
@@ -542,16 +492,12 @@
     </div>
 </div>
 
-<!-- ============================================
-     FOOTER
-     ============================================ -->
 <footer>
     <p>&copy; 2026 Colegio Conin | Pensamiento Matemático I</p>
     <p>Profesora Claudia Martínez Vilchis</p>
 </footer>
 
 <script>
-    // ===== CONFIGURACIÓN =====
     const NUM_MIN = 2;
     const NUM_MAX = 100;
     const MAX_PREGUNTAS = 8;
@@ -563,26 +509,40 @@
     let preguntasDisponibles = [];
     let preguntaActual = null;
     let juegoTerminado = false;
-    let juegoIniciado = false;
+    let errores = 0;
 
-    // ===== BANCO DE PREGUNTAS =====
+    // ===== BANCO DE PREGUNTAS CON FUNCIONES DE EVALUACIÓN =====
     const bancoPreguntas = [
-        { texto: "¿El número es par?", tema: "Números pares e impares" },
-        { texto: "¿El número es múltiplo de 3?", tema: "Múltiplos de 3" },
-        { texto: "¿El número es múltiplo de 5?", tema: "Múltiplos de 5" },
-        { texto: "¿El número es mayor que 50?", tema: "Comparación de números" },
-        { texto: "¿El número es divisor de 60?", tema: "Divisores" },
-        { texto: "¿El número es un número primo?", tema: "Números primos" },
-        { texto: "¿El número es un cuadrado perfecto?", tema: "Cuadrados perfectos" },
-        { texto: "¿El número es múltiplo de 4?", tema: "Múltiplos de 4" },
-        { texto: "¿El número es múltiplo de 10?", tema: "Múltiplos de 10" },
-        { texto: "¿El número es mayor que 75?", tema: "Comparación de números" },
-        { texto: "¿El número es divisor de 100?", tema: "Divisores" },
-        { texto: "¿El número es múltiplo de 7?", tema: "Múltiplos de 7" },
-        { texto: "¿El número es menor que 30?", tema: "Comparación de números" },
-        { texto: "¿El número es múltiplo de 9?", tema: "Múltiplos de 9" },
-        { texto: "¿El número es divisor de 48?", tema: "Divisores" }
+        { texto: "¿El número es par?", evaluar: (n) => n % 2 === 0, tema: "Números pares" },
+        { texto: "¿El número es múltiplo de 3?", evaluar: (n) => n % 3 === 0, tema: "Múltiplos de 3" },
+        { texto: "¿El número es múltiplo de 5?", evaluar: (n) => n % 5 === 0, tema: "Múltiplos de 5" },
+        { texto: "¿El número es mayor que 50?", evaluar: (n) => n > 50, tema: "Comparación de números" },
+        { texto: "¿El número es divisor de 60?", evaluar: (n) => 60 % n === 0, tema: "Divisores" },
+        { texto: "¿El número es un número primo?", evaluar: (n) => esPrimo(n), tema: "Números primos" },
+        { texto: "¿El número es un cuadrado perfecto?", evaluar: (n) => esCuadradoPerfecto(n), tema: "Cuadrados perfectos" },
+        { texto: "¿El número es múltiplo de 4?", evaluar: (n) => n % 4 === 0, tema: "Múltiplos de 4" },
+        { texto: "¿El número es múltiplo de 10?", evaluar: (n) => n % 10 === 0, tema: "Múltiplos de 10" },
+        { texto: "¿El número es mayor que 75?", evaluar: (n) => n > 75, tema: "Comparación de números" },
+        { texto: "¿El número es divisor de 100?", evaluar: (n) => 100 % n === 0, tema: "Divisores" },
+        { texto: "¿El número es múltiplo de 7?", evaluar: (n) => n % 7 === 0, tema: "Múltiplos de 7" },
+        { texto: "¿El número es menor que 30?", evaluar: (n) => n < 30, tema: "Comparación de números" },
+        { texto: "¿El número es múltiplo de 9?", evaluar: (n) => n % 9 === 0, tema: "Múltiplos de 9" },
+        { texto: "¿El número es divisor de 48?", evaluar: (n) => 48 % n === 0, tema: "Divisores" }
     ];
+
+    // ===== FUNCIONES AUXILIARES =====
+    function esPrimo(n) {
+        if (n < 2) return false;
+        for (let i = 2; i <= Math.sqrt(n); i++) {
+            if (n % i === 0) return false;
+        }
+        return true;
+    }
+
+    function esCuadradoPerfecto(n) {
+        const raiz = Math.sqrt(n);
+        return raiz === Math.floor(raiz);
+    }
 
     // ===== ABRIR MODAL =====
     function abrirModal() {
@@ -612,15 +572,12 @@
 
     // ===== INICIAR JUEGO =====
     function iniciarJuego() {
-        juegoIniciado = true;
         juegoTerminado = false;
+        errores = 0;
         preguntasUsadas = [];
         preguntaActual = null;
 
-        // Generar 10 números en pantalla (incluyendo el secreto)
         generarNumerosEnPantalla();
-
-        // Seleccionar preguntas al azar
         seleccionarPreguntas();
 
         document.getElementById('pregunta').textContent = 'Selecciona una pregunta del listado de abajo';
@@ -662,22 +619,9 @@
     function renderizarNumeros() {
         let html = '';
         numerosEnPantalla.forEach((num) => {
-            html += `<div class="numero-card" id="num-${num}" onclick="descartarNumero(${num})">${num}</div>`;
+            html += `<div class="numero-card" id="num-${num}">${num}</div>`;
         });
         document.getElementById('numeros-grid').innerHTML = html;
-    }
-
-    // ===== DESCARTAR NÚMERO =====
-    function descartarNumero(num) {
-        if (juegoTerminado) return;
-        if (num === numeroSecreto) {
-            // No se puede descartar el número correcto (a menos que sea el final)
-            return;
-        }
-        const card = document.getElementById(`num-${num}`);
-        if (card) {
-            card.classList.toggle('descartado');
-        }
     }
 
     // ===== RENDERIZAR PREGUNTAS =====
@@ -701,7 +645,6 @@
 
         preguntaActual = { indice, ...preguntasDisponibles[indice] };
 
-        // Abrir modal para que el alumno que eligió el número responda
         document.getElementById('titulo-pregunta').textContent = preguntaActual.texto;
         document.getElementById('modal-respuesta').classList.add('activo');
     }
@@ -717,30 +660,65 @@
     }
 
     // ===== PROCESAR RESPUESTA =====
-    function procesarRespuesta(respuesta) {
+    function procesarRespuesta(respuestaUsuario) {
         if (!preguntaActual) return;
 
-        const indice = preguntaActual.indice;
-        preguntasUsadas.push(indice);
+        // Calcular la respuesta correcta según el número secreto
+        const respuestaCorrecta = preguntaActual.evaluar(numeroSecreto);
+        const esCorrecto = (respuestaUsuario === respuestaCorrecta);
+
+        preguntasUsadas.push(preguntaActual.indice);
         document.getElementById('modal-respuesta').classList.remove('activo');
 
         // Mostrar la respuesta
-        const textoRespuesta = respuesta ? "Verdadero" : "Falso";
+        const textoRespuesta = respuestaUsuario ? "Verdadero" : "Falso";
         document.getElementById('pregunta').textContent = `${preguntaActual.texto} → ${textoRespuesta}`;
-        document.getElementById('pregunta').style.color = respuesta ? '#27ae60' : '#c0392b';
 
-        // Marcar la pregunta como usada
+        if (esCorrecto) {
+            // ✅ Respuesta correcta: descartar los números que NO cumplen con la condición
+            document.getElementById('pregunta').style.color = '#27ae60';
+            descartarNumeros(preguntaActual.evaluar, respuestaUsuario);
+        } else {
+            // ❌ Respuesta incorrecta: marcar error
+            errores++;
+            document.getElementById('pregunta').style.color = '#c0392b';
+            document.getElementById('pregunta').textContent += ' ❌ (Error)';
+        }
+
         renderizarPreguntas();
 
         // Verificar si quedan preguntas
         if (preguntasUsadas.length === MAX_PREGUNTAS) {
-            document.getElementById('pregunta').textContent += ' — ¡Ya no quedan preguntas! Adivinen el número.';
+            document.getElementById('pregunta').textContent += ' — ¡Ya no quedan preguntas!';
         }
 
         // Verificar si solo queda un número sin descartar
         verificarGanador();
 
         preguntaActual = null;
+    }
+
+    // ===== DESCARTAR NÚMEROS SEGÚN LA RESPUESTA =====
+    function descartarNumeros(evaluarFuncion, respuestaUsuario) {
+        numerosEnPantalla.forEach((num) => {
+            const card = document.getElementById(`num-${num}`);
+            if (!card || card.classList.contains('descartado')) return;
+
+            const cumple = evaluarFuncion(num);
+            
+            // Si la respuesta fue Verdadero, se descartan los que NO cumplen
+            // Si la respuesta fue Falso, se descartan los que SÍ cumplen
+            let debeDescartarse = false;
+            if (respuestaUsuario === true) {
+                debeDescartarse = !cumple;  // Verdadero: descartar los que no cumplen
+            } else {
+                debeDescartarse = cumple;   // Falso: descartar los que sí cumplen
+            }
+
+            if (debeDescartarse) {
+                card.classList.add('descartado');
+            }
+        });
     }
 
     // ===== VERIFICAR GANADOR =====
@@ -751,7 +729,6 @@
         });
 
         if (numerosActivos.length === 1) {
-            // ¡Ganaron!
             juegoTerminado = true;
             const ganador = numerosActivos[0];
             document.getElementById(`num-${ganador}`).classList.add('correcto');
@@ -760,10 +737,10 @@
             document.getElementById('numero-revelado').textContent = ganador;
             
             if (ganador === numeroSecreto) {
-                document.getElementById('mensaje-final').textContent = '🎉 ¡Excelente! Descartaron correctamente y encontraron el número secreto.';
+                document.getElementById('mensaje-final').textContent = `🎉 ¡Excelente! Descartaron correctamente y encontraron el número secreto. Errores: ${errores}`;
                 document.getElementById('mensaje-final').style.color = '#27ae60';
             } else {
-                document.getElementById('mensaje-final').textContent = `❌ El número secreto era ${numeroSecreto}. Pero quedó ${ganador} como único número. ¡Sigan practicando!`;
+                document.getElementById('mensaje-final').textContent = `❌ El número secreto era ${numeroSecreto}. Quedó ${ganador} como único número. Errores: ${errores}`;
                 document.getElementById('mensaje-final').style.color = '#c0392b';
             }
 
@@ -781,11 +758,8 @@
         document.getElementById('numero-secreto').textContent = '?';
         document.getElementById('tarjeta').classList.remove('revelada');
         juegoTerminado = false;
-        juegoIniciado = false;
+        errores = 0;
     }
-
-    // ===== INICIAR =====
-    // Esperar a que el usuario haga clic en el botón de iniciar
 </script>
 </body>
 </html>
