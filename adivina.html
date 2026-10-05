@@ -125,16 +125,6 @@
             position: relative;
         }
 
-        .tarjeta-secreta.revelada .numero {
-            color: var(--amarillo);
-            animation: pop 0.5s ease;
-        }
-
-        @keyframes pop {
-            0% { transform: scale(0.5); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
         #info {
             background: var(--blanco);
             border-radius: 12px;
@@ -184,7 +174,7 @@
             position: relative;
         }
 
-        .numero-card:hover {
+        .numero-card:hover:not(.descartado):not(.bloqueado) {
             transform: translateY(-3px);
             border-color: var(--naranja);
             box-shadow: 0 5px 15px rgba(226, 94, 0, 0.3);
@@ -218,16 +208,14 @@
             animation: pop 0.5s ease;
         }
 
-        .numero-card.error {
-            background: #ffcccc;
-            border-color: var(--rojo);
-            animation: shake 0.5s ease;
+        .numero-card.bloqueado {
+            cursor: not-allowed;
+            opacity: 0.7;
         }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
+        @keyframes pop {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         .preguntas-lista {
@@ -260,7 +248,7 @@
             border-left: 3px solid transparent;
         }
 
-        .pregunta-item:hover:not(.usada) {
+        .pregunta-item:hover:not(.usada):not(.bloqueada) {
             background: #d6e4f5;
             border-left-color: var(--naranja);
         }
@@ -277,6 +265,11 @@
             color: var(--verde);
             font-weight: 700;
             font-size: 1rem;
+        }
+
+        .pregunta-item.bloqueada {
+            opacity: 0.4;
+            cursor: not-allowed;
         }
 
         .pregunta-item .texto {
@@ -452,7 +445,7 @@
         <div class="instrucciones">
             <p>🎯 Los alumnos eligen preguntas para descubrir el número secreto.</p>
             <p>✅ El alumno que eligió el número responde Verdadero o Falso.</p>
-            <p>❌ Si la respuesta es correcta, se descartan los números que no cumplen.</p>
+            <p>❌ Después de cada respuesta, se descartan los números que no cumplen.</p>
             <p>🏆 Ganan cuando quede solo el número correcto.</p>
         </div>
         <div id="pregunta">Selecciona una pregunta del listado de abajo</div>
@@ -510,8 +503,10 @@
     let preguntaActual = null;
     let juegoTerminado = false;
     let errores = 0;
+    let puedeDescartar = false;  // Solo se puede descartar después de una pregunta
+    let condicionActual = null;  // Guarda la función de evaluación y la respuesta
 
-    // ===== BANCO DE PREGUNTAS CON FUNCIONES DE EVALUACIÓN =====
+    // ===== BANCO DE PREGUNTAS =====
     const bancoPreguntas = [
         { texto: "¿El número es par?", evaluar: (n) => n % 2 === 0, tema: "Números pares" },
         { texto: "¿El número es múltiplo de 3?", evaluar: (n) => n % 3 === 0, tema: "Múltiplos de 3" },
@@ -576,6 +571,8 @@
         errores = 0;
         preguntasUsadas = [];
         preguntaActual = null;
+        puedeDescartar = false;
+        condicionActual = null;
 
         generarNumerosEnPantalla();
         seleccionarPreguntas();
@@ -598,7 +595,6 @@
             }
         }
 
-        // Mezclar
         for (let i = numerosEnPantalla.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [numerosEnPantalla[i], numerosEnPantalla[j]] = [numerosEnPantalla[j], numerosEnPantalla[i]];
@@ -619,7 +615,7 @@
     function renderizarNumeros() {
         let html = '';
         numerosEnPantalla.forEach((num) => {
-            html += `<div class="numero-card" id="num-${num}">${num}</div>`;
+            html += `<div class="numero-card" id="num-${num}" onclick="intentarDescartar(${num})">${num}</div>`;
         });
         document.getElementById('numeros-grid').innerHTML = html;
     }
@@ -642,6 +638,10 @@
     function seleccionarPregunta(indice) {
         if (juegoTerminado) return;
         if (preguntasUsadas.includes(indice)) return;
+        if (puedeDescartar) {
+            alert('Primero descarta los números que ya no cumplen con la condición anterior.');
+            return;
+        }
 
         preguntaActual = { indice, ...preguntasDisponibles[indice] };
 
@@ -663,7 +663,6 @@
     function procesarRespuesta(respuestaUsuario) {
         if (!preguntaActual) return;
 
-        // Calcular la respuesta correcta según el número secreto
         const respuestaCorrecta = preguntaActual.evaluar(numeroSecreto);
         const esCorrecto = (respuestaUsuario === respuestaCorrecta);
 
@@ -673,52 +672,79 @@
         // Mostrar la respuesta
         const textoRespuesta = respuestaUsuario ? "Verdadero" : "Falso";
         document.getElementById('pregunta').textContent = `${preguntaActual.texto} → ${textoRespuesta}`;
+        document.getElementById('pregunta').style.color = esCorrecto ? '#27ae60' : '#c0392b';
 
         if (esCorrecto) {
-            // ✅ Respuesta correcta: descartar los números que NO cumplen con la condición
-            document.getElementById('pregunta').style.color = '#27ae60';
-            descartarNumeros(preguntaActual.evaluar, respuestaUsuario);
+            // Habilitar descarte de números
+            puedeDescartar = true;
+            condicionActual = {
+                evaluar: preguntaActual.evaluar,
+                respuesta: respuestaUsuario
+            };
+            document.getElementById('pregunta').textContent += ' — Ahora pueden descartar los números que no cumplen.';
         } else {
-            // ❌ Respuesta incorrecta: marcar error
+            // Error: no se puede descartar
             errores++;
-            document.getElementById('pregunta').style.color = '#c0392b';
-            document.getElementById('pregunta').textContent += ' ❌ (Error)';
+            document.getElementById('pregunta').textContent += ' ❌ (Error, no se descarta ningún número)';
+            puedeDescartar = false;
+            condicionActual = null;
         }
 
         renderizarPreguntas();
-
-        // Verificar si quedan preguntas
-        if (preguntasUsadas.length === MAX_PREGUNTAS) {
-            document.getElementById('pregunta').textContent += ' — ¡Ya no quedan preguntas!';
-        }
-
-        // Verificar si solo queda un número sin descartar
-        verificarGanador();
-
         preguntaActual = null;
     }
 
-    // ===== DESCARTAR NÚMEROS SEGÚN LA RESPUESTA =====
-    function descartarNumeros(evaluarFuncion, respuestaUsuario) {
-        numerosEnPantalla.forEach((num) => {
-            const card = document.getElementById(`num-${num}`);
-            if (!card || card.classList.contains('descartado')) return;
+    // ===== INTENTAR DESCARTAR UN NÚMERO =====
+    function intentarDescartar(num) {
+        if (juegoTerminado) return;
+        if (!puedeDescartar || !condicionActual) {
+            alert('Primero debes hacer una pregunta y responder correctamente para poder descartar números.');
+            return;
+        }
 
-            const cumple = evaluarFuncion(num);
+        const card = document.getElementById(`num-${num}`);
+        if (!card || card.classList.contains('descartado')) return;
+
+        // Verificar si el número cumple con la condición
+        const cumple = condicionActual.evaluar(num);
+        
+        // Si la respuesta fue Verdadero, se descartan los que NO cumplen
+        // Si la respuesta fue Falso, se descartan los que SÍ cumplen
+        let debeDescartarse = false;
+        if (condicionActual.respuesta === true) {
+            debeDescartarse = !cumple;
+        } else {
+            debeDescartarse = cumple;
+        }
+
+        // Verificar si es el número secreto (no se puede descartar)
+        if (num === numeroSecreto) {
+            errores++;
+            document.getElementById('pregunta').textContent = `❌ ¡Error! El ${num} es el número secreto. No se puede descartar.`;
+            document.getElementById('pregunta').style.color = '#c0392b';
+            card.style.borderColor = '#c0392b';
+            setTimeout(() => {
+                card.style.borderColor = '';
+            }, 1000);
+            return;
+        }
+
+        if (debeDescartarse) {
+            card.classList.add('descartado');
+            document.getElementById('pregunta').textContent = `✅ ${num} descartado correctamente. Sigan descartando o hagan otra pregunta.`;
+            document.getElementById('pregunta').style.color = '#27ae60';
             
-            // Si la respuesta fue Verdadero, se descartan los que NO cumplen
-            // Si la respuesta fue Falso, se descartan los que SÍ cumplen
-            let debeDescartarse = false;
-            if (respuestaUsuario === true) {
-                debeDescartarse = !cumple;  // Verdadero: descartar los que no cumplen
-            } else {
-                debeDescartarse = cumple;   // Falso: descartar los que sí cumplen
-            }
-
-            if (debeDescartarse) {
-                card.classList.add('descartado');
-            }
-        });
+            // Verificar si ya solo queda un número
+            verificarGanador();
+        } else {
+            errores++;
+            document.getElementById('pregunta').textContent = `❌ ¡Error! El ${num} SÍ cumple con la condición. No se puede descartar.`;
+            document.getElementById('pregunta').style.color = '#c0392b';
+            card.style.borderColor = '#c0392b';
+            setTimeout(() => {
+                card.style.borderColor = '';
+            }, 1000);
+        }
     }
 
     // ===== VERIFICAR GANADOR =====
@@ -756,9 +782,10 @@
         document.getElementById('preguntas-lista').style.display = 'none';
         document.getElementById('resultado').style.display = 'none';
         document.getElementById('numero-secreto').textContent = '?';
-        document.getElementById('tarjeta').classList.remove('revelada');
         juegoTerminado = false;
         errores = 0;
+        puedeDescartar = false;
+        condicionActual = null;
     }
 </script>
 </body>
