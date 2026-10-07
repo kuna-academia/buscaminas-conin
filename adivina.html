@@ -495,7 +495,8 @@
     let errores = 0;
     let puedeDescartar = false;
     let condicionActual = null;
-    let descartesRealizados = 0;  // Contador de descartes en la pregunta actual
+    let descartesRealizados = 0;
+    let modoDescarteLibre = false;  // Cuando se acaban las preguntas
 
     // ===== BANCO DE PREGUNTAS =====
     const bancoPreguntas = [
@@ -565,6 +566,7 @@
         puedeDescartar = false;
         condicionActual = null;
         descartesRealizados = 0;
+        modoDescarteLibre = false;
 
         generarNumerosEnPantalla();
         seleccionarPreguntas();
@@ -673,8 +675,6 @@
                 if (num === numeroSecreto) return false;
                 
                 const cumple = preguntaActual.evaluar(num);
-                // Si la respuesta fue Verdadero, se descartan los que NO cumplen
-                // Si la respuesta fue Falso, se descartan los que SÍ cumplen
                 if (respuestaUsuario === true) {
                     return !cumple;
                 } else {
@@ -683,10 +683,10 @@
             });
 
             if (numerosDescartables.length === 0) {
-                // No hay números que descartar con esta condición
                 document.getElementById('pregunta').textContent += ' — No hay números que descartar con esta condición. Haz otra pregunta.';
                 puedeDescartar = false;
                 condicionActual = null;
+                verificarPreguntasRestantes();
             } else {
                 puedeDescartar = true;
                 condicionActual = {
@@ -694,46 +694,74 @@
                     respuesta: respuestaUsuario
                 };
                 descartesRealizados = 0;
-                document.getElementById('pregunta').textContent += ` — Descarta UN número que no cumpla con la condición. Quedan ${numerosDescartables.length} por descartar.`;
+                document.getElementById('pregunta').textContent += ` — Descarta UN número que no cumpla con la condición.`;
             }
         } else {
             errores++;
             document.getElementById('pregunta').textContent += ' ❌ (Error, no se descarta ningún número)';
             puedeDescartar = false;
             condicionActual = null;
+            verificarPreguntasRestantes();
         }
 
         renderizarPreguntas();
         preguntaActual = null;
 
-        // Verificar si ya solo queda un número
         verificarGanador();
+    }
+
+    // ===== VERIFICAR SI QUEDAN PREGUNTAS =====
+    function verificarPreguntasRestantes() {
+        const preguntasRestantes = preguntasDisponibles.filter((p, i) => !preguntasUsadas.includes(i));
+        
+        if (preguntasRestantes.length === 0) {
+            // Ya no hay preguntas: activar modo de descarte libre
+            modoDescarteLibre = true;
+            puedeDescartar = false;
+            condicionActual = null;
+            document.getElementById('pregunta').textContent = '🎯 ¡Ya no quedan preguntas! Ahora pueden descartar números libremente hasta encontrar el correcto.';
+            document.getElementById('pregunta').style.color = '#e25e00';
+        }
     }
 
     // ===== INTENTAR DESCARTAR UN NÚMERO =====
     function intentarDescartar(num) {
         if (juegoTerminado) return;
-        if (!puedeDescartar || !condicionActual) {
-            alert('Primero debes hacer una pregunta y responder correctamente para poder descartar un número.');
-            return;
-        }
-        if (descartesRealizados >= 1) {
-            alert('Ya descartaste un número con esta pregunta. Haz otra pregunta para descartar otro.');
-            return;
-        }
-
-        const card = document.getElementById(`num-${num}`);
-        if (!card || card.classList.contains('descartado')) return;
 
         // Verificar si es el número secreto
         if (num === numeroSecreto) {
             errores++;
             document.getElementById('pregunta').textContent = `❌ ¡Error! El ${num} es el número secreto. No se puede descartar.`;
             document.getElementById('pregunta').style.color = '#c0392b';
-            card.style.borderColor = '#c0392b';
-            setTimeout(() => {
-                card.style.borderColor = '';
-            }, 1000);
+            const card = document.getElementById(`num-${num}`);
+            if (card) {
+                card.style.borderColor = '#c0392b';
+                setTimeout(() => {
+                    card.style.borderColor = '';
+                }, 1000);
+            }
+            return;
+        }
+
+        const card = document.getElementById(`num-${num}`);
+        if (!card || card.classList.contains('descartado')) return;
+
+        // Modo descarte libre (cuando se acaban las preguntas)
+        if (modoDescarteLibre) {
+            card.classList.add('descartado');
+            document.getElementById('pregunta').textContent = `✅ ${num} descartado. Sigan descartando hasta encontrar el número secreto.`;
+            document.getElementById('pregunta').style.color = '#27ae60';
+            verificarGanador();
+            return;
+        }
+
+        // Modo normal (con condición de pregunta)
+        if (!puedeDescartar || !condicionActual) {
+            alert('Primero debes hacer una pregunta y responder correctamente para poder descartar un número.');
+            return;
+        }
+        if (descartesRealizados >= 1) {
+            alert('Ya descartaste un número con esta pregunta. Haz otra pregunta para descartar otro.');
             return;
         }
 
@@ -749,35 +777,18 @@
         if (debeDescartarse) {
             card.classList.add('descartado');
             descartesRealizados++;
-            errores += 0;
             document.getElementById('pregunta').textContent = `✅ ${num} descartado correctamente.`;
             document.getElementById('pregunta').style.color = '#27ae60';
-            
-            // Verificar si ya solo queda un número
-            verificarGanador();
-
-            // Si aún quedan números por descartar con esta condición, informar
-            const numerosRestantes = numerosEnPantalla.filter(n => {
-                const c = document.getElementById(`num-${n}`);
-                if (!c || c.classList.contains('descartado')) return false;
-                if (n === numeroSecreto) return false;
-                const cumpleN = condicionActual.evaluar(n);
-                if (condicionActual.respuesta === true) {
-                    return !cumpleN;
-                } else {
-                    return cumpleN;
-                }
-            });
-
-            if (numerosRestantes.length > 0) {
-                document.getElementById('pregunta').textContent += ` Quedan ${numerosRestantes.length} números por descartar con esta condición. Haz otra pregunta.`;
-            } else {
-                document.getElementById('pregunta').textContent += ' Ya no hay más números que descartar con esta condición. Haz otra pregunta.';
-            }
 
             // Bloquear más descartes con esta pregunta
             puedeDescartar = false;
             condicionActual = null;
+
+            // Verificar si ya solo queda un número
+            verificarGanador();
+
+            // Verificar si quedan preguntas
+            verificarPreguntasRestantes();
         } else {
             errores++;
             document.getElementById('pregunta').textContent = `❌ ¡Error! El ${num} SÍ cumple con la condición. No se puede descartar.`;
@@ -829,6 +840,7 @@
         puedeDescartar = false;
         condicionActual = null;
         descartesRealizados = 0;
+        modoDescarteLibre = false;
     }
 </script>
 </body>
