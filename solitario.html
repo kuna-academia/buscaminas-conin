@@ -355,8 +355,8 @@
         #resultado .mensaje { font-size: 1rem; color: var(--azul-medio); margin-bottom: 15px; }
         #resultado .detalle { text-align: left; background: var(--azul-claro); border-radius: 8px; padding: 15px; margin-bottom: 15px; font-size: 0.95rem; }
         #resultado .detalle p { margin-bottom: 5px; }
-        #resultado .detalle .error-item { color: var(--rojo); }
-        #resultado .detalle .correcto-item { color: var(--verde); }
+        #resultado .detalle ul { margin-left: 20px; margin-bottom: 10px; }
+        #resultado .detalle li { margin-bottom: 3px; }
 
         footer {
             background: var(--azul-marino);
@@ -914,7 +914,6 @@
 
         // ===== VALIDAR MCD =====
         let mcdErrores = [];
-        // Verificar factores seleccionados
         for (let f of mcdSeleccionados) {
             const input = document.getElementById(`mcd-exp-${f}`);
             const exp = input ? parseInt(input.value) : NaN;
@@ -926,13 +925,11 @@
                 mcdErrores.push(`El exponente del factor ${f} en el MCD es incorrecto. Debe ser ${mcdFactores[f]} (el menor exponente).`);
             }
         }
-        // Verificar que no falten factores
         for (let p in mcdFactores) {
             if (!mcdSeleccionados.includes(parseInt(p))) {
                 mcdErrores.push(`Falta el factor ${p} en el MCD (es común en ambos números).`);
             }
         }
-        // Verificar resultado
         const mcdResultadoInput = document.getElementById('mcd-resultado-input');
         const mcdResultadoUsuario = parseInt(mcdResultadoInput.value);
         if (isNaN(mcdResultadoUsuario)) {
@@ -976,45 +973,55 @@
         document.getElementById('mcm-resultado').innerHTML = `MCM = ${mcmStr} = <strong>${mcmCorrecto}</strong> ${mcmErrores.length === 0 ? '✅' : '❌'}`;
 
         // ===== RESULTADO FINAL =====
+        const resultadoDiv = document.getElementById('resultado');
+        const mensajeFinal = document.getElementById('mensaje-final');
+        const detalleDiv = document.getElementById('detalle');
+        const titulo = document.getElementById('resultado-titulo');
+
         if (mcdErrores.length === 0 && mcmErrores.length === 0) {
-            // ¡Todo correcto!
-            document.getElementById('mensaje').textContent = '🎉 ¡Excelente! Calculaste correctamente el MCD y el MCM.';
-            document.getElementById('mensaje').style.color = '#27ae60';
             juegoTerminado = true;
-            mostrarResultadoFinal(true);
+            titulo.textContent = '🎉 ¡Felicidades!';
+            mensajeFinal.textContent = '¡Has encontrado el MCD y el MCM correctamente!';
+            mensajeFinal.style.color = '#27ae60';
+            detalleDiv.innerHTML = `
+                <p>✅ Completaste todas las fases del juego correctamente.</p>
+                <p>Vidas restantes: ${vidas}</p>
+                <p><strong>MCD:</strong> ${mcdStr} = ${mcdCorrecto}</p>
+                <p><strong>MCM:</strong> ${mcmStr} = ${mcmCorrecto}</p>
+            `;
+            resultadoDiv.style.display = 'block';
+            resultadoDiv.style.borderTopColor = '#27ae60';
+            resultadoDiv.scrollIntoView({ behavior: 'smooth' });
         } else {
-            // Hay errores
             juegoTerminado = true;
-            let detalle = '<h3>📝 Retroalimentación</h3>';
+            titulo.textContent = '❌ Juego terminado';
+            mensajeFinal.textContent = 'Revisa la retroalimentación para saber en qué fallaste.';
+            mensajeFinal.style.color = '#c0392b';
+            
+            let det = '<h3>📝 Retroalimentación</h3>';
             
             if (mcdErrores.length > 0) {
-                detalle += '<p><strong>Errores en el MCD:</strong></p><ul>';
-                mcdErrores.forEach(e => {
-                    detalle += `<li class="error-item">❌ ${e}</li>`;
-                });
-                detalle += '</ul>';
+                det += '<p><strong>Errores en el MCD:</strong></p><ul>';
+                mcdErrores.forEach(e => { det += `<li style="color: #c0392b;">❌ ${e}</li>`; });
+                det += '</ul>';
             }
             if (mcmErrores.length > 0) {
-                detalle += '<p><strong>Errores en el MCM:</strong></p><ul>';
-                mcmErrores.forEach(e => {
-                    detalle += `<li class="error-item">❌ ${e}</li>`;
-                });
-                detalle += '</ul>';
+                det += '<p><strong>Errores en el MCM:</strong></p><ul>';
+                mcmErrores.forEach(e => { det += `<li style="color: #c0392b;">❌ ${e}</li>`; });
+                det += '</ul>';
             }
 
-            detalle += `<p><strong>Factorizaciones correctas:</strong></p>`;
+            det += `<p><strong>Factorizaciones correctas:</strong></p>`;
             numeros.forEach(n => {
-                detalle += `<p class="correcto-item">✅ ${n.original} = ${formatearFactorizacion(factorizar(n.original))}</p>`;
+                det += `<p style="color: #27ae60;">✅ ${n.original} = ${formatearFactorizacion(factorizar(n.original))}</p>`;
             });
-            detalle += `<p><strong>MCD correcto:</strong> ${mcdStr} = ${mcdCorrecto}</p>`;
-            detalle += `<p><strong>MCM correcto:</strong> ${mcmStr} = ${mcmCorrecto}</p>`;
+            det += `<p><strong>MCD correcto:</strong> ${mcdStr} = ${mcdCorrecto}</p>`;
+            det += `<p><strong>MCM correcto:</strong> ${mcmStr} = ${mcmCorrecto}</p>`;
 
-            document.getElementById('resultado').style.display = 'block';
-            document.getElementById('resultado-titulo').textContent = '❌ Hubo errores en el MCD y/o MCM';
-            document.getElementById('mensaje-final').textContent = 'El juego ha terminado. Revisa la retroalimentación para saber en qué fallaste.';
-            document.getElementById('mensaje-final').style.color = '#c0392b';
-            document.getElementById('detalle').innerHTML = detalle;
-            document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
+            detalleDiv.innerHTML = det;
+            resultadoDiv.style.display = 'block';
+            resultadoDiv.style.borderTopColor = '#c0392b';
+            resultadoDiv.scrollIntoView({ behavior: 'smooth' });
         }
     }
 
@@ -1030,6 +1037,7 @@
             mensajeFinal.style.color = '#27ae60';
             detalleDiv.innerHTML = `<p>🎉 ¡Excelente trabajo! Completaste todas las fases del juego correctamente.</p>
                                     <p>Vidas restantes: ${vidas}</p>`;
+            resultado.style.borderTopColor = '#27ae60';
         } else {
             document.getElementById('resultado-titulo').textContent = '❌ Juego terminado';
             mensajeFinal.textContent = 'No se completó el juego correctamente.';
@@ -1038,13 +1046,12 @@
             let det = '<h3>📝 Retroalimentación</h3>';
             det += `<p>Factorizaciones correctas:</p>`;
             numeros.forEach(n => {
-                det += `<p class="correcto-item">✅ ${n.original} = ${formatearFactorizacion(factorizar(n.original))}</p>`;
+                det += `<p style="color: #27ae60;">✅ ${n.original} = ${formatearFactorizacion(factorizar(n.original))}</p>`;
             });
             
-            if (detalle) {
-                det += detalle;
-            }
+            if (detalle) det += detalle;
             detalleDiv.innerHTML = det;
+            resultado.style.borderTopColor = '#c0392b';
         }
 
         resultado.style.display = 'block';
