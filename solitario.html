@@ -17,6 +17,8 @@
             --gris-texto: #333333;
             --rojo: #c0392b;
             --verde: #27ae60;
+            --amarillo: #f1c40f;
+            --morado: #8e44ad;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -40,7 +42,7 @@
         header img { height: 50px; width: auto; display: block; }
         .header-texto { color: var(--blanco); font-size: 1.2rem; font-weight: 700; letter-spacing: 2px; }
 
-        .container { max-width: 950px; margin: 0 auto; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
 
         .titulo { text-align: center; margin: 15px 0; }
         .titulo h1 { color: var(--azul-marino); font-size: 1.6rem; margin-bottom: 3px; }
@@ -61,7 +63,10 @@
 
         #mensaje { font-size: 0.95rem; margin-top: 10px; font-weight: 600; text-align: center; min-height: 22px; }
 
-        .numeros-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin: 20px 0; }
+        /* ============================================
+           NÚMEROS A FACTORIZAR
+           ============================================ */
+        .numeros-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin: 20px 0; }
 
         .numero-card {
             background: var(--blanco);
@@ -69,7 +74,7 @@
             border-radius: 16px;
             padding: 15px;
             text-align: center;
-            width: 200px;
+            width: 220px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             transition: all 0.3s;
             cursor: pointer;
@@ -124,18 +129,8 @@
             border-top: 2px dashed var(--azul-medio);
         }
 
-        .exponente-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
-        }
-
-        .exponente-item .base {
-            font-size: 1.2rem;
-            font-weight: 900;
-            color: var(--azul-marino);
-        }
+        .exponente-item { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+        .exponente-item .base { font-size: 1.2rem; font-weight: 900; color: var(--azul-marino); }
 
         .exponente-item input {
             width: 50px;
@@ -153,6 +148,9 @@
         .exponente-item input.correcto { border-color: var(--verde); background: #e8f5e9; }
         .exponente-item input.incorrecto { border-color: var(--rojo); background: #ffebee; }
 
+        /* ============================================
+           BANCO DE FACTORES
+           ============================================ */
         .banco-container {
             background: var(--blanco);
             border-radius: 12px;
@@ -181,6 +179,9 @@
         .factor-btn:hover { background: var(--azul-hover); transform: translateY(-2px); }
         .factor-btn.seleccionado { background: var(--naranja); transform: scale(1.1); box-shadow: 0 0 0 3px rgba(226, 94, 0, 0.4); }
 
+        /* ============================================
+           PANEL DE VIDAS
+           ============================================ */
         .panel-superior {
             display: flex;
             justify-content: space-between;
@@ -197,6 +198,148 @@
         .vidas .corazon.perdido { opacity: 0.3; }
         .progreso-texto { font-size: 0.9rem; color: var(--azul-medio); font-weight: 500; }
 
+        /* ============================================
+           SECCIÓN MCD Y MCM
+           ============================================ */
+        #seccion-mcd-mcm {
+            display: none;
+            background: var(--blanco);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-top: 5px solid var(--morado);
+            margin-top: 20px;
+        }
+
+        #seccion-mcd-mcm h2 {
+            color: var(--azul-marino);
+            font-size: 1.3rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .factorizaciones-resumen {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            background: var(--azul-claro);
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .factorizacion-item {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--azul-marino);
+        }
+
+        .mcd-mcm-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .mcd-mcm-box {
+            flex: 1;
+            min-width: 280px;
+            background: var(--azul-claro);
+            border-radius: 12px;
+            padding: 15px;
+            border: 2px solid var(--azul-medio);
+        }
+
+        .mcd-mcm-box h3 {
+            color: var(--azul-marino);
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .mcd-mcm-box .indicacion {
+            font-size: 0.85rem;
+            color: var(--gris-texto);
+            text-align: center;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .factores-disponibles {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            min-height: 50px;
+            padding: 10px;
+            background: var(--blanco);
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .factor-opcion {
+            background: var(--blanco);
+            border: 2px solid var(--azul-medio);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--azul-marino);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .factor-opcion:hover { border-color: var(--naranja); transform: scale(1.05); }
+        .factor-opcion.seleccionado { background: var(--naranja); color: var(--blanco); border-color: var(--naranja); }
+
+        .factores-seleccionados {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            min-height: 50px;
+            padding: 10px;
+            background: var(--blanco);
+            border-radius: 8px;
+            border: 2px dashed var(--azul-medio);
+            margin-bottom: 10px;
+        }
+
+        .factor-seleccionado-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            background: #fff3e6;
+            border: 2px solid var(--naranja);
+            border-radius: 8px;
+            padding: 5px 10px;
+        }
+
+        .factor-seleccionado-item .base { font-size: 1.1rem; font-weight: 700; color: var(--azul-marino); }
+        .factor-seleccionado-item input {
+            width: 40px;
+            height: 30px;
+            border: 2px solid var(--azul-medio);
+            border-radius: 6px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+        .factor-seleccionado-item input:focus { outline: none; border-color: var(--naranja); }
+
+        .mcd-mcm-resultado {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--azul-marino);
+            margin-top: 10px;
+        }
+
+        /* ============================================
+           BOTONES
+           ============================================ */
         .btn {
             display: block;
             margin: 15px auto;
@@ -215,6 +358,15 @@
         .btn:hover { background: var(--naranja-hover); transform: translateY(-2px); }
         .btn:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
 
+        .btn-verde { background: var(--verde); }
+        .btn-verde:hover { background: #1e8449; }
+
+        .btn-morado { background: var(--morado); }
+        .btn-morado:hover { background: #6c3483; }
+
+        /* ============================================
+           RESULTADO
+           ============================================ */
         #resultado {
             display: none;
             background: var(--blanco);
@@ -245,7 +397,7 @@
             header img { height: 40px; }
             .header-texto { font-size: 1rem; }
             .titulo h1 { font-size: 1.3rem; }
-            .numero-card { width: 160px; padding: 12px; }
+            .numero-card { width: 180px; padding: 12px; }
             .factor-btn { padding: 10px 14px; font-size: 1.1rem; }
         }
     </style>
@@ -269,31 +421,64 @@
         <div class="vidas" id="vidas">
             Vidas: <span class="corazon">❤️</span> <span class="corazon">❤️</span> <span class="corazon">❤️</span>
         </div>
-        <div class="progreso-texto" id="progreso">Números factorizados: 0 / 4</div>
+        <div class="progreso-texto" id="progreso">Números factorizados: 0 / 2</div>
     </div>
 
     <div id="info">
         <div class="instrucciones">
-            <p>🎯 Selecciona un factor primo del banco y luego haz clic en el número donde quieras dividirlo.</p>
+            <p>🎯 Paso 1: Selecciona un factor primo del banco y luego haz clic en el número donde quieras dividirlo.</p>
             <p>✅ Si divide exactamente, el factor se acumula debajo del número.</p>
             <p>❌ Si no divide, pierdes una vida.</p>
-            <p>🏆 Cuando todos los números lleguen a 1, escribe los exponentes correspondientes.</p>
+            <p>📝 Paso 2: Cuando ambos números lleguen a 1, escribe los exponentes correspondientes.</p>
+            <p>🔍 Paso 3: Con las factorizaciones, calcula el MCD y el MCM.</p>
         </div>
         <div id="mensaje"></div>
     </div>
 
     <div class="numeros-container" id="numeros-container"></div>
 
-    <div class="banco-container">
+    <div class="banco-container" id="banco-container">
         <h3>🔢 Banco de factores primos</h3>
         <div class="factores-grid" id="factores-grid"></div>
     </div>
 
-    <button class="btn" id="btn-validar" onclick="validarTodo()" disabled>✅ Validar factorización</button>
+    <button class="btn" id="btn-validar" onclick="validarFactorizaciones()" disabled>✅ Validar factorizaciones</button>
+
+    <!-- ============================================
+         SECCIÓN MCD Y MCM
+         ============================================ -->
+    <div id="seccion-mcd-mcm">
+        <h2>🔍 Calcula el MCD y el MCM</h2>
+        
+        <div class="factorizaciones-resumen" id="factorizaciones-resumen"></div>
+
+        <div class="mcd-mcm-container">
+            <!-- MCD -->
+            <div class="mcd-mcm-box">
+                <h3>Máximo Común Divisor (MCD)</h3>
+                <div class="indicacion">Selecciona los factores comunes con el MENOR exponente.</div>
+                <div class="factores-disponibles" id="mcd-disponibles"></div>
+                <div class="factores-seleccionados" id="mcd-seleccionados"></div>
+                <div class="mcd-mcm-resultado" id="mcd-resultado">MCD = ?</div>
+            </div>
+
+            <!-- MCM -->
+            <div class="mcd-mcm-box">
+                <h3>Mínimo Común Múltiplo (MCM)</h3>
+                <div class="indicacion">Selecciona TODOS los factores primos con el MAYOR exponente.</div>
+                <div class="factores-disponibles" id="mcm-disponibles"></div>
+                <div class="factores-seleccionados" id="mcm-seleccionados"></div>
+                <div class="mcd-mcm-resultado" id="mcm-resultado">MCM = ?</div>
+            </div>
+        </div>
+
+        <button class="btn btn-morado" onclick="validarMcdMcm()">🔍 Validar MCD y MCM</button>
+    </div>
+
     <button class="btn" style="background: var(--azul-medio);" onclick="reiniciarJuego()">🔄 Nuevo Juego</button>
 
     <div id="resultado">
-        <h2>📚 Resultado</h2>
+        <h2>📚 Resultado Final</h2>
         <div class="mensaje" id="mensaje-final"></div>
         <div class="detalle" id="detalle"></div>
     </div>
@@ -308,7 +493,7 @@
 <script>
     const NUM_MIN = 2;
     const NUM_MAX = 100;
-    const CANTIDAD_NUMEROS = 4;
+    const CANTIDAD_NUMEROS = 2;
     const VIDAS_INICIALES = 3;
 
     let numeros = [];
@@ -317,6 +502,11 @@
     let factorizados = 0;
     let juegoTerminado = false;
     let bancoFactores = [];
+    let faseActual = 'factorizacion'; // 'factorizacion' | 'mcd-mcm' | 'terminado'
+
+    // Para MCD y MCM
+    let mcdSeleccionados = [];
+    let mcmSeleccionados = [];
 
     function esPrimo(n) {
         if (n < 2) return false;
@@ -365,7 +555,7 @@
             }
         });
         const primosDistractores = [2, 3, 5, 7, 11, 13, 17, 19];
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 4; i++) {
             banco.push(primosDistractores[Math.floor(Math.random() * primosDistractores.length)]);
         }
         for (let i = banco.length - 1; i > 0; i--) {
@@ -387,10 +577,14 @@
         vidas = VIDAS_INICIALES;
         factorizados = 0;
         juegoTerminado = false;
+        faseActual = 'factorizacion';
+        mcdSeleccionados = [];
+        mcmSeleccionados = [];
         bancoFactores = generarBancoFactores();
 
         document.getElementById('mensaje').textContent = '';
         document.getElementById('btn-validar').disabled = true;
+        document.getElementById('seccion-mcd-mcm').style.display = 'none';
         document.getElementById('resultado').style.display = 'none';
 
         renderizarNumeros();
@@ -413,7 +607,6 @@
                 slotsHTML = `<div class="factor-slot">?</div>`;
             }
 
-            // Si está factorizado, mostrar inputs de exponentes
             let exponentesHTML = '';
             if (n.factorizado) {
                 let conteo = {};
@@ -453,7 +646,7 @@
     }
 
     function seleccionarFactor(indice) {
-        if (juegoTerminado) return;
+        if (juegoTerminado || faseActual !== 'factorizacion') return;
         factorSeleccionado = (factorSeleccionado === indice) ? null : indice;
         renderizarFactores();
         if (factorSeleccionado !== null) {
@@ -463,7 +656,7 @@
     }
 
     function seleccionarNumero(indice) {
-        if (juegoTerminado) return;
+        if (juegoTerminado || faseActual !== 'factorizacion') return;
         if (numeros[indice].factorizado) return;
         if (factorSeleccionado === null) {
             document.getElementById('mensaje').textContent = 'Primero selecciona un factor primo del banco.';
@@ -492,7 +685,7 @@
             renderizarNumeros();
             renderizarFactores();
             actualizarPanel();
-            verificarFinJuego();
+            verificarFinFactorizacion();
         } else {
             vidas--;
             factorSeleccionado = null;
@@ -505,7 +698,7 @@
             }
             renderizarFactores();
             actualizarPanel();
-            verificarFinJuego();
+            verificarFinFactorizacion();
         }
     }
 
@@ -518,7 +711,7 @@
         document.getElementById('progreso').textContent = `Números factorizados: ${factorizados} / ${CANTIDAD_NUMEROS}`;
     }
 
-    function verificarFinJuego() {
+    function verificarFinFactorizacion() {
         if (vidas <= 0) {
             juegoTerminado = true;
             document.getElementById('mensaje').textContent = '💀 ¡Perdiste todas tus vidas!';
@@ -526,12 +719,13 @@
             mostrarResultadoFinal(false);
         } else if (factorizados === CANTIDAD_NUMEROS) {
             document.getElementById('btn-validar').disabled = false;
-            document.getElementById('mensaje').textContent = '🎉 ¡Todos factorizados! Escribe los exponentes.';
+            document.getElementById('mensaje').textContent = '🎉 ¡Ambos números factorizados! Escribe los exponentes.';
             document.getElementById('mensaje').style.color = '#27ae60';
         }
     }
 
-    function validarTodo() {
+    // ===== VALIDAR FACTORIZACIONES =====
+    function validarFactorizaciones() {
         let todasCorrectas = true;
         let detalle = '';
 
@@ -562,9 +756,223 @@
             detalle += `<p>${esCorrecta ? '✅' : '❌'} ${n.original} = ${correctaStr} ${!esCorrecta ? `(tu respuesta: ${usuarioStr.join(' * ')})` : ''}</p>`;
         });
 
-        mostrarResultadoFinal(todasCorrectas, detalle);
+        if (todasCorrectas) {
+            // Pasar a la fase de MCD y MCM
+            faseActual = 'mcd-mcm';
+            document.getElementById('mensaje').textContent = '🎉 ¡Factorizaciones correctas! Ahora calcula el MCD y el MCM.';
+            document.getElementById('mensaje').style.color = '#27ae60';
+            document.getElementById('btn-validar').disabled = true;
+            document.getElementById('banco-container').style.display = 'none';
+            mostrarSeccionMcdMcm();
+        } else {
+            document.getElementById('resultado').style.display = 'block';
+            document.getElementById('mensaje-final').textContent = '❌ Hay errores en las factorizaciones. Corrige y vuelve a validar.';
+            document.getElementById('mensaje-final').style.color = '#c0392b';
+            document.getElementById('detalle').innerHTML = detalle;
+            document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
+        }
     }
 
+    // ===== MOSTRAR SECCIÓN MCD Y MCM =====
+    function mostrarSeccionMcdMcm() {
+        const seccion = document.getElementById('seccion-mcd-mcm');
+        seccion.style.display = 'block';
+
+        // Mostrar factorizaciones
+        const resumen = document.getElementById('factorizaciones-resumen');
+        let resumenHTML = '';
+        numeros.forEach(n => {
+            const factores = factorizar(n.original);
+            resumenHTML += `<div class="factorizacion-item">${n.original} = ${formatearFactorizacion(factores)}</div>`;
+        });
+        resumen.innerHTML = resumenHTML;
+
+        // Generar factores disponibles para MCD y MCM
+        generarFactoresDisponibles();
+
+        // Scroll
+        seccion.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // ===== GENERAR FACTORES DISPONIBLES =====
+    function generarFactoresDisponibles() {
+        // Obtener todos los factores primos de ambos números
+        let todosFactores = new Set();
+        numeros.forEach(n => {
+            const factores = factorizar(n.original);
+            for (let p in factores) todosFactores.add(parseInt(p));
+        });
+
+        // MCD: factores disponibles (solo los comunes)
+        let factoresComunes = [];
+        const f1 = factorizar(numeros[0].original);
+        const f2 = factorizar(numeros[1].original);
+        for (let p in f1) {
+            if (f2[p]) factoresComunes.push(parseInt(p));
+        }
+
+        // MCM: todos los factores disponibles
+        let factoresTodos = Array.from(todosFactores);
+
+        // Renderizar MCD
+        let mcdHTML = '';
+        factoresComunes.forEach(f => {
+            mcdHTML += `<button class="factor-opcion" onclick="toggleFactorMcd(${f})">${f}</button>`;
+        });
+        document.getElementById('mcd-disponibles').innerHTML = mcdHTML;
+
+        // Renderizar MCM
+        let mcmHTML = '';
+        factoresTodos.forEach(f => {
+            mcmHTML += `<button class="factor-opcion" onclick="toggleFactorMcm(${f})">${f}</button>`;
+        });
+        document.getElementById('mcm-disponibles').innerHTML = mcmHTML;
+
+        // Inicializar seleccionados
+        mcdSeleccionados = [];
+        mcmSeleccionados = [];
+        renderizarSeleccionados();
+    }
+
+    // ===== TOGGLE FACTOR MCD =====
+    function toggleFactorMcd(factor) {
+        const idx = mcdSeleccionados.indexOf(factor);
+        if (idx >= 0) {
+            mcdSeleccionados.splice(idx, 1);
+        } else {
+            mcdSeleccionados.push(factor);
+        }
+        renderizarSeleccionados();
+    }
+
+    // ===== TOGGLE FACTOR MCM =====
+    function toggleFactorMcm(factor) {
+        const idx = mcmSeleccionados.indexOf(factor);
+        if (idx >= 0) {
+            mcmSeleccionados.splice(idx, 1);
+        } else {
+            mcmSeleccionados.push(factor);
+        }
+        renderizarSeleccionados();
+    }
+
+    // ===== RENDERIZAR SELECCIONADOS =====
+    function renderizarSeleccionados() {
+        // MCD
+        let mcdHTML = '';
+        mcdSeleccionados.forEach(f => {
+            mcdHTML += `
+                <div class="factor-seleccionado-item">
+                    <div class="base">${f}^</div>
+                    <input type="number" min="1" id="mcd-exp-${f}" placeholder="exp">
+                </div>
+            `;
+        });
+        document.getElementById('mcd-seleccionados').innerHTML = mcdHTML;
+
+        // MCM
+        let mcmHTML = '';
+        mcmSeleccionados.forEach(f => {
+            mcmHTML += `
+                <div class="factor-seleccionado-item">
+                    <div class="base">${f}^</div>
+                    <input type="number" min="1" id="mcm-exp-${f}" placeholder="exp">
+                </div>
+            `;
+        });
+        document.getElementById('mcm-seleccionados').innerHTML = mcmHTML;
+
+        // Actualizar botones de disponibles
+        document.querySelectorAll('#mcd-disponibles .factor-opcion').forEach(btn => {
+            const f = parseInt(btn.textContent);
+            btn.classList.toggle('seleccionado', mcdSeleccionados.includes(f));
+        });
+        document.querySelectorAll('#mcm-disponibles .factor-opcion').forEach(btn => {
+            const f = parseInt(btn.textContent);
+            btn.classList.toggle('seleccionado', mcmSeleccionados.includes(f));
+        });
+    }
+
+    // ===== VALIDAR MCD Y MCM =====
+    function validarMcdMcm() {
+        const f1 = factorizar(numeros[0].original);
+        const f2 = factorizar(numeros[1].original);
+
+        // Calcular MCD correcto
+        let mcdCorrecto = 1;
+        let mcdFactores = {};
+        for (let p in f1) {
+            if (f2[p]) {
+                const minExp = Math.min(f1[p], f2[p]);
+                mcdFactores[p] = minExp;
+                mcdCorrecto *= Math.pow(parseInt(p), minExp);
+            }
+        }
+
+        // Calcular MCM correcto
+        let mcmCorrecto = 1;
+        let mcmFactores = {};
+        let todosPrimos = new Set([...Object.keys(f1), ...Object.keys(f2)]);
+        for (let p of todosPrimos) {
+            const maxExp = Math.max(f1[p] || 0, f2[p] || 0);
+            mcmFactores[p] = maxExp;
+            mcmCorrecto *= Math.pow(parseInt(p), maxExp);
+        }
+
+        // Validar MCD del usuario
+        let mcdUsuarioCorrecto = true;
+        let mcdUsuarioStr = [];
+        for (let f of mcdSeleccionados) {
+            const input = document.getElementById(`mcd-exp-${f}`);
+            const exp = input ? parseInt(input.value) : NaN;
+            if (isNaN(exp) || exp !== mcdFactores[f]) {
+                mcdUsuarioCorrecto = false;
+            }
+            mcdUsuarioStr.push(`${f}^${isNaN(exp) ? '?' : exp}`);
+        }
+        // Verificar que no falten factores
+        for (let p in mcdFactores) {
+            if (!mcdSeleccionados.includes(parseInt(p))) {
+                mcdUsuarioCorrecto = false;
+            }
+        }
+
+        // Validar MCM del usuario
+        let mcmUsuarioCorrecto = true;
+        let mcmUsuarioStr = [];
+        for (let f of mcmSeleccionados) {
+            const input = document.getElementById(`mcm-exp-${f}`);
+            const exp = input ? parseInt(input.value) : NaN;
+            if (isNaN(exp) || exp !== mcmFactores[f]) {
+                mcmUsuarioCorrecto = false;
+            }
+            mcmUsuarioStr.push(`${f}^${isNaN(exp) ? '?' : exp}`);
+        }
+        for (let p in mcmFactores) {
+            if (!mcmSeleccionados.includes(parseInt(p))) {
+                mcmUsuarioCorrecto = false;
+            }
+        }
+
+        // Mostrar resultados
+        const mcdStr = Object.entries(mcdFactores).map(([b, e]) => e === 1 ? b : `${b}^${e}`).join(' * ') || '1';
+        const mcmStr = Object.entries(mcmFactores).map(([b, e]) => e === 1 ? b : `${b}^${e}`).join(' * ');
+
+        document.getElementById('mcd-resultado').innerHTML = `MCD = ${mcdStr} = <strong>${mcdCorrecto}</strong> ${mcdUsuarioCorrecto ? '✅' : '❌'}`;
+        document.getElementById('mcm-resultado').innerHTML = `MCM = ${mcmStr} = <strong>${mcmCorrecto}</strong> ${mcmUsuarioCorrecto ? '✅' : '❌'}`;
+
+        if (mcdUsuarioCorrecto && mcmUsuarioCorrecto) {
+            document.getElementById('mensaje').textContent = '🎉 ¡Excelente! Calculaste correctamente el MCD y el MCM.';
+            document.getElementById('mensaje').style.color = '#27ae60';
+            juegoTerminado = true;
+            mostrarResultadoFinal(true);
+        } else {
+            document.getElementById('mensaje').textContent = '❌ Hay errores en el MCD o MCM. Revisa tu selección.';
+            document.getElementById('mensaje').style.color = '#c0392b';
+        }
+    }
+
+    // ===== MOSTRAR RESULTADO FINAL =====
     function mostrarResultadoFinal(ganaste, detalle = '') {
         juegoTerminado = true;
         const resultado = document.getElementById('resultado');
@@ -572,10 +980,10 @@
         const detalleDiv = document.getElementById('detalle');
 
         if (ganaste) {
-            mensajeFinal.textContent = `🎉 ¡Felicidades! Factorizaste todo correctamente. Vidas: ${vidas}`;
+            mensajeFinal.textContent = `🎉 ¡Felicidades! Completaste la factorización, el MCD y el MCM. Vidas: ${vidas}`;
             mensajeFinal.style.color = '#27ae60';
         } else {
-            mensajeFinal.textContent = `❌ Hubo errores en la factorización. Vidas: ${vidas}`;
+            mensajeFinal.textContent = `❌ No se completó el juego. Vidas: ${vidas}`;
             mensajeFinal.style.color = '#c0392b';
         }
 
