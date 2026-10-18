@@ -468,8 +468,8 @@
 </footer>
 
 <script>
-    const NUM_MIN = 4;
-    const NUM_MAX = 40;
+    const NUM_MIN = 2;
+    const NUM_MAX = 100;
     const CANTIDAD_NUMEROS = 2;
     const VIDAS_INICIALES = 3;
 
@@ -494,6 +494,15 @@
         return true;
     }
 
+    function generarNumeros() {
+        let nums = [];
+        while (nums.length < CANTIDAD_NUMEROS) {
+            const num = Math.floor(Math.random() * (NUM_MAX - NUM_MIN + 1)) + NUM_MIN;
+            if (!esPrimo(num) && !nums.includes(num)) nums.push(num);
+        }
+        return nums;
+    }
+
     function factorizar(n) {
         let factores = {};
         let temp = n;
@@ -504,37 +513,6 @@
             }
         }
         return factores;
-    }
-
-    function calcularMcmDeDos(a, b) {
-        const f1 = factorizar(a);
-        const f2 = factorizar(b);
-        let todosPrimos = new Set([...Object.keys(f1), ...Object.keys(f2)]);
-        let mcm = 1;
-        for (let p of todosPrimos) {
-            const maxExp = Math.max(f1[p] || 0, f2[p] || 0);
-            mcm *= Math.pow(parseInt(p), maxExp);
-        }
-        return mcm;
-    }
-
-    function generarNumeros() {
-        let intentos = 0;
-        while (intentos < 100) {
-            let nums = [];
-            while (nums.length < CANTIDAD_NUMEROS) {
-                const num = Math.floor(Math.random() * (NUM_MAX - NUM_MIN + 1)) + NUM_MIN;
-                if (!esPrimo(num) && !nums.includes(num)) {
-                    nums.push(num);
-                }
-            }
-            const mcm = calcularMcmDeDos(nums[0], nums[1]);
-            if (mcm <= 200) {
-                return nums;
-            }
-            intentos++;
-        }
-        return [12, 18];
     }
 
     function formatearFactorizacion(factores) {
@@ -554,8 +532,8 @@
                 for (let i = 0; i < factores[p]; i++) banco.push(parseInt(p));
             }
         });
-        const primosDistractores = [2, 3, 5, 7];
-        for (let i = 0; i < 3; i++) {
+        const primosDistractores = [2, 3, 5, 7, 11, 13, 17, 19];
+        for (let i = 0; i < 4; i++) {
             banco.push(primosDistractores[Math.floor(Math.random() * primosDistractores.length)]);
         }
         for (let i = banco.length - 1; i > 0; i--) {
@@ -585,12 +563,12 @@
         mcmExponentes = {};
         bancoFactores = generarBancoFactores();
 
-        // Ocultar resultado previo
-        document.getElementById('resultado').style.display = 'none';
-        document.getElementById('seccion-mcd-mcm').style.display = 'none';
-        document.getElementById('banco-container').style.display = 'block';
-        document.getElementById('btn-validar').disabled = true;
         document.getElementById('mensaje').textContent = '';
+        document.getElementById('btn-validar').disabled = true;
+        document.getElementById('seccion-mcd-mcm').style.display = 'none';
+        document.getElementById('resultado').style.display = 'none';
+        document.getElementById('banco-container').style.display = 'block';
+        document.getElementById('resultado-titulo').textContent = '📚 Resultado Final';
 
         // Limpiar inputs de MCD y MCM
         document.getElementById('mcd-resultado-input').value = '';
@@ -1012,6 +990,7 @@
         const titulo = document.getElementById('resultado-titulo');
 
         if (mcdErrores.length === 0 && mcmErrores.length === 0) {
+            // 🎉 TODO CORRECTO
             juegoTerminado = true;
             titulo.textContent = '🎉 ¡Felicidades!';
             mensajeFinal.textContent = '¡Has encontrado el MCD y el MCM correctamente!';
@@ -1026,7 +1005,7 @@
             resultadoDiv.style.borderTopColor = '#27ae60';
             resultadoDiv.scrollIntoView({ behavior: 'smooth' });
         } else {
-            // ❌ NO terminar el juego, solo retroalimentar
+            // ❌ HAY ERRORES → NO terminar el juego, solo retroalimentar
             titulo.textContent = '⚠️ Revisa tus respuestas';
             mensajeFinal.textContent = 'Hay errores. Corrige y vuelve a validar.';
             mensajeFinal.style.color = '#c0392b';
