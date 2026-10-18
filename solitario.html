@@ -483,6 +483,8 @@
 
     let mcdSeleccionados = [];
     let mcmSeleccionados = [];
+    let mcdExponentes = {};
+    let mcmExponentes = {};
 
     function esPrimo(n) {
         if (n < 2) return false;
@@ -494,10 +496,30 @@
 
     function generarNumeros() {
         let nums = [];
+        const NUM_MIN_LOCAL = 4;
+        const NUM_MAX_LOCAL = 40;
+
         while (nums.length < CANTIDAD_NUMEROS) {
-            const num = Math.floor(Math.random() * (NUM_MAX - NUM_MIN + 1)) + NUM_MIN;
-            if (!esPrimo(num) && !nums.includes(num)) nums.push(num);
+            const num = Math.floor(Math.random() * (NUM_MAX_LOCAL - NUM_MIN_LOCAL + 1)) + NUM_MIN_LOCAL;
+            if (!esPrimo(num) && !nums.includes(num)) {
+                nums.push(num);
+            }
         }
+
+        // Verificar que el MCM no sea demasiado grande
+        const f1 = factorizar(nums[0]);
+        const f2 = factorizar(nums[1]);
+        let mcm = 1;
+        let todosPrimos = new Set([...Object.keys(f1), ...Object.keys(f2)]);
+        for (let p of todosPrimos) {
+            const maxExp = Math.max(f1[p] || 0, f2[p] || 0);
+            mcm *= Math.pow(parseInt(p), maxExp);
+        }
+
+        if (mcm > 200) {
+            return generarNumeros();
+        }
+
         return nums;
     }
 
@@ -530,8 +552,8 @@
                 for (let i = 0; i < factores[p]; i++) banco.push(parseInt(p));
             }
         });
-        const primosDistractores = [2, 3, 5, 7, 11, 13, 17, 19];
-        for (let i = 0; i < 4; i++) {
+        const primosDistractores = [2, 3, 5, 7];
+        for (let i = 0; i < 3; i++) {
             banco.push(primosDistractores[Math.floor(Math.random() * primosDistractores.length)]);
         }
         for (let i = banco.length - 1; i > 0; i--) {
@@ -557,7 +579,17 @@
         faseActual = 'factorizacion';
         mcdSeleccionados = [];
         mcmSeleccionados = [];
+        mcdExponentes = {};
+        mcmExponentes = {};
         bancoFactores = generarBancoFactores();
+
+        // Limpiar inputs y clases de error
+        document.getElementById('mcd-resultado-input').value = '';
+        document.getElementById('mcd-resultado-input').className = '';
+        document.getElementById('mcm-resultado-input').value = '';
+        document.getElementById('mcm-resultado-input').className = '';
+        document.getElementById('mcd-resultado').innerHTML = 'MCD = ?';
+        document.getElementById('mcm-resultado').innerHTML = 'MCM = ?';
 
         document.getElementById('mensaje').textContent = '';
         document.getElementById('btn-validar').disabled = true;
@@ -817,6 +849,8 @@
 
         mcdSeleccionados = [];
         mcmSeleccionados = [];
+        mcdExponentes = {};
+        mcmExponentes = {};
         renderizarSeleccionados();
     }
 
@@ -833,9 +867,6 @@
         else mcmSeleccionados.push(factor);
         renderizarSeleccionados();
     }
-
-    let mcdExponentes = {};
-    let mcmExponentes = {};
 
     function guardarExponentesMcdMcm() {
         mcdSeleccionados.forEach(f => {
@@ -993,9 +1024,9 @@
             resultadoDiv.style.borderTopColor = '#27ae60';
             resultadoDiv.scrollIntoView({ behavior: 'smooth' });
         } else {
-            juegoTerminado = true;
-            titulo.textContent = '❌ Juego terminado';
-            mensajeFinal.textContent = 'Revisa la retroalimentación para saber en qué fallaste.';
+            // ❌ NO terminar el juego
+            titulo.textContent = '⚠️ Revisa tus respuestas';
+            mensajeFinal.textContent = 'Hay errores. Corrige y vuelve a validar.';
             mensajeFinal.style.color = '#c0392b';
             
             let det = '<h3>📝 Retroalimentación</h3>';
@@ -1011,16 +1042,9 @@
                 det += '</ul>';
             }
 
-            det += `<p><strong>Factorizaciones correctas:</strong></p>`;
-            numeros.forEach(n => {
-                det += `<p style="color: #27ae60;">✅ ${n.original} = ${formatearFactorizacion(factorizar(n.original))}</p>`;
-            });
-            det += `<p><strong>MCD correcto:</strong> ${mcdStr} = ${mcdCorrecto}</p>`;
-            det += `<p><strong>MCM correcto:</strong> ${mcmStr} = ${mcmCorrecto}</p>`;
-
             detalleDiv.innerHTML = det;
             resultadoDiv.style.display = 'block';
-            resultadoDiv.style.borderTopColor = '#c0392b';
+            resultadoDiv.style.borderTopColor = '#e25e00';
             resultadoDiv.scrollIntoView({ behavior: 'smooth' });
         }
     }
