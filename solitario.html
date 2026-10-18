@@ -17,7 +17,6 @@
             --gris-texto: #333333;
             --rojo: #c0392b;
             --verde: #27ae60;
-            --amarillo: #f1c40f;
             --morado: #8e44ad;
         }
 
@@ -63,9 +62,6 @@
 
         #mensaje { font-size: 0.95rem; margin-top: 10px; font-weight: 600; text-align: center; min-height: 22px; }
 
-        /* ============================================
-           NÚMEROS A FACTORIZAR
-           ============================================ */
         .numeros-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin: 20px 0; }
 
         .numero-card {
@@ -148,9 +144,6 @@
         .exponente-item input.correcto { border-color: var(--verde); background: #e8f5e9; }
         .exponente-item input.incorrecto { border-color: var(--rojo); background: #ffebee; }
 
-        /* ============================================
-           BANCO DE FACTORES
-           ============================================ */
         .banco-container {
             background: var(--blanco);
             border-radius: 12px;
@@ -179,9 +172,6 @@
         .factor-btn:hover { background: var(--azul-hover); transform: translateY(-2px); }
         .factor-btn.seleccionado { background: var(--naranja); transform: scale(1.1); box-shadow: 0 0 0 3px rgba(226, 94, 0, 0.4); }
 
-        /* ============================================
-           PANEL DE VIDAS
-           ============================================ */
         .panel-superior {
             display: flex;
             justify-content: space-between;
@@ -198,9 +188,6 @@
         .vidas .corazon.perdido { opacity: 0.3; }
         .progreso-texto { font-size: 0.9rem; color: var(--azul-medio); font-weight: 500; }
 
-        /* ============================================
-           SECCIÓN MCD Y MCM
-           ============================================ */
         #seccion-mcd-mcm {
             display: none;
             background: var(--blanco);
@@ -211,12 +198,7 @@
             margin-top: 20px;
         }
 
-        #seccion-mcd-mcm h2 {
-            color: var(--azul-marino);
-            font-size: 1.3rem;
-            text-align: center;
-            margin-bottom: 15px;
-        }
+        #seccion-mcd-mcm h2 { color: var(--azul-marino); font-size: 1.3rem; text-align: center; margin-bottom: 15px; }
 
         .factorizaciones-resumen {
             display: flex;
@@ -229,18 +211,9 @@
             padding: 15px;
         }
 
-        .factorizacion-item {
-            text-align: center;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--azul-marino);
-        }
+        .factorizacion-item { text-align: center; font-size: 1.1rem; font-weight: 700; color: var(--azul-marino); }
 
-        .mcd-mcm-container {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
+        .mcd-mcm-container { display: flex; gap: 20px; flex-wrap: wrap; }
 
         .mcd-mcm-box {
             flex: 1;
@@ -251,20 +224,8 @@
             border: 2px solid var(--azul-medio);
         }
 
-        .mcd-mcm-box h3 {
-            color: var(--azul-marino);
-            font-size: 1.1rem;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .mcd-mcm-box .indicacion {
-            font-size: 0.85rem;
-            color: var(--gris-texto);
-            text-align: center;
-            margin-bottom: 10px;
-            font-style: italic;
-        }
+        .mcd-mcm-box h3 { color: var(--azul-marino); font-size: 1.1rem; text-align: center; margin-bottom: 10px; }
+        .mcd-mcm-box .indicacion { font-size: 0.85rem; color: var(--gris-texto); text-align: center; margin-bottom: 10px; font-style: italic; }
 
         .factores-disponibles {
             display: flex;
@@ -329,17 +290,8 @@
         }
         .factor-seleccionado-item input:focus { outline: none; border-color: var(--naranja); }
 
-        .mcd-mcm-resultado {
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--azul-marino);
-            margin-top: 10px;
-        }
+        .mcd-mcm-resultado { text-align: center; font-size: 1.2rem; font-weight: 700; color: var(--azul-marino); margin-top: 10px; }
 
-        /* ============================================
-           BOTONES
-           ============================================ */
         .btn {
             display: block;
             margin: 15px auto;
@@ -364,9 +316,6 @@
         .btn-morado { background: var(--morado); }
         .btn-morado:hover { background: #6c3483; }
 
-        /* ============================================
-           RESULTADO
-           ============================================ */
         #resultado {
             display: none;
             background: var(--blanco);
@@ -444,16 +393,12 @@
 
     <button class="btn" id="btn-validar" onclick="validarFactorizaciones()" disabled>✅ Validar factorizaciones</button>
 
-    <!-- ============================================
-         SECCIÓN MCD Y MCM
-         ============================================ -->
     <div id="seccion-mcd-mcm">
         <h2>🔍 Calcula el MCD y el MCM</h2>
         
         <div class="factorizaciones-resumen" id="factorizaciones-resumen"></div>
 
         <div class="mcd-mcm-container">
-            <!-- MCD -->
             <div class="mcd-mcm-box">
                 <h3>Máximo Común Divisor (MCD)</h3>
                 <div class="indicacion">Selecciona los factores comunes con el MENOR exponente.</div>
@@ -462,7 +407,6 @@
                 <div class="mcd-mcm-resultado" id="mcd-resultado">MCD = ?</div>
             </div>
 
-            <!-- MCM -->
             <div class="mcd-mcm-box">
                 <h3>Mínimo Común Múltiplo (MCM)</h3>
                 <div class="indicacion">Selecciona TODOS los factores primos con el MAYOR exponente.</div>
@@ -502,7 +446,7 @@
     let factorizados = 0;
     let juegoTerminado = false;
     let bancoFactores = [];
-    let faseActual = 'factorizacion'; // 'factorizacion' | 'mcd-mcm' | 'terminado'
+    let faseActual = 'factorizacion';
 
     // Para MCD y MCM
     let mcdSeleccionados = [];
@@ -571,7 +515,8 @@
             valor: n,
             original: n,
             factorizado: false,
-            factores: []
+            factores: [],
+            exponentes: {}  // Aquí guardamos los exponentes ingresados
         }));
         factorSeleccionado = null;
         vidas = VIDAS_INICIALES;
@@ -592,7 +537,26 @@
         actualizarPanel();
     }
 
+    // ===== GUARDAR EXPONENTES ANTES DE RENDERIZAR =====
+    function guardarExponentes() {
+        numeros.forEach((n, i) => {
+            if (n.factorizado) {
+                let conteo = {};
+                n.factores.forEach(f => { conteo[f] = (conteo[f] || 0) + 1; });
+                for (let base in conteo) {
+                    const input = document.getElementById(`exp-${i}-${base}`);
+                    if (input) {
+                        n.exponentes[base] = input.value;
+                    }
+                }
+            }
+        });
+    }
+
     function renderizarNumeros() {
+        // Primero guardar los exponentes actuales
+        guardarExponentes();
+
         let html = '';
         numeros.forEach((n, i) => {
             const clase = n.factorizado ? 'factorizado' : '';
@@ -614,10 +578,12 @@
                 
                 exponentesHTML = '<div class="exponentes-container">';
                 for (let base in conteo) {
+                    // Restaurar el valor del exponente si existe
+                    const valorGuardado = n.exponentes[base] || '';
                     exponentesHTML += `
                         <div class="exponente-item">
                             <div class="base">${base}^</div>
-                            <input type="number" min="1" id="exp-${i}-${base}" placeholder="exp">
+                            <input type="number" min="1" id="exp-${i}-${base}" placeholder="exp" value="${valorGuardado}">
                         </div>
                     `;
                 }
@@ -726,6 +692,9 @@
 
     // ===== VALIDAR FACTORIZACIONES =====
     function validarFactorizaciones() {
+        // Guardar los exponentes actuales antes de validar
+        guardarExponentes();
+
         let todasCorrectas = true;
         let detalle = '';
 
@@ -757,7 +726,6 @@
         });
 
         if (todasCorrectas) {
-            // Pasar a la fase de MCD y MCM
             faseActual = 'mcd-mcm';
             document.getElementById('mensaje').textContent = '🎉 ¡Factorizaciones correctas! Ahora calcula el MCD y el MCM.';
             document.getElementById('mensaje').style.color = '#27ae60';
@@ -773,12 +741,10 @@
         }
     }
 
-    // ===== MOSTRAR SECCIÓN MCD Y MCM =====
     function mostrarSeccionMcdMcm() {
         const seccion = document.getElementById('seccion-mcd-mcm');
         seccion.style.display = 'block';
 
-        // Mostrar factorizaciones
         const resumen = document.getElementById('factorizaciones-resumen');
         let resumenHTML = '';
         numeros.forEach(n => {
@@ -787,23 +753,17 @@
         });
         resumen.innerHTML = resumenHTML;
 
-        // Generar factores disponibles para MCD y MCM
         generarFactoresDisponibles();
-
-        // Scroll
         seccion.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // ===== GENERAR FACTORES DISPONIBLES =====
     function generarFactoresDisponibles() {
-        // Obtener todos los factores primos de ambos números
         let todosFactores = new Set();
         numeros.forEach(n => {
             const factores = factorizar(n.original);
             for (let p in factores) todosFactores.add(parseInt(p));
         });
 
-        // MCD: factores disponibles (solo los comunes)
         let factoresComunes = [];
         const f1 = factorizar(numeros[0].original);
         const f2 = factorizar(numeros[1].original);
@@ -811,78 +771,82 @@
             if (f2[p]) factoresComunes.push(parseInt(p));
         }
 
-        // MCM: todos los factores disponibles
         let factoresTodos = Array.from(todosFactores);
 
-        // Renderizar MCD
         let mcdHTML = '';
         factoresComunes.forEach(f => {
             mcdHTML += `<button class="factor-opcion" onclick="toggleFactorMcd(${f})">${f}</button>`;
         });
         document.getElementById('mcd-disponibles').innerHTML = mcdHTML;
 
-        // Renderizar MCM
         let mcmHTML = '';
         factoresTodos.forEach(f => {
             mcmHTML += `<button class="factor-opcion" onclick="toggleFactorMcm(${f})">${f}</button>`;
         });
         document.getElementById('mcm-disponibles').innerHTML = mcmHTML;
 
-        // Inicializar seleccionados
         mcdSeleccionados = [];
         mcmSeleccionados = [];
         renderizarSeleccionados();
     }
 
-    // ===== TOGGLE FACTOR MCD =====
     function toggleFactorMcd(factor) {
         const idx = mcdSeleccionados.indexOf(factor);
-        if (idx >= 0) {
-            mcdSeleccionados.splice(idx, 1);
-        } else {
-            mcdSeleccionados.push(factor);
-        }
+        if (idx >= 0) mcdSeleccionados.splice(idx, 1);
+        else mcdSeleccionados.push(factor);
         renderizarSeleccionados();
     }
 
-    // ===== TOGGLE FACTOR MCM =====
     function toggleFactorMcm(factor) {
         const idx = mcmSeleccionados.indexOf(factor);
-        if (idx >= 0) {
-            mcmSeleccionados.splice(idx, 1);
-        } else {
-            mcmSeleccionados.push(factor);
-        }
+        if (idx >= 0) mcmSeleccionados.splice(idx, 1);
+        else mcmSeleccionados.push(factor);
         renderizarSeleccionados();
     }
 
-    // ===== RENDERIZAR SELECCIONADOS =====
+    // ===== GUARDAR EXPONENTES DE MCD Y MCM =====
+    let mcdExponentes = {};
+    let mcmExponentes = {};
+
+    function guardarExponentesMcdMcm() {
+        mcdSeleccionados.forEach(f => {
+            const input = document.getElementById(`mcd-exp-${f}`);
+            if (input) mcdExponentes[f] = input.value;
+        });
+        mcmSeleccionados.forEach(f => {
+            const input = document.getElementById(`mcm-exp-${f}`);
+            if (input) mcmExponentes[f] = input.value;
+        });
+    }
+
     function renderizarSeleccionados() {
-        // MCD
+        // Guardar valores actuales antes de re-renderizar
+        guardarExponentesMcdMcm();
+
         let mcdHTML = '';
         mcdSeleccionados.forEach(f => {
+            const valor = mcdExponentes[f] || '';
             mcdHTML += `
                 <div class="factor-seleccionado-item">
                     <div class="base">${f}^</div>
-                    <input type="number" min="1" id="mcd-exp-${f}" placeholder="exp">
+                    <input type="number" min="1" id="mcd-exp-${f}" placeholder="exp" value="${valor}">
                 </div>
             `;
         });
         document.getElementById('mcd-seleccionados').innerHTML = mcdHTML;
 
-        // MCM
         let mcmHTML = '';
         mcmSeleccionados.forEach(f => {
+            const valor = mcmExponentes[f] || '';
             mcmHTML += `
                 <div class="factor-seleccionado-item">
                     <div class="base">${f}^</div>
-                    <input type="number" min="1" id="mcm-exp-${f}" placeholder="exp">
+                    <input type="number" min="1" id="mcm-exp-${f}" placeholder="exp" value="${valor}">
                 </div>
             `;
         });
         document.getElementById('mcm-seleccionados').innerHTML = mcmHTML;
 
-        // Actualizar botones de disponibles
         document.querySelectorAll('#mcd-disponibles .factor-opcion').forEach(btn => {
             const f = parseInt(btn.textContent);
             btn.classList.toggle('seleccionado', mcdSeleccionados.includes(f));
@@ -893,12 +857,12 @@
         });
     }
 
-    // ===== VALIDAR MCD Y MCM =====
     function validarMcdMcm() {
+        guardarExponentesMcdMcm();
+
         const f1 = factorizar(numeros[0].original);
         const f2 = factorizar(numeros[1].original);
 
-        // Calcular MCD correcto
         let mcdCorrecto = 1;
         let mcdFactores = {};
         for (let p in f1) {
@@ -909,7 +873,6 @@
             }
         }
 
-        // Calcular MCM correcto
         let mcmCorrecto = 1;
         let mcmFactores = {};
         let todosPrimos = new Set([...Object.keys(f1), ...Object.keys(f2)]);
@@ -919,42 +882,26 @@
             mcmCorrecto *= Math.pow(parseInt(p), maxExp);
         }
 
-        // Validar MCD del usuario
         let mcdUsuarioCorrecto = true;
-        let mcdUsuarioStr = [];
         for (let f of mcdSeleccionados) {
             const input = document.getElementById(`mcd-exp-${f}`);
             const exp = input ? parseInt(input.value) : NaN;
-            if (isNaN(exp) || exp !== mcdFactores[f]) {
-                mcdUsuarioCorrecto = false;
-            }
-            mcdUsuarioStr.push(`${f}^${isNaN(exp) ? '?' : exp}`);
+            if (isNaN(exp) || exp !== mcdFactores[f]) mcdUsuarioCorrecto = false;
         }
-        // Verificar que no falten factores
         for (let p in mcdFactores) {
-            if (!mcdSeleccionados.includes(parseInt(p))) {
-                mcdUsuarioCorrecto = false;
-            }
+            if (!mcdSeleccionados.includes(parseInt(p))) mcdUsuarioCorrecto = false;
         }
 
-        // Validar MCM del usuario
         let mcmUsuarioCorrecto = true;
-        let mcmUsuarioStr = [];
         for (let f of mcmSeleccionados) {
             const input = document.getElementById(`mcm-exp-${f}`);
             const exp = input ? parseInt(input.value) : NaN;
-            if (isNaN(exp) || exp !== mcmFactores[f]) {
-                mcmUsuarioCorrecto = false;
-            }
-            mcmUsuarioStr.push(`${f}^${isNaN(exp) ? '?' : exp}`);
+            if (isNaN(exp) || exp !== mcmFactores[f]) mcmUsuarioCorrecto = false;
         }
         for (let p in mcmFactores) {
-            if (!mcmSeleccionados.includes(parseInt(p))) {
-                mcmUsuarioCorrecto = false;
-            }
+            if (!mcmSeleccionados.includes(parseInt(p))) mcmUsuarioCorrecto = false;
         }
 
-        // Mostrar resultados
         const mcdStr = Object.entries(mcdFactores).map(([b, e]) => e === 1 ? b : `${b}^${e}`).join(' * ') || '1';
         const mcmStr = Object.entries(mcmFactores).map(([b, e]) => e === 1 ? b : `${b}^${e}`).join(' * ');
 
@@ -972,7 +919,6 @@
         }
     }
 
-    // ===== MOSTRAR RESULTADO FINAL =====
     function mostrarResultadoFinal(ganaste, detalle = '') {
         juegoTerminado = true;
         const resultado = document.getElementById('resultado');
