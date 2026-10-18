@@ -17,14 +17,9 @@
             --gris-texto: #333333;
             --rojo: #c0392b;
             --verde: #27ae60;
-            --amarillo: #f1c40f;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Poppins', 'Montserrat', Arial, sans-serif;
@@ -42,49 +37,15 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
 
-        header img {
-            height: 50px;
-            width: auto;
-            display: block;
-            object-fit: contain;
-        }
+        header img { height: 50px; width: auto; display: block; }
+        .header-texto { color: var(--blanco); font-size: 1.2rem; font-weight: 700; letter-spacing: 2px; }
 
-        .header-texto {
-            color: var(--blanco);
-            font-size: 1.2rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-        }
+        .container { max-width: 950px; margin: 0 auto; padding: 20px; }
 
-        .container {
-            max-width: 950px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .titulo {
-            text-align: center;
-            margin: 15px 0;
-        }
-
-        .titulo h1 {
-            color: var(--azul-marino);
-            font-size: 1.6rem;
-            margin-bottom: 3px;
-        }
-
-        .titulo p {
-            color: var(--azul-medio);
-            font-size: 1rem;
-        }
-
-        .titulo .linea {
-            width: 60px;
-            height: 3px;
-            background: var(--naranja);
-            margin: 10px auto;
-            border-radius: 2px;
-        }
+        .titulo { text-align: center; margin: 15px 0; }
+        .titulo h1 { color: var(--azul-marino); font-size: 1.6rem; margin-bottom: 3px; }
+        .titulo p { color: var(--azul-medio); font-size: 1rem; }
+        .titulo .linea { width: 60px; height: 3px; background: var(--naranja); margin: 10px auto; border-radius: 2px; }
 
         #info {
             background: var(--blanco);
@@ -95,33 +56,12 @@
             margin-bottom: 15px;
         }
 
-        #info .instrucciones {
-            color: var(--azul-marino);
-            font-size: 0.9rem;
-        }
+        #info .instrucciones { color: var(--azul-marino); font-size: 0.9rem; }
+        #info .instrucciones p { margin-bottom: 4px; }
 
-        #info .instrucciones p {
-            margin-bottom: 4px;
-        }
+        #mensaje { font-size: 0.95rem; margin-top: 10px; font-weight: 600; text-align: center; min-height: 22px; }
 
-        #mensaje {
-            font-size: 0.95rem;
-            margin-top: 10px;
-            font-weight: 600;
-            text-align: center;
-            min-height: 22px;
-        }
-
-        /* ============================================
-           NÚMEROS A FACTORIZAR
-           ============================================ */
-        .numeros-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
-        }
+        .numeros-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin: 20px 0; }
 
         .numero-card {
             background: var(--blanco);
@@ -129,56 +69,22 @@
             border-radius: 16px;
             padding: 15px;
             text-align: center;
-            width: 180px;
+            width: 200px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             transition: all 0.3s;
             cursor: pointer;
         }
 
-        .numero-card:hover:not(.factorizado) {
-            border-color: var(--naranja);
-            transform: translateY(-3px);
-        }
+        .numero-card:hover:not(.factorizado) { border-color: var(--naranja); transform: translateY(-3px); }
+        .numero-card.factorizado { background: #e8f5e9; border-color: var(--verde); cursor: default; }
+        .numero-card.error { animation: shake 0.5s ease; border-color: var(--rojo); }
 
-        .numero-card .numero {
-            font-size: 2.2rem;
-            font-weight: 900;
-            color: var(--azul-marino);
-            line-height: 1;
-            margin-bottom: 5px;
-        }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
 
-        .numero-card .estado {
-            font-size: 0.75rem;
-            color: var(--gris-texto);
-            margin-bottom: 8px;
-        }
+        .numero-card .numero { font-size: 2.2rem; font-weight: 900; color: var(--azul-marino); line-height: 1; margin-bottom: 5px; }
+        .numero-card.factorizado .numero { color: var(--verde); }
+        .numero-card .estado { font-size: 0.75rem; color: var(--gris-texto); margin-bottom: 8px; }
 
-        .numero-card.factorizado {
-            background: #e8f5e9;
-            border-color: var(--verde);
-            cursor: default;
-            opacity: 0.85;
-        }
-
-        .numero-card.factorizado .numero {
-            color: var(--verde);
-        }
-
-        .numero-card.error {
-            animation: shake 0.5s ease;
-            border-color: var(--rojo);
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-8px); }
-            75% { transform: translateX(8px); }
-        }
-
-        /* ============================================
-           CASILLAS DE FACTORES DEBAJO DEL NÚMERO
-           ============================================ */
         .factores-slots {
             display: flex;
             flex-wrap: wrap;
@@ -206,34 +112,47 @@
             transition: all 0.2s;
         }
 
-        .factor-slot.lleno {
-            border-style: solid;
-            border-color: var(--naranja);
-            background: #fff3e6;
+        .factor-slot.lleno { border-style: solid; border-color: var(--naranja); background: #fff3e6; }
+
+        .exponentes-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px dashed var(--azul-medio);
         }
 
-        .factor-slot.exponente {
-            border-style: solid;
-            border-color: var(--verde);
-            background: #e8f5e9;
+        .exponente-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .exponente-item .base {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--azul-marino);
+        }
+
+        .exponente-item input {
             width: 50px;
-        }
-
-        .factor-slot input {
-            width: 100%;
-            height: 100%;
-            border: none;
-            background: transparent;
+            height: 40px;
+            border: 2px solid var(--azul-medio);
+            border-radius: 8px;
             text-align: center;
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 700;
             color: var(--azul-marino);
-            outline: none;
+            background: var(--blanco);
         }
 
-        /* ============================================
-           BANCO DE FACTORES
-           ============================================ */
+        .exponente-item input:focus { outline: none; border-color: var(--naranja); }
+        .exponente-item input.correcto { border-color: var(--verde); background: #e8f5e9; }
+        .exponente-item input.incorrecto { border-color: var(--rojo); background: #ffebee; }
+
         .banco-container {
             background: var(--blanco);
             border-radius: 12px;
@@ -242,20 +161,9 @@
             margin: 20px 0;
         }
 
-        .banco-container h3 {
-            color: var(--azul-marino);
-            font-size: 1rem;
-            margin-bottom: 10px;
-            text-align: center;
-        }
+        .banco-container h3 { color: var(--azul-marino); font-size: 1rem; margin-bottom: 10px; text-align: center; }
 
-        .factores-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            min-height: 50px;
-        }
+        .factores-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; min-height: 50px; }
 
         .factor-btn {
             background: var(--azul-medio);
@@ -270,20 +178,9 @@
             box-shadow: 0 3px 8px rgba(0,0,0,0.15);
         }
 
-        .factor-btn:hover {
-            background: var(--azul-hover);
-            transform: translateY(-2px);
-        }
+        .factor-btn:hover { background: var(--azul-hover); transform: translateY(-2px); }
+        .factor-btn.seleccionado { background: var(--naranja); transform: scale(1.1); box-shadow: 0 0 0 3px rgba(226, 94, 0, 0.4); }
 
-        .factor-btn.seleccionado {
-            background: var(--naranja);
-            transform: scale(1.1);
-            box-shadow: 0 0 0 3px rgba(226, 94, 0, 0.4);
-        }
-
-        /* ============================================
-           PANEL DE VIDAS
-           ============================================ */
         .panel-superior {
             display: flex;
             justify-content: space-between;
@@ -295,30 +192,11 @@
             margin-bottom: 15px;
         }
 
-        .vidas {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--azul-marino);
-        }
+        .vidas { font-size: 1rem; font-weight: 600; color: var(--azul-marino); }
+        .vidas .corazon { color: var(--rojo); font-size: 1.2rem; }
+        .vidas .corazon.perdido { opacity: 0.3; }
+        .progreso-texto { font-size: 0.9rem; color: var(--azul-medio); font-weight: 500; }
 
-        .vidas .corazon {
-            color: var(--rojo);
-            font-size: 1.2rem;
-        }
-
-        .vidas .corazon.perdido {
-            opacity: 0.3;
-        }
-
-        .progreso-texto {
-            font-size: 0.9rem;
-            color: var(--azul-medio);
-            font-weight: 500;
-        }
-
-        /* ============================================
-           BOTONES
-           ============================================ */
         .btn {
             display: block;
             margin: 15px auto;
@@ -334,30 +212,9 @@
             box-shadow: 0 4px 10px rgba(226, 94, 0, 0.3);
         }
 
-        .btn:hover {
-            background: var(--naranja-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(226, 94, 0, 0.4);
-        }
+        .btn:hover { background: var(--naranja-hover); transform: translateY(-2px); }
+        .btn:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
 
-        .btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .btn-verde {
-            background: var(--verde);
-        }
-
-        .btn-verde:hover {
-            background: #1e8449;
-        }
-
-        /* ============================================
-           RESULTADO
-           ============================================ */
         #resultado {
             display: none;
             background: var(--blanco);
@@ -369,30 +226,10 @@
             text-align: center;
         }
 
-        #resultado h2 {
-            color: var(--azul-marino);
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-
-        #resultado .mensaje {
-            font-size: 1rem;
-            color: var(--azul-medio);
-            margin-bottom: 15px;
-        }
-
-        #resultado .detalle {
-            text-align: left;
-            background: var(--azul-claro);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            font-size: 0.95rem;
-        }
-
-        #resultado .detalle p {
-            margin-bottom: 5px;
-        }
+        #resultado h2 { color: var(--azul-marino); font-size: 1.5rem; margin-bottom: 15px; }
+        #resultado .mensaje { font-size: 1rem; color: var(--azul-medio); margin-bottom: 15px; }
+        #resultado .detalle { text-align: left; background: var(--azul-claro); border-radius: 8px; padding: 15px; margin-bottom: 15px; font-size: 0.95rem; }
+        #resultado .detalle p { margin-bottom: 5px; }
 
         footer {
             background: var(--azul-marino);
@@ -408,11 +245,8 @@
             header img { height: 40px; }
             .header-texto { font-size: 1rem; }
             .titulo h1 { font-size: 1.3rem; }
-            .numero-card { width: 150px; padding: 12px; }
-            .numero-card .numero { font-size: 1.8rem; }
+            .numero-card { width: 160px; padding: 12px; }
             .factor-btn { padding: 10px 14px; font-size: 1.1rem; }
-            .factor-slot { width: 30px; height: 30px; font-size: 0.9rem; }
-            .factor-slot.exponente { width: 45px; }
         }
     </style>
 </head>
@@ -435,9 +269,7 @@
         <div class="vidas" id="vidas">
             Vidas: <span class="corazon">❤️</span> <span class="corazon">❤️</span> <span class="corazon">❤️</span>
         </div>
-        <div class="progreso-texto" id="progreso">
-            Números factorizados: 0 / 4
-        </div>
+        <div class="progreso-texto" id="progreso">Números factorizados: 0 / 4</div>
     </div>
 
     <div id="info">
@@ -474,20 +306,18 @@
 </footer>
 
 <script>
-    // ===== CONFIGURACIÓN =====
     const NUM_MIN = 2;
     const NUM_MAX = 100;
     const CANTIDAD_NUMEROS = 4;
     const VIDAS_INICIALES = 3;
 
-    let numeros = [];           // { valor, original, factorizado, factores: [] }
+    let numeros = [];
     let factorSeleccionado = null;
     let vidas = VIDAS_INICIALES;
     let factorizados = 0;
     let juegoTerminado = false;
     let bancoFactores = [];
 
-    // ===== PRIMOS =====
     function esPrimo(n) {
         if (n < 2) return false;
         for (let i = 2; i <= Math.sqrt(n); i++) {
@@ -496,19 +326,15 @@
         return true;
     }
 
-    // ===== GENERAR NÚMEROS =====
     function generarNumeros() {
         let nums = [];
         while (nums.length < CANTIDAD_NUMEROS) {
             const num = Math.floor(Math.random() * (NUM_MAX - NUM_MIN + 1)) + NUM_MIN;
-            if (!esPrimo(num) && !nums.includes(num)) {
-                nums.push(num);
-            }
+            if (!esPrimo(num) && !nums.includes(num)) nums.push(num);
         }
         return nums;
     }
 
-    // ===== FACTORIZACIÓN PRIMA =====
     function factorizar(n) {
         let factores = {};
         let temp = n;
@@ -521,67 +347,49 @@
         return factores;
     }
 
-    // ===== FORMATEAR FACTORIZACIÓN =====
     function formatearFactorizacion(factores) {
         let partes = [];
         for (let p in factores) {
-            if (factores[p] === 1) {
-                partes.push(p);
-            } else {
-                partes.push(`${p}^${factores[p]}`);
-            }
+            if (factores[p] === 1) partes.push(p);
+            else partes.push(`${p}^${factores[p]}`);
         }
         return partes.join(' * ');
     }
 
-    // ===== GENERAR BANCO DE FACTORES =====
     function generarBancoFactores() {
         let banco = [];
-        
-        // Agregar los factores necesarios para cada número
         numeros.forEach(n => {
             let factores = factorizar(n.original);
             for (let p in factores) {
-                for (let i = 0; i < factores[p]; i++) {
-                    banco.push(parseInt(p));
-                }
+                for (let i = 0; i < factores[p]; i++) banco.push(parseInt(p));
             }
         });
-
-        // Agregar algunos distractores
         const primosDistractores = [2, 3, 5, 7, 11, 13, 17, 19];
         for (let i = 0; i < 6; i++) {
-            const p = primosDistractores[Math.floor(Math.random() * primosDistractores.length)];
-            banco.push(p);
+            banco.push(primosDistractores[Math.floor(Math.random() * primosDistractores.length)]);
         }
-
-        // Mezclar
         for (let i = banco.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [banco[i], banco[j]] = [banco[j], banco[i]];
         }
-
         return banco;
     }
 
-    // ===== INICIAR JUEGO =====
     function inicializarJuego() {
         const numsOriginales = generarNumeros();
         numeros = numsOriginales.map(n => ({
             valor: n,
             original: n,
             factorizado: false,
-            factores: []  // Aquí se acumulan los factores usados
+            factores: []
         }));
         factorSeleccionado = null;
         vidas = VIDAS_INICIALES;
         factorizados = 0;
         juegoTerminado = false;
-
         bancoFactores = generarBancoFactores();
 
         document.getElementById('mensaje').textContent = '';
-        document.getElementById('mensaje').style.color = '';
         document.getElementById('btn-validar').disabled = true;
         document.getElementById('resultado').style.display = 'none';
 
@@ -590,69 +398,73 @@
         actualizarPanel();
     }
 
-    // ===== RENDERIZAR NÚMEROS =====
     function renderizarNumeros() {
         let html = '';
         numeros.forEach((n, i) => {
             const clase = n.factorizado ? 'factorizado' : '';
             const estado = n.factorizado ? '✅ Factorizado' : 'Haz clic para dividir';
             
-            // Generar slots de factores
             let slotsHTML = '';
             if (n.factores.length > 0) {
-                n.factores.forEach((f) => {
+                n.factores.forEach(f => {
                     slotsHTML += `<div class="factor-slot lleno">${f}</div>`;
                 });
             } else {
                 slotsHTML = `<div class="factor-slot">?</div>`;
             }
 
+            // Si está factorizado, mostrar inputs de exponentes
+            let exponentesHTML = '';
+            if (n.factorizado) {
+                let conteo = {};
+                n.factores.forEach(f => { conteo[f] = (conteo[f] || 0) + 1; });
+                
+                exponentesHTML = '<div class="exponentes-container">';
+                for (let base in conteo) {
+                    exponentesHTML += `
+                        <div class="exponente-item">
+                            <div class="base">${base}^</div>
+                            <input type="number" min="1" id="exp-${i}-${base}" placeholder="exp">
+                        </div>
+                    `;
+                }
+                exponentesHTML += '</div>';
+            }
+
             html += `
                 <div class="numero-card ${clase}" id="num-card-${i}" onclick="seleccionarNumero(${i})">
                     <div class="numero">${n.valor}</div>
                     <div class="estado">${estado}</div>
-                    <div class="factores-slots" id="slots-${i}">${slotsHTML}</div>
+                    <div class="factores-slots">${slotsHTML}</div>
+                    ${exponentesHTML}
                 </div>
             `;
         });
         document.getElementById('numeros-container').innerHTML = html;
     }
 
-    // ===== RENDERIZAR FACTORES =====
     function renderizarFactores() {
         let html = '';
         bancoFactores.forEach((f, i) => {
             const sel = (factorSeleccionado === i) ? 'seleccionado' : '';
-            html += `
-                <button class="factor-btn ${sel}" id="factor-${i}" onclick="seleccionarFactor(${i})">${f}</button>
-            `;
+            html += `<button class="factor-btn ${sel}" onclick="seleccionarFactor(${i})">${f}</button>`;
         });
         document.getElementById('factores-grid').innerHTML = html;
     }
 
-    // ===== SELECCIONAR FACTOR =====
     function seleccionarFactor(indice) {
         if (juegoTerminado) return;
-        if (factorSeleccionado === indice) {
-            factorSeleccionado = null;
-        } else {
-            factorSeleccionado = indice;
-        }
+        factorSeleccionado = (factorSeleccionado === indice) ? null : indice;
         renderizarFactores();
-
         if (factorSeleccionado !== null) {
-            document.getElementById('mensaje').textContent = `Factor seleccionado: ${bancoFactores[factorSeleccionado]}. Ahora elige un número para dividirlo.`;
+            document.getElementById('mensaje').textContent = `Factor seleccionado: ${bancoFactores[factorSeleccionado]}. Elige un número.`;
             document.getElementById('mensaje').style.color = '#e25e00';
-        } else {
-            document.getElementById('mensaje').textContent = '';
         }
     }
 
-    // ===== SELECCIONAR NÚMERO =====
     function seleccionarNumero(indice) {
         if (juegoTerminado) return;
         if (numeros[indice].factorizado) return;
-
         if (factorSeleccionado === null) {
             document.getElementById('mensaje').textContent = 'Primero selecciona un factor primo del banco.';
             document.getElementById('mensaje').style.color = '#c0392b';
@@ -662,24 +474,19 @@
         const num = numeros[indice];
         const factor = bancoFactores[factorSeleccionado];
 
-        // Verificar si el factor divide exactamente
         if (num.valor % factor === 0) {
-            // Correcto
             num.valor = num.valor / factor;
-            num.factores.push(factor);  // Guardar el factor usado
-            
-            // QUITAR el botón del banco (no poner null)
+            num.factores.push(factor);
             bancoFactores.splice(factorSeleccionado, 1);
             factorSeleccionado = null;
 
             document.getElementById('mensaje').textContent = `✅ ¡Correcto! ${num.original} ÷ ${factor} = ${num.valor}`;
             document.getElementById('mensaje').style.color = '#27ae60';
 
-            // Verificar si llegó a 1
             if (num.valor === 1) {
                 num.factorizado = true;
                 factorizados++;
-                document.getElementById('mensaje').textContent = `🎉 ¡${num.original} factorizado completamente!`;
+                document.getElementById('mensaje').textContent = `🎉 ¡${num.original} factorizado!`;
             }
 
             renderizarNumeros();
@@ -687,144 +494,77 @@
             actualizarPanel();
             verificarFinJuego();
         } else {
-            // Incorrecto
             vidas--;
             factorSeleccionado = null;
-
-            document.getElementById('mensaje').textContent = `❌ ¡Error! ${factor} no divide exactamente a ${num.valor}.`;
+            document.getElementById('mensaje').textContent = `❌ ¡Error! ${factor} no divide a ${num.valor}.`;
             document.getElementById('mensaje').style.color = '#c0392b';
-
             const card = document.getElementById(`num-card-${indice}`);
             if (card) {
                 card.classList.add('error');
                 setTimeout(() => card.classList.remove('error'), 500);
             }
-
             renderizarFactores();
             actualizarPanel();
             verificarFinJuego();
         }
     }
 
-    // ===== ACTUALIZAR PANEL =====
     function actualizarPanel() {
         let vidasHTML = 'Vidas: ';
         for (let i = 0; i < VIDAS_INICIALES; i++) {
-            if (i < vidas) {
-                vidasHTML += '<span class="corazon">❤️</span> ';
-            } else {
-                vidasHTML += '<span class="corazon perdido">❤️</span> ';
-            }
+            vidasHTML += i < vidas ? '<span class="corazon">❤️</span> ' : '<span class="corazon perdido">❤️</span> ';
         }
         document.getElementById('vidas').innerHTML = vidasHTML;
         document.getElementById('progreso').textContent = `Números factorizados: ${factorizados} / ${CANTIDAD_NUMEROS}`;
     }
 
-    // ===== VERIFICAR FIN DE JUEGO =====
     function verificarFinJuego() {
         if (vidas <= 0) {
             juegoTerminado = true;
-            document.getElementById('mensaje').textContent = '💀 ¡Has perdido todas tus vidas!';
+            document.getElementById('mensaje').textContent = '💀 ¡Perdiste todas tus vidas!';
             document.getElementById('mensaje').style.color = '#c0392b';
             mostrarResultadoFinal(false);
         } else if (factorizados === CANTIDAD_NUMEROS) {
             document.getElementById('btn-validar').disabled = false;
-            document.getElementById('mensaje').textContent = '🎉 ¡Todos los números factorizados! Ahora escribe los exponentes correspondientes.';
+            document.getElementById('mensaje').textContent = '🎉 ¡Todos factorizados! Escribe los exponentes.';
             document.getElementById('mensaje').style.color = '#27ae60';
-            renderizarNumerosConExponentes();
         }
     }
 
-    // ===== RENDERIZAR NÚMEROS CON EXPONENTES =====
-    function renderizarNumerosConExponentes() {
-        let html = '';
-        numeros.forEach((n, i) => {
-            // Agrupar factores por base
-            let conteo = {};
-            n.factores.forEach(f => {
-                conteo[f] = (conteo[f] || 0) + 1;
-            });
-
-            let slotsHTML = '';
-            for (let base in conteo) {
-                slotsHTML += `
-                    <div class="factor-slot lleno">${base}</div>
-                    <div class="factor-slot exponente" id="exp-${i}-${base}">
-                        <input type="number" min="1" placeholder="exp" value="">
-                    </div>
-                `;
-            }
-
-            html += `
-                <div class="numero-card factorizado" id="num-card-${i}">
-                    <div class="numero">${n.original}</div>
-                    <div class="estado">Escribe los exponentes</div>
-                    <div class="factores-slots" id="slots-${i}">${slotsHTML}</div>
-                </div>
-            `;
-        });
-        document.getElementById('numeros-container').innerHTML = html;
-    }
-
-    // ===== VALIDAR TODO =====
     function validarTodo() {
         let todasCorrectas = true;
         let detalle = '';
 
         numeros.forEach((n, i) => {
             const factores = factorizar(n.original);
-            let factorizacionUsuario = [];
-            let factorizacionCorrecta = [];
+            let esCorrecta = true;
+            let usuarioStr = [];
 
-            // Obtener la factorización correcta
-            for (let base in factores) {
-                if (factores[base] === 1) {
-                    factorizacionCorrecta.push(base);
-                } else {
-                    factorizacionCorrecta.push(`${base}^${factores[base]}`);
-                }
-            }
-
-            // Obtener la factorización del usuario (de los inputs)
-            let agrupadoUsuario = {};
             for (let base in factores) {
                 const input = document.getElementById(`exp-${i}-${base}`);
-                if (input) {
-                    const exp = parseInt(input.value);
-                    if (!isNaN(exp) && exp > 0) {
-                        agrupadoUsuario[base] = exp;
-                    }
-                }
-            }
-
-            // Comparar
-            let esCorrecta = true;
-            for (let base in factores) {
-                if (agrupadoUsuario[base] !== factores[base]) {
+                if (!input) {
                     esCorrecta = false;
+                    usuarioStr.push(`${base}^(vacío)`);
+                    continue;
                 }
-            }
-            // Verificar que no haya bases extra
-            for (let base in agrupadoUsuario) {
-                if (!factores[base]) {
+                const exp = parseInt(input.value);
+                if (isNaN(exp) || exp !== factores[base]) {
                     esCorrecta = false;
+                    usuarioStr.push(`${base}^${isNaN(exp) ? '?' : exp}`);
+                } else {
+                    usuarioStr.push(exp === 1 ? base : `${base}^${exp}`);
                 }
+                input.classList.add(esCorrecta ? 'correcto' : 'incorrecto');
             }
 
-            if (!esCorrecta) {
-                todasCorrectas = false;
-            }
-
-            const correctaStr = factorizacionCorrecta.join(' * ');
-            const usuarioStr = Object.entries(agrupadoUsuario).map(([b, e]) => e === 1 ? b : `${b}^${e}`).join(' * ') || '(vacío)';
-            
-            detalle += `<p>${esCorrecta ? '✅' : '❌'} ${n.original} = ${correctaStr} ${!esCorrecta ? `(tu respuesta: ${usuarioStr})` : ''}</p>`;
+            if (!esCorrecta) todasCorrectas = false;
+            const correctaStr = formatearFactorizacion(factores);
+            detalle += `<p>${esCorrecta ? '✅' : '❌'} ${n.original} = ${correctaStr} ${!esCorrecta ? `(tu respuesta: ${usuarioStr.join(' * ')})` : ''}</p>`;
         });
 
         mostrarResultadoFinal(todasCorrectas, detalle);
     }
 
-    // ===== MOSTRAR RESULTADO FINAL =====
     function mostrarResultadoFinal(ganaste, detalle = '') {
         juegoTerminado = true;
         const resultado = document.getElementById('resultado');
@@ -832,10 +572,10 @@
         const detalleDiv = document.getElementById('detalle');
 
         if (ganaste) {
-            mensajeFinal.textContent = `🎉 ¡Felicidades! Factorizaste todos los números correctamente. Vidas restantes: ${vidas}`;
+            mensajeFinal.textContent = `🎉 ¡Felicidades! Factorizaste todo correctamente. Vidas: ${vidas}`;
             mensajeFinal.style.color = '#27ae60';
         } else {
-            mensajeFinal.textContent = `❌ No lograste factorizar todos los números correctamente. Vidas restantes: ${vidas}`;
+            mensajeFinal.textContent = `❌ Hubo errores en la factorización. Vidas: ${vidas}`;
             mensajeFinal.style.color = '#c0392b';
         }
 
@@ -844,8 +584,7 @@
         } else {
             let det = '';
             numeros.forEach(n => {
-                const factores = factorizar(n.original);
-                det += `<p>${n.original} = ${formatearFactorizacion(factores)}</p>`;
+                det += `<p>${n.original} = ${formatearFactorizacion(factorizar(n.original))}</p>`;
             });
             detalleDiv.innerHTML = det;
         }
@@ -854,12 +593,10 @@
         resultado.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // ===== REINICIAR JUEGO =====
     function reiniciarJuego() {
         inicializarJuego();
     }
 
-    // ===== INICIAR =====
     inicializarJuego();
 </script>
 </body>
