@@ -290,7 +290,31 @@
         }
         .factor-seleccionado-item input:focus { outline: none; border-color: var(--naranja); }
 
-        .mcd-mcm-resultado { text-align: center; font-size: 1.2rem; font-weight: 700; color: var(--azul-marino); margin-top: 10px; }
+        .resultado-input {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--azul-marino);
+        }
+
+        .resultado-input input {
+            width: 100px;
+            height: 45px;
+            border: 3px solid var(--azul-medio);
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--azul-marino);
+        }
+
+        .resultado-input input:focus { outline: none; border-color: var(--naranja); }
+        .resultado-input input.correcto { border-color: var(--verde); background: #e8f5e9; }
+        .resultado-input input.incorrecto { border-color: var(--rojo); background: #ffebee; }
 
         .btn {
             display: block;
@@ -348,6 +372,7 @@
             .titulo h1 { font-size: 1.3rem; }
             .numero-card { width: 180px; padding: 12px; }
             .factor-btn { padding: 10px 14px; font-size: 1.1rem; }
+            .resultado-input input { width: 80px; height: 40px; font-size: 1rem; }
         }
     </style>
 </head>
@@ -379,7 +404,7 @@
             <p>✅ Si divide exactamente, el factor se acumula debajo del número.</p>
             <p>❌ Si no divide, pierdes una vida.</p>
             <p>📝 Paso 2: Cuando ambos números lleguen a 1, escribe los exponentes correspondientes.</p>
-            <p>🔍 Paso 3: Con las factorizaciones, calcula el MCD y el MCM.</p>
+            <p>🔍 Paso 3: Con las factorizaciones, calcula el MCD y el MCM (factores y resultado final).</p>
         </div>
         <div id="mensaje"></div>
     </div>
@@ -404,7 +429,10 @@
                 <div class="indicacion">Selecciona los factores comunes con el MENOR exponente.</div>
                 <div class="factores-disponibles" id="mcd-disponibles"></div>
                 <div class="factores-seleccionados" id="mcd-seleccionados"></div>
-                <div class="mcd-mcm-resultado" id="mcd-resultado">MCD = ?</div>
+                <div class="resultado-input">
+                    <span>MCD =</span>
+                    <input type="number" id="mcd-resultado-input" placeholder="?">
+                </div>
             </div>
 
             <div class="mcd-mcm-box">
@@ -412,7 +440,10 @@
                 <div class="indicacion">Selecciona TODOS los factores primos con el MAYOR exponente.</div>
                 <div class="factores-disponibles" id="mcm-disponibles"></div>
                 <div class="factores-seleccionados" id="mcm-seleccionados"></div>
-                <div class="mcd-mcm-resultado" id="mcm-resultado">MCM = ?</div>
+                <div class="resultado-input">
+                    <span>MCM =</span>
+                    <input type="number" id="mcm-resultado-input" placeholder="?">
+                </div>
             </div>
         </div>
 
@@ -448,7 +479,6 @@
     let bancoFactores = [];
     let faseActual = 'factorizacion';
 
-    // Para MCD y MCM
     let mcdSeleccionados = [];
     let mcmSeleccionados = [];
 
@@ -516,7 +546,7 @@
             original: n,
             factorizado: false,
             factores: [],
-            exponentes: {}  // Aquí guardamos los exponentes ingresados
+            exponentes: {}
         }));
         factorSeleccionado = null;
         vidas = VIDAS_INICIALES;
@@ -537,7 +567,6 @@
         actualizarPanel();
     }
 
-    // ===== GUARDAR EXPONENTES ANTES DE RENDERIZAR =====
     function guardarExponentes() {
         numeros.forEach((n, i) => {
             if (n.factorizado) {
@@ -554,7 +583,6 @@
     }
 
     function renderizarNumeros() {
-        // Primero guardar los exponentes actuales
         guardarExponentes();
 
         let html = '';
@@ -578,7 +606,6 @@
                 
                 exponentesHTML = '<div class="exponentes-container">';
                 for (let base in conteo) {
-                    // Restaurar el valor del exponente si existe
                     const valorGuardado = n.exponentes[base] || '';
                     exponentesHTML += `
                         <div class="exponente-item">
@@ -690,9 +717,7 @@
         }
     }
 
-    // ===== VALIDAR FACTORIZACIONES =====
     function validarFactorizaciones() {
-        // Guardar los exponentes actuales antes de validar
         guardarExponentes();
 
         let todasCorrectas = true;
@@ -804,7 +829,6 @@
         renderizarSeleccionados();
     }
 
-    // ===== GUARDAR EXPONENTES DE MCD Y MCM =====
     let mcdExponentes = {};
     let mcmExponentes = {};
 
@@ -820,7 +844,6 @@
     }
 
     function renderizarSeleccionados() {
-        // Guardar valores actuales antes de re-renderizar
         guardarExponentesMcdMcm();
 
         let mcdHTML = '';
@@ -882,6 +905,7 @@
             mcmCorrecto *= Math.pow(parseInt(p), maxExp);
         }
 
+        // Validar MCD
         let mcdUsuarioCorrecto = true;
         for (let f of mcdSeleccionados) {
             const input = document.getElementById(`mcd-exp-${f}`);
@@ -892,6 +916,13 @@
             if (!mcdSeleccionados.includes(parseInt(p))) mcdUsuarioCorrecto = false;
         }
 
+        // Validar resultado del MCD
+        const mcdResultadoInput = document.getElementById('mcd-resultado-input');
+        const mcdResultadoUsuario = parseInt(mcdResultadoInput.value);
+        const mcdResultadoCorrecto = !isNaN(mcdResultadoUsuario) && mcdResultadoUsuario === mcdCorrecto;
+        mcdResultadoInput.classList.add(mcdResultadoCorrecto ? 'correcto' : 'incorrecto');
+
+        // Validar MCM
         let mcmUsuarioCorrecto = true;
         for (let f of mcmSeleccionados) {
             const input = document.getElementById(`mcm-exp-${f}`);
@@ -902,13 +933,19 @@
             if (!mcmSeleccionados.includes(parseInt(p))) mcmUsuarioCorrecto = false;
         }
 
+        // Validar resultado del MCM
+        const mcmResultadoInput = document.getElementById('mcm-resultado-input');
+        const mcmResultadoUsuario = parseInt(mcmResultadoInput.value);
+        const mcmResultadoCorrecto = !isNaN(mcmResultadoUsuario) && mcmResultadoUsuario === mcmCorrecto;
+        mcmResultadoInput.classList.add(mcmResultadoCorrecto ? 'correcto' : 'incorrecto');
+
         const mcdStr = Object.entries(mcdFactores).map(([b, e]) => e === 1 ? b : `${b}^${e}`).join(' * ') || '1';
         const mcmStr = Object.entries(mcmFactores).map(([b, e]) => e === 1 ? b : `${b}^${e}`).join(' * ');
 
-        document.getElementById('mcd-resultado').innerHTML = `MCD = ${mcdStr} = <strong>${mcdCorrecto}</strong> ${mcdUsuarioCorrecto ? '✅' : '❌'}`;
-        document.getElementById('mcm-resultado').innerHTML = `MCM = ${mcmStr} = <strong>${mcmCorrecto}</strong> ${mcmUsuarioCorrecto ? '✅' : '❌'}`;
+        document.getElementById('mcd-resultado').innerHTML = `MCD = ${mcdStr} = <strong>${mcdCorrecto}</strong> ${mcdResultadoCorrecto ? '✅' : '❌'}`;
+        document.getElementById('mcm-resultado').innerHTML = `MCM = ${mcmStr} = <strong>${mcmCorrecto}</strong> ${mcmResultadoCorrecto ? '✅' : '❌'}`;
 
-        if (mcdUsuarioCorrecto && mcmUsuarioCorrecto) {
+        if (mcdUsuarioCorrecto && mcdResultadoCorrecto && mcmUsuarioCorrecto && mcmResultadoCorrecto) {
             document.getElementById('mensaje').textContent = '🎉 ¡Excelente! Calculaste correctamente el MCD y el MCM.';
             document.getElementById('mensaje').style.color = '#27ae60';
             juegoTerminado = true;
