@@ -468,8 +468,8 @@
 </footer>
 
 <script>
-    const NUM_MIN = 2;
-    const NUM_MAX = 100;
+    const NUM_MIN = 4;
+    const NUM_MAX = 40;
     const CANTIDAD_NUMEROS = 2;
     const VIDAS_INICIALES = 3;
 
@@ -494,35 +494,6 @@
         return true;
     }
 
-    function generarNumeros() {
-        let nums = [];
-        const NUM_MIN_LOCAL = 4;
-        const NUM_MAX_LOCAL = 40;
-
-        while (nums.length < CANTIDAD_NUMEROS) {
-            const num = Math.floor(Math.random() * (NUM_MAX_LOCAL - NUM_MIN_LOCAL + 1)) + NUM_MIN_LOCAL;
-            if (!esPrimo(num) && !nums.includes(num)) {
-                nums.push(num);
-            }
-        }
-
-        // Verificar que el MCM no sea demasiado grande
-        const f1 = factorizar(nums[0]);
-        const f2 = factorizar(nums[1]);
-        let mcm = 1;
-        let todosPrimos = new Set([...Object.keys(f1), ...Object.keys(f2)]);
-        for (let p of todosPrimos) {
-            const maxExp = Math.max(f1[p] || 0, f2[p] || 0);
-            mcm *= Math.pow(parseInt(p), maxExp);
-        }
-
-        if (mcm > 200) {
-            return generarNumeros();
-        }
-
-        return nums;
-    }
-
     function factorizar(n) {
         let factores = {};
         let temp = n;
@@ -533,6 +504,39 @@
             }
         }
         return factores;
+    }
+
+    function calcularMcmDeDos(a, b) {
+        const f1 = factorizar(a);
+        const f2 = factorizar(b);
+        let todosPrimos = new Set([...Object.keys(f1), ...Object.keys(f2)]);
+        let mcm = 1;
+        for (let p of todosPrimos) {
+            const maxExp = Math.max(f1[p] || 0, f2[p] || 0);
+            mcm *= Math.pow(parseInt(p), maxExp);
+        }
+        return mcm;
+    }
+
+    function generarNumeros() {
+        let intentos = 0;
+        while (intentos < 100) {
+            let nums = [];
+            while (nums.length < CANTIDAD_NUMEROS) {
+                const num = Math.floor(Math.random() * (NUM_MAX - NUM_MIN + 1)) + NUM_MIN;
+                if (!esPrimo(num) && !nums.includes(num)) {
+                    nums.push(num);
+                }
+            }
+            // Verificar que el MCM no sea demasiado grande
+            const mcm = calcularMcmDeDos(nums[0], nums[1]);
+            if (mcm <= 200) {
+                return nums;
+            }
+            intentos++;
+        }
+        // Si no se encontró, devolver dos números seguros
+        return [12, 18];
     }
 
     function formatearFactorizacion(factores) {
@@ -552,10 +556,12 @@
                 for (let i = 0; i < factores[p]; i++) banco.push(parseInt(p));
             }
         });
+        // Agregar distractores pequeños
         const primosDistractores = [2, 3, 5, 7];
         for (let i = 0; i < 3; i++) {
             banco.push(primosDistractores[Math.floor(Math.random() * primosDistractores.length)]);
         }
+        // Mezclar
         for (let i = banco.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [banco[i], banco[j]] = [banco[j], banco[i]];
@@ -583,20 +589,20 @@
         mcmExponentes = {};
         bancoFactores = generarBancoFactores();
 
-        // Limpiar inputs y clases de error
+        // Ocultar resultado previo
+        document.getElementById('resultado').style.display = 'none';
+        document.getElementById('seccion-mcd-mcm').style.display = 'none';
+        document.getElementById('banco-container').style.display = 'block';
+        document.getElementById('btn-validar').disabled = true;
+        document.getElementById('mensaje').textContent = '';
+
+        // Limpiar inputs de MCD y MCM (ya existen en el DOM)
         document.getElementById('mcd-resultado-input').value = '';
-        document.getElementById('mcd-resultado-input').className = '';
+        document.getElementById('mcd-resultado-input').classList.remove('correcto', 'incorrecto');
         document.getElementById('mcm-resultado-input').value = '';
-        document.getElementById('mcm-resultado-input').className = '';
+        document.getElementById('mcm-resultado-input').classList.remove('correcto', 'incorrecto');
         document.getElementById('mcd-resultado').innerHTML = 'MCD = ?';
         document.getElementById('mcm-resultado').innerHTML = 'MCM = ?';
-
-        document.getElementById('mensaje').textContent = '';
-        document.getElementById('btn-validar').disabled = true;
-        document.getElementById('seccion-mcd-mcm').style.display = 'none';
-        document.getElementById('resultado').style.display = 'none';
-        document.getElementById('banco-container').style.display = 'block';
-        document.getElementById('resultado-titulo').textContent = '📚 Resultado Final';
 
         renderizarNumeros();
         renderizarFactores();
@@ -1024,7 +1030,7 @@
             resultadoDiv.style.borderTopColor = '#27ae60';
             resultadoDiv.scrollIntoView({ behavior: 'smooth' });
         } else {
-            // ❌ NO terminar el juego
+            // ❌ NO terminar el juego, solo retroalimentar
             titulo.textContent = '⚠️ Revisa tus respuestas';
             mensajeFinal.textContent = 'Hay errores. Corrige y vuelve a validar.';
             mensajeFinal.style.color = '#c0392b';
