@@ -57,7 +57,7 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 950px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -86,9 +86,6 @@
             border-radius: 2px;
         }
 
-        /* ============================================
-           PANEL DE INFORMACIÓN
-           ============================================ */
         #info {
             background: var(--blanco);
             border-radius: 12px;
@@ -130,9 +127,9 @@
             background: var(--blanco);
             border: 3px solid var(--azul-medio);
             border-radius: 16px;
-            padding: 20px 15px;
+            padding: 15px;
             text-align: center;
-            width: 140px;
+            width: 180px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             transition: all 0.3s;
             cursor: pointer;
@@ -144,23 +141,24 @@
         }
 
         .numero-card .numero {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 900;
             color: var(--azul-marino);
             line-height: 1;
+            margin-bottom: 5px;
         }
 
         .numero-card .estado {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--gris-texto);
-            margin-top: 5px;
+            margin-bottom: 8px;
         }
 
         .numero-card.factorizado {
             background: #e8f5e9;
             border-color: var(--verde);
             cursor: default;
-            opacity: 0.7;
+            opacity: 0.85;
         }
 
         .numero-card.factorizado .numero {
@@ -172,15 +170,65 @@
             border-color: var(--rojo);
         }
 
-        .numero-card.seleccionado {
-            border-color: var(--naranja);
-            border-width: 4px;
-        }
-
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-8px); }
             75% { transform: translateX(8px); }
+        }
+
+        /* ============================================
+           CASILLAS DE FACTORES DEBAJO DEL NÚMERO
+           ============================================ */
+        .factores-slots {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+            min-height: 50px;
+            background: var(--azul-claro);
+            border-radius: 8px;
+            padding: 8px;
+            margin-top: 8px;
+        }
+
+        .factor-slot {
+            width: 35px;
+            height: 35px;
+            border: 2px dashed var(--azul-medio);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--azul-marino);
+            background: var(--blanco);
+            transition: all 0.2s;
+        }
+
+        .factor-slot.lleno {
+            border-style: solid;
+            border-color: var(--naranja);
+            background: #fff3e6;
+        }
+
+        .factor-slot.exponente {
+            border-style: solid;
+            border-color: var(--verde);
+            background: #e8f5e9;
+            width: 50px;
+        }
+
+        .factor-slot input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: transparent;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--azul-marino);
+            outline: none;
         }
 
         /* ============================================
@@ -206,6 +254,7 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 10px;
+            min-height: 50px;
         }
 
         .factor-btn {
@@ -221,7 +270,7 @@
             box-shadow: 0 3px 8px rgba(0,0,0,0.15);
         }
 
-        .factor-btn:hover:not(:disabled) {
+        .factor-btn:hover {
             background: var(--azul-hover);
             transform: translateY(-2px);
         }
@@ -232,13 +281,8 @@
             box-shadow: 0 0 0 3px rgba(226, 94, 0, 0.4);
         }
 
-        .factor-btn:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-
         /* ============================================
-           PANEL DE VIDAS Y PROGRESO
+           PANEL DE VIDAS
            ============================================ */
         .panel-superior {
             display: flex;
@@ -312,98 +356,6 @@
         }
 
         /* ============================================
-           MODAL DE FACTORIZACIÓN
-           ============================================ */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.6);
-            z-index: 999;
-            justify-content: center;
-            align-items: center;
-            overflow-y: auto;
-            padding: 20px;
-        }
-
-        .modal-overlay.activo {
-            display: flex;
-        }
-
-        .modal-contenido {
-            background: var(--blanco);
-            border-radius: 16px;
-            padding: 25px;
-            max-width: 600px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-        }
-
-        .modal-contenido h2 {
-            color: var(--azul-marino);
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-        }
-
-        .modal-contenido p {
-            color: var(--gris-texto);
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-        }
-
-        .factorizacion-item {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            background: var(--azul-claro);
-            padding: 10px;
-            border-radius: 8px;
-        }
-
-        .factorizacion-item .num {
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: var(--azul-marino);
-            min-width: 50px;
-        }
-
-        .factorizacion-item .igual {
-            font-size: 1.2rem;
-            color: var(--gris-texto);
-        }
-
-        .factorizacion-item input {
-            font-size: 1.1rem;
-            padding: 8px 12px;
-            border: 2px solid var(--azul-medio);
-            border-radius: 8px;
-            width: 200px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .factorizacion-item input:focus {
-            outline: none;
-            border-color: var(--naranja);
-        }
-
-        .factorizacion-item input.correcto {
-            border-color: var(--verde);
-            background: #e8f5e9;
-        }
-
-        .factorizacion-item input.incorrecto {
-            border-color: var(--rojo);
-            background: #ffebee;
-        }
-
-        /* ============================================
            RESULTADO
            ============================================ */
         #resultado {
@@ -456,10 +408,11 @@
             header img { height: 40px; }
             .header-texto { font-size: 1rem; }
             .titulo h1 { font-size: 1.3rem; }
-            .numero-card { width: 110px; padding: 15px 10px; }
+            .numero-card { width: 150px; padding: 12px; }
             .numero-card .numero { font-size: 1.8rem; }
             .factor-btn { padding: 10px 14px; font-size: 1.1rem; }
-            .factorizacion-item input { width: 150px; }
+            .factor-slot { width: 30px; height: 30px; font-size: 0.9rem; }
+            .factor-slot.exponente { width: 45px; }
         }
     </style>
 </head>
@@ -478,9 +431,6 @@
         <div class="linea"></div>
     </div>
 
-    <!-- ============================================
-         PANEL SUPERIOR
-         ============================================ -->
     <div class="panel-superior">
         <div class="vidas" id="vidas">
             Vidas: <span class="corazon">❤️</span> <span class="corazon">❤️</span> <span class="corazon">❤️</span>
@@ -490,55 +440,32 @@
         </div>
     </div>
 
-    <!-- ============================================
-         NÚMEROS A FACTORIZAR
-         ============================================ -->
+    <div id="info">
+        <div class="instrucciones">
+            <p>🎯 Selecciona un factor primo del banco y luego haz clic en el número donde quieras dividirlo.</p>
+            <p>✅ Si divide exactamente, el factor se acumula debajo del número.</p>
+            <p>❌ Si no divide, pierdes una vida.</p>
+            <p>🏆 Cuando todos los números lleguen a 1, escribe los exponentes correspondientes.</p>
+        </div>
+        <div id="mensaje"></div>
+    </div>
+
     <div class="numeros-container" id="numeros-container"></div>
 
-    <!-- ============================================
-         BANCO DE FACTORES
-         ============================================ -->
     <div class="banco-container">
         <h3>🔢 Banco de factores primos</h3>
         <div class="factores-grid" id="factores-grid"></div>
     </div>
 
-    <!-- ============================================
-         MENSAJE
-         ============================================ -->
-    <div id="mensaje"></div>
-
-    <!-- ============================================
-         BOTÓN PARA VALIDAR
-         ============================================ -->
-    <button class="btn" id="btn-validar" onclick="abrirModalFactorizacion()" disabled>✍️ Escribir factorización</button>
-
-    <!-- ============================================
-         BOTÓN PARA REINICIAR
-         ============================================ -->
+    <button class="btn" id="btn-validar" onclick="validarTodo()" disabled>✅ Validar factorización</button>
     <button class="btn" style="background: var(--azul-medio);" onclick="reiniciarJuego()">🔄 Nuevo Juego</button>
 
-    <!-- ============================================
-         RESULTADO
-         ============================================ -->
     <div id="resultado">
         <h2>📚 Resultado</h2>
         <div class="mensaje" id="mensaje-final"></div>
         <div class="detalle" id="detalle"></div>
     </div>
 
-</div>
-
-<!-- ============================================
-     MODAL DE FACTORIZACIÓN
-     ============================================ -->
-<div class="modal-overlay" id="modal-factorizacion">
-    <div class="modal-contenido">
-        <h2>✍️ Escribe la factorización</h2>
-        <p>Escribe cada número como producto de factores primos con exponentes. Ejemplo: 24 = 2^3 * 3</p>
-        <div id="factorizacion-lista"></div>
-        <button class="btn btn-verde" onclick="validarFactorizacion()">✅ Validar respuestas</button>
-    </div>
 </div>
 
 <footer>
@@ -553,12 +480,12 @@
     const CANTIDAD_NUMEROS = 4;
     const VIDAS_INICIALES = 3;
 
-    let numeros = [];           // { valor, original, factorizado }
+    let numeros = [];           // { valor, original, factorizado, factores: [] }
     let factorSeleccionado = null;
     let vidas = VIDAS_INICIALES;
     let factorizados = 0;
     let juegoTerminado = false;
-    let errores = [];
+    let bancoFactores = [];
 
     // ===== PRIMOS =====
     function esPrimo(n) {
@@ -574,7 +501,6 @@
         let nums = [];
         while (nums.length < CANTIDAD_NUMEROS) {
             const num = Math.floor(Math.random() * (NUM_MAX - NUM_MIN + 1)) + NUM_MIN;
-            // Evitar números primos (no se pueden factorizar más allá de 1)
             if (!esPrimo(num) && !nums.includes(num)) {
                 nums.push(num);
             }
@@ -638,21 +564,19 @@
         return banco;
     }
 
-    let bancoFactores = [];
-
     // ===== INICIAR JUEGO =====
     function inicializarJuego() {
         const numsOriginales = generarNumeros();
         numeros = numsOriginales.map(n => ({
             valor: n,
             original: n,
-            factorizado: false
+            factorizado: false,
+            factores: []  // Aquí se acumulan los factores usados
         }));
         factorSeleccionado = null;
         vidas = VIDAS_INICIALES;
         factorizados = 0;
         juegoTerminado = false;
-        errores = [];
 
         bancoFactores = generarBancoFactores();
 
@@ -672,10 +596,22 @@
         numeros.forEach((n, i) => {
             const clase = n.factorizado ? 'factorizado' : '';
             const estado = n.factorizado ? '✅ Factorizado' : 'Haz clic para dividir';
+            
+            // Generar slots de factores
+            let slotsHTML = '';
+            if (n.factores.length > 0) {
+                n.factores.forEach((f) => {
+                    slotsHTML += `<div class="factor-slot lleno">${f}</div>`;
+                });
+            } else {
+                slotsHTML = `<div class="factor-slot">?</div>`;
+            }
+
             html += `
                 <div class="numero-card ${clase}" id="num-card-${i}" onclick="seleccionarNumero(${i})">
                     <div class="numero">${n.valor}</div>
                     <div class="estado">${estado}</div>
+                    <div class="factores-slots" id="slots-${i}">${slotsHTML}</div>
                 </div>
             `;
         });
@@ -697,9 +633,6 @@
     // ===== SELECCIONAR FACTOR =====
     function seleccionarFactor(indice) {
         if (juegoTerminado) return;
-        if (bancoFactores[indice] === null) return;
-
-        // Si ya está seleccionado, deseleccionar
         if (factorSeleccionado === indice) {
             factorSeleccionado = null;
         } else {
@@ -710,6 +643,8 @@
         if (factorSeleccionado !== null) {
             document.getElementById('mensaje').textContent = `Factor seleccionado: ${bancoFactores[factorSeleccionado]}. Ahora elige un número para dividirlo.`;
             document.getElementById('mensaje').style.color = '#e25e00';
+        } else {
+            document.getElementById('mensaje').textContent = '';
         }
     }
 
@@ -731,7 +666,10 @@
         if (num.valor % factor === 0) {
             // Correcto
             num.valor = num.valor / factor;
-            bancoFactores[factorSeleccionado] = null; // Consumir factor
+            num.factores.push(factor);  // Guardar el factor usado
+            
+            // QUITAR el botón del banco (no poner null)
+            bancoFactores.splice(factorSeleccionado, 1);
             factorSeleccionado = null;
 
             document.getElementById('mensaje').textContent = `✅ ¡Correcto! ${num.original} ÷ ${factor} = ${num.valor}`;
@@ -751,7 +689,6 @@
         } else {
             // Incorrecto
             vidas--;
-            errores.push({ num: num.original, factor: factor });
             factorSeleccionado = null;
 
             document.getElementById('mensaje').textContent = `❌ ¡Error! ${factor} no divide exactamente a ${num.valor}.`;
@@ -771,7 +708,6 @@
 
     // ===== ACTUALIZAR PANEL =====
     function actualizarPanel() {
-        // Vidas
         let vidasHTML = 'Vidas: ';
         for (let i = 0; i < VIDAS_INICIALES; i++) {
             if (i < vidas) {
@@ -781,8 +717,6 @@
             }
         }
         document.getElementById('vidas').innerHTML = vidasHTML;
-
-        // Progreso
         document.getElementById('progreso').textContent = `Números factorizados: ${factorizados} / ${CANTIDAD_NUMEROS}`;
     }
 
@@ -794,57 +728,100 @@
             document.getElementById('mensaje').style.color = '#c0392b';
             mostrarResultadoFinal(false);
         } else if (factorizados === CANTIDAD_NUMEROS) {
-            // Todos factorizados: habilitar botón para escribir factorización
             document.getElementById('btn-validar').disabled = false;
-            document.getElementById('mensaje').textContent = '🎉 ¡Todos los números factorizados! Ahora escribe la factorización.';
+            document.getElementById('mensaje').textContent = '🎉 ¡Todos los números factorizados! Ahora escribe los exponentes correspondientes.';
             document.getElementById('mensaje').style.color = '#27ae60';
+            renderizarNumerosConExponentes();
         }
     }
 
-    // ===== ABRIR MODAL DE FACTORIZACIÓN =====
-    function abrirModalFactorizacion() {
+    // ===== RENDERIZAR NÚMEROS CON EXPONENTES =====
+    function renderizarNumerosConExponentes() {
         let html = '';
-        numeros.forEach(n => {
+        numeros.forEach((n, i) => {
+            // Agrupar factores por base
+            let conteo = {};
+            n.factores.forEach(f => {
+                conteo[f] = (conteo[f] || 0) + 1;
+            });
+
+            let slotsHTML = '';
+            for (let base in conteo) {
+                slotsHTML += `
+                    <div class="factor-slot lleno">${base}</div>
+                    <div class="factor-slot exponente" id="exp-${i}-${base}">
+                        <input type="number" min="1" placeholder="exp" value="">
+                    </div>
+                `;
+            }
+
             html += `
-                <div class="factorizacion-item">
-                    <span class="num">${n.original}</span>
-                    <span class="igual">=</span>
-                    <input type="text" id="fact-input-${n.original}" placeholder="Ej: 2^3 * 3">
+                <div class="numero-card factorizado" id="num-card-${i}">
+                    <div class="numero">${n.original}</div>
+                    <div class="estado">Escribe los exponentes</div>
+                    <div class="factores-slots" id="slots-${i}">${slotsHTML}</div>
                 </div>
             `;
         });
-        document.getElementById('factorizacion-lista').innerHTML = html;
-        document.getElementById('modal-factorizacion').classList.add('activo');
+        document.getElementById('numeros-container').innerHTML = html;
     }
 
-    // ===== VALIDAR FACTORIZACIÓN =====
-    function validarFactorizacion() {
+    // ===== VALIDAR TODO =====
+    function validarTodo() {
         let todasCorrectas = true;
         let detalle = '';
 
-        numeros.forEach(n => {
-            const input = document.getElementById(`fact-input-${n.original}`);
-            const respuesta = input.value.trim().replace(/\s+/g, '');
-            
+        numeros.forEach((n, i) => {
             const factores = factorizar(n.original);
-            const correcta = formatearFactorizacion(factores).replace(/\s+/g, '');
-            
-            if (respuesta === correcta) {
-                input.classList.add('correcto');
-                input.classList.remove('incorrecto');
-                detalle += `<p>✅ ${n.original} = ${correcta} (correcto)</p>`;
-            } else {
-                input.classList.add('incorrecto');
-                input.classList.remove('correcto');
-                detalle += `<p>❌ ${n.original} = ${correcta} (tu respuesta: ${respuesta || 'vacío'})</p>`;
+            let factorizacionUsuario = [];
+            let factorizacionCorrecta = [];
+
+            // Obtener la factorización correcta
+            for (let base in factores) {
+                if (factores[base] === 1) {
+                    factorizacionCorrecta.push(base);
+                } else {
+                    factorizacionCorrecta.push(`${base}^${factores[base]}`);
+                }
+            }
+
+            // Obtener la factorización del usuario (de los inputs)
+            let agrupadoUsuario = {};
+            for (let base in factores) {
+                const input = document.getElementById(`exp-${i}-${base}`);
+                if (input) {
+                    const exp = parseInt(input.value);
+                    if (!isNaN(exp) && exp > 0) {
+                        agrupadoUsuario[base] = exp;
+                    }
+                }
+            }
+
+            // Comparar
+            let esCorrecta = true;
+            for (let base in factores) {
+                if (agrupadoUsuario[base] !== factores[base]) {
+                    esCorrecta = false;
+                }
+            }
+            // Verificar que no haya bases extra
+            for (let base in agrupadoUsuario) {
+                if (!factores[base]) {
+                    esCorrecta = false;
+                }
+            }
+
+            if (!esCorrecta) {
                 todasCorrectas = false;
             }
+
+            const correctaStr = factorizacionCorrecta.join(' * ');
+            const usuarioStr = Object.entries(agrupadoUsuario).map(([b, e]) => e === 1 ? b : `${b}^${e}`).join(' * ') || '(vacío)';
+            
+            detalle += `<p>${esCorrecta ? '✅' : '❌'} ${n.original} = ${correctaStr} ${!esCorrecta ? `(tu respuesta: ${usuarioStr})` : ''}</p>`;
         });
 
-        setTimeout(() => {
-            document.getElementById('modal-factorizacion').classList.remove('activo');
-            mostrarResultadoFinal(todasCorrectas, detalle);
-        }, 1000);
+        mostrarResultadoFinal(todasCorrectas, detalle);
     }
 
     // ===== MOSTRAR RESULTADO FINAL =====
@@ -858,7 +835,7 @@
             mensajeFinal.textContent = `🎉 ¡Felicidades! Factorizaste todos los números correctamente. Vidas restantes: ${vidas}`;
             mensajeFinal.style.color = '#27ae60';
         } else {
-            mensajeFinal.textContent = `❌ No lograste factorizar todos los números. Vidas restantes: ${vidas}`;
+            mensajeFinal.textContent = `❌ No lograste factorizar todos los números correctamente. Vidas restantes: ${vidas}`;
             mensajeFinal.style.color = '#c0392b';
         }
 
