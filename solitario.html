@@ -528,14 +528,12 @@
                     nums.push(num);
                 }
             }
-            // Verificar que el MCM no sea demasiado grande
             const mcm = calcularMcmDeDos(nums[0], nums[1]);
             if (mcm <= 200) {
                 return nums;
             }
             intentos++;
         }
-        // Si no se encontró, devolver dos números seguros
         return [12, 18];
     }
 
@@ -556,12 +554,10 @@
                 for (let i = 0; i < factores[p]; i++) banco.push(parseInt(p));
             }
         });
-        // Agregar distractores pequeños
         const primosDistractores = [2, 3, 5, 7];
         for (let i = 0; i < 3; i++) {
             banco.push(primosDistractores[Math.floor(Math.random() * primosDistractores.length)]);
         }
-        // Mezclar
         for (let i = banco.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [banco[i], banco[j]] = [banco[j], banco[i]];
@@ -596,7 +592,7 @@
         document.getElementById('btn-validar').disabled = true;
         document.getElementById('mensaje').textContent = '';
 
-        // Limpiar inputs de MCD y MCM (ya existen en el DOM)
+        // Limpiar inputs de MCD y MCM
         document.getElementById('mcd-resultado-input').value = '';
         document.getElementById('mcd-resultado-input').classList.remove('correcto', 'incorrecto');
         document.getElementById('mcm-resultado-input').value = '';
